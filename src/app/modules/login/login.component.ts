@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { MessageService } from 'primeng/api';
 
@@ -17,7 +18,8 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private cookieService: CookieService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -35,6 +37,7 @@ export class LoginComponent {
 
               this.loginForm.reset();
               this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Login realizado com sucesso!', life: 2000 });
+              this.router.navigate(['/home']);
             }
           },
           error: (err) => {

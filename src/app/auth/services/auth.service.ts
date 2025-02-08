@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { AuthRequest } from 'src/app/models/interfaces/auth/AuthRequest';
 import { AuthResponse } from 'src/app/models/interfaces/auth/AuthResponse';
@@ -11,9 +12,16 @@ import { environment } from 'src/environment/environment';
 export class AuthService {
   private API_URL = environment.API_URL;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cookieService: CookieService) { }
 
   login(authRequest: AuthRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.API_URL}/auth/login`, authRequest);
+  }
+
+  isLoggedIn(): boolean {
+    // Verificar se possui token
+    const token = this.cookieService.get('accessToken');
+
+    return token ? true : false;
   }
 }
