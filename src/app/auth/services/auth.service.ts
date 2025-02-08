@@ -18,6 +18,12 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.API_URL}/auth/login`, authRequest);
   }
 
+  getToken(): string | null {
+    const accessToken = this.cookieService.get('accessToken');
+
+    return accessToken;
+  }
+
   isLoggedIn(): boolean {
     // Verificar se possui token
     const token = this.cookieService.get('accessToken');
