@@ -25,6 +25,9 @@
 
   img {
     height: 60px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
     margin-bottom: 1.5rem;
   }
 
