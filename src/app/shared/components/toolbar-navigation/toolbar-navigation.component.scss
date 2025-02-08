@@ -1,0 +1,86 @@
+.logo-container {
+  padding-right: 1rem;
+  border-right: 1px solid #e5e7eb;
+
+  img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+  }
+}
+
+.nav-buttons {
+  ::ng-deep .nav-button {
+    &.p-button {
+      background-color: transparent;
+      border: none;
+      color: #64748b;
+      padding: 0.5rem 1rem;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: #f1f5f9;
+        color: #1e293b;
+      }
+
+      .p-button-label {
+        font-weight: 500;
+      }
+
+      .p-button-icon {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+::ng-deep .active-route {
+  .nav-button.p-button {
+    background-color: #eff6ff !important;
+    color: #2563eb !important;
+
+    &:hover {
+      background-color: #dbeafe !important;
+    }
+  }
+}
+
+::ng-deep .logout-button {
+  &.p-button {
+    background-color: #fee2e2;
+    border: none;
+    color: #dc2626;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #fecaca;
+    }
+
+    .p-button-icon {
+      font-size: 1rem;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .app-toolbar {
+    padding: 0.5rem !important;
+    margin: 0.5rem !important;
+
+    ::ng-deep .p-toolbar-group-center {
+      gap: 0.25rem;
+    }
+  }
+
+  .nav-buttons {
+    ::ng-deep .nav-button {
+      &.p-button {
+        padding: 0.5rem;
+
+        .p-button-label {
+          display: none;
+        }
+      }
+    }
+  }
+}

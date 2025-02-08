@@ -1,0 +1,34 @@
+<p-toolbar class="app-toolbar" styleClass="mr-2 ml-2 mt-2">
+  <div class="p-toolbar-group-start">
+    <div class="logo-container">
+      <img src="assets/img/projeduler-logo.png" alt="Logo">
+    </div>
+  </div>
+
+  <div class="p-toolbar-group-center nav-buttons">
+    <p-button icon="pi pi-home" label="Home" routerLink="/home" routerLinkActive="active-route"
+      [styleClass]="'nav-button'">
+    </p-button>
+
+    <p-button icon="pi pi-clock" label="Lançamento de Horas" routerLink="/lancamento-horas"
+      routerLinkActive="active-route" [styleClass]="'nav-button'">
+    </p-button>
+
+    <p-button icon="pi pi-list" label="Atividades" routerLink="/atividades" routerLinkActive="active-route"
+      [styleClass]="'nav-button'">
+    </p-button>
+
+    <p-button icon="pi pi-folder" label="Projetos" routerLink="/projetos" routerLinkActive="active-route"
+      [styleClass]="'nav-button'">
+    </p-button>
+
+    <p-button icon="pi pi-users" label="Usuários" routerLink="/usuarios" routerLinkActive="active-route"
+      [styleClass]="'nav-button'">
+    </p-button>
+  </div>
+
+  <div class="p-toolbar-group-end">
+    <p-button label="Sair" icon="pi pi-sign-out" styleClass="logout-button" (onClick)="logout()">
+    </p-button>
+  </div>
+</p-toolbar>
