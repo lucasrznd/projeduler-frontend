@@ -1,0 +1,24 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="logo-section">
+      <img src="assets/img/projeduler-logo.png" alt="Logo">
+      <h2>Login</h2>
+      <p>Entre com as credenciais para acessar sua conta</p>
+    </div>
+
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
+      <div class="input-group">
+        <i class="pi pi-envelope"></i>
+        <input pInputText type="email" placeholder="Email" formControlName="email">
+      </div>
+
+      <div class="input-group">
+        <i class="pi pi-lock"></i>
+        <input pInputText type="password" placeholder="Senha" formControlName="senha">
+      </div>
+
+      <button pButton pRipple label="Login" icon="pi pi-user" class="w-full"
+        [disabled]="!this.loginForm.valid"></button>
+    </form>
+  </div>
+</div>
