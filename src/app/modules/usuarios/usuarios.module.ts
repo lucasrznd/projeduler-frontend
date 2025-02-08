@@ -16,10 +16,13 @@ import { ConfirmationService } from 'primeng/api';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UsuariosHomeComponent } from './page/usuarios-home/usuarios-home.component';
 import { USUARIOS_ROUTES } from './usuarios.routing';
+import { UsuariosTableComponent } from './components/usuarios-table/usuarios-table.component';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
-    UsuariosHomeComponent
+    UsuariosHomeComponent,
+    UsuariosTableComponent
   ],
   imports: [
     CommonModule,
@@ -31,6 +34,7 @@ import { USUARIOS_ROUTES } from './usuarios.routing';
     // PrimeNG
     CardModule,
     ButtonModule,
+    TooltipModule,
     TableModule,
     InputTextModule,
     RadioButtonModule,
