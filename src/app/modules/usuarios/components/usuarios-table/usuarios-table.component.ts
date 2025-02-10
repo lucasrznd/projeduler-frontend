@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Table } from 'primeng/table';
 import { UsuarioEvent } from 'src/app/models/enums/usuarios/UsuarioEvent';
 import { DeleteUsuarioAction } from 'src/app/models/interfaces/usuarios/event/DeleteUsuarioAction';
 import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventAction';
@@ -17,6 +18,10 @@ export class UsuariosTableComponent {
   public usuarioSelected!: UsuarioResponse;
   public addUsuarioEvent = UsuarioEvent.ADD_USUARIO_EVENT;
   public editUsuarioEvent = UsuarioEvent.EDIT_USUARIO_EVENT;
+
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
 
   handleUsuarioEvent(action: string, id?: number): void {
     if (action && action !== '') {
