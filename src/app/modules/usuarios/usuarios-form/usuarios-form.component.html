@@ -1,0 +1,81 @@
+<div class="form-container">
+  <form [formGroup]="addUsuarioForm" (ngSubmit)="handleSubmit()">
+    <div class="form-body">
+      <div class="form-field">
+        <label for="nome">Nome</label>
+        <span class="p-input-icon-left">
+          <i class="pi pi-user"></i>
+          <input
+            id="nome"
+            pInputText
+            formControlName="nome"
+            placeholder="Digite o nome completo"
+            [ngClass]="{'ng-invalid ng-dirty': addUsuarioForm.get('nome')?.invalid && addUsuarioForm.get('nome')?.touched}"
+          />
+        </span>
+        <small class="error-message" *ngIf="addUsuarioForm.get('nome')?.invalid && addUsuarioForm.get('nome')?.touched">
+          Nome é obrigatório
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="email">Email</label>
+        <span class="p-input-icon-left">
+          <i class="pi pi-envelope"></i>
+          <input
+            id="email"
+            pInputText
+            formControlName="email"
+            placeholder="Digite o email"
+            [ngClass]="{'ng-invalid ng-dirty': addUsuarioForm.get('email')?.invalid && addUsuarioForm.get('email')?.touched}"
+          />
+        </span>
+        <small class="error-message" *ngIf="addUsuarioForm.get('email')?.invalid && addUsuarioForm.get('email')?.touched">
+          Email inválido
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="senha">Senha</label>
+        <span class="p-input-icon-left">
+          <i class="pi pi-lock"></i>
+          <input
+            id="senha"
+            type="password"
+            pInputText
+            formControlName="senha"
+            placeholder="Digite a senha"
+            [ngClass]="{'ng-invalid ng-dirty': addUsuarioForm.get('senha')?.invalid && addUsuarioForm.get('senha')?.touched}"
+          />
+        </span>
+        <small class="error-message" *ngIf="addUsuarioForm.get('senha')?.invalid && addUsuarioForm.get('senha')?.touched">
+          Senha é obrigatória
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="perfil">Perfil</label>
+        <p-dropdown
+          id="perfil"
+          [options]="perfisArray"
+          formControlName="perfil"
+          placeholder="Selecione um perfil"
+          [ngClass]="{'ng-invalid ng-dirty': addUsuarioForm.get('perfil')?.invalid && addUsuarioForm.get('perfil')?.touched}"
+          [styleClass]="'w-full'">
+        </p-dropdown>
+        <small class="error-message" *ngIf="addUsuarioForm.get('perfil')?.invalid && addUsuarioForm.get('perfil')?.touched">
+          Selecione um perfil
+        </small>
+      </div>
+    </div>
+
+    <div class="form-footer">
+      <p-button
+        type="submit"
+        label="Salvar"
+        [disabled]="!addUsuarioForm.valid"
+        icon="pi pi-check">
+      </p-button>
+    </div>
+  </form>
+</div>

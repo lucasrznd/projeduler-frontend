@@ -1,10 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
 import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventAction';
 import { UsuarioResponse } from 'src/app/models/interfaces/usuarios/UsuarioResponse';
 import { UsuarioService } from 'src/app/services/usuarios/usuario.service';
+import { UsuariosFormComponent } from '../../usuarios-form/usuarios-form.component';
 
 @Component({
   selector: 'app-usuarios-home',
@@ -13,13 +15,15 @@ import { UsuarioService } from 'src/app/services/usuarios/usuario.service';
 })
 export class UsuariosHomeComponent implements OnInit, OnDestroy {
   private readonly destroy$: Subject<void> = new Subject();
+  private ref!: DynamicDialogRef;
   public usuariosList: Array<UsuarioResponse> = [];
 
   constructor(
     private usuarioService: UsuarioService,
     private router: Router,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private dialogService: DialogService,
   ) { }
 
   ngOnInit(): void {
@@ -43,7 +47,25 @@ export class UsuariosHomeComponent implements OnInit, OnDestroy {
   }
 
   handleUsuarioAction(event: EventAction): void {
-    console.log('Dados recebidos: ', event);
+    if (event) {
+      this.dialogService.open(UsuariosFormComponent, {
+        header: event.action,
+        width: '35%',
+        contentStyle: {overflow: 'auto'},
+        baseZIndex: 10000,
+        maximizable: false,
+        data: {
+          event: event,
+          data: this.usuariosList
+        }
+      });
+
+      this.ref.onClose
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => this.getAllUsuarios()
+      });
+    }
   }
 
   handleDeleteUsuarioAction(event: { id: number, email: string }): void {
