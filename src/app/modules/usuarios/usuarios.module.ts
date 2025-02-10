@@ -8,7 +8,6 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
-import { RadioButtonModule } from 'primeng/radiobutton';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
@@ -21,6 +20,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { UsuariosFormComponent } from './usuarios-form/usuarios-form.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { ToolbarModule } from 'primeng/toolbar';
+import { TagModule } from 'primeng/tag';
 
 @NgModule({
   declarations: [
@@ -41,11 +41,11 @@ import { ToolbarModule } from 'primeng/toolbar';
     TooltipModule,
     TableModule,
     InputTextModule,
-    RadioButtonModule,
     DropdownModule,
     ToolbarModule,
     DynamicDialogModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    TagModule
   ],
   providers: [DialogService, ConfirmationService]
 })

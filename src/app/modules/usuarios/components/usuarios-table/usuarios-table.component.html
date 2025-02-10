@@ -90,7 +90,7 @@
             <td>{{usuario?.nome}}</td>
             <td>{{usuario?.email}}</td>
             <td>{{usuario?.dataCriacao | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
-            <td>{{usuario?.perfil}}</td>
+            <td><p-tag [value]="usuario.perfil" [severity]="getPerfilSeverity(usuario.perfil)"></p-tag></td>
             <td>{{usuario?.ultimoLogin | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
             <td>
               <div class="flex justify-content-center align-content-center align-items-center">

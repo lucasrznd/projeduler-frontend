@@ -23,6 +23,14 @@ export class UsuariosTableComponent {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
 
+  getPerfilSeverity(perfil: string): string {
+    const severityMap: { [key: string]: string } = {
+      'ADMIN': 'danger',
+      'USER': 'info',
+    };
+    return severityMap[perfil.toUpperCase()] || 'info';
+  }
+
   handleUsuarioEvent(action: string, id?: number): void {
     if (action && action !== '') {
       const usuarioEventData = id && id !== undefined ? { action, id } : { action };
