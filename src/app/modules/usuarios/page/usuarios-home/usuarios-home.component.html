@@ -1,3 +1,6 @@
 <app-toolbar-navigation></app-toolbar-navigation>
 
-<app-usuarios-table [usuarios]="usuariosList"></app-usuarios-table>
+<app-usuarios-table [usuarios]="usuariosList" (usuarioEvent)="handleUsuarioAction($event)"
+  (deleteUsuarioEvent)="handleDeleteUsuarioAction($event)"></app-usuarios-table>
+
+<p-confirmDialog [style]="{width: '30vw'}"></p-confirmDialog>

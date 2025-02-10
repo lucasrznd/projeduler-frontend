@@ -1,4 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { UsuarioEvent } from 'src/app/models/enums/usuarios/UsuarioEvent';
+import { DeleteUsuarioAction } from 'src/app/models/interfaces/usuarios/event/DeleteUsuarioAction';
+import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventAction';
 import { UsuarioResponse } from 'src/app/models/interfaces/usuarios/UsuarioResponse';
 
 @Component({
@@ -8,6 +11,24 @@ import { UsuarioResponse } from 'src/app/models/interfaces/usuarios/UsuarioRespo
 })
 export class UsuariosTableComponent {
   @Input() usuarios: Array<UsuarioResponse> = [];
+  @Output() usuarioEvent = new EventEmitter<EventAction>();
+  @Output() deleteUsuarioEvent = new EventEmitter<DeleteUsuarioAction>();
 
   public usuarioSelected!: UsuarioResponse;
+  public addUsuarioEvent = UsuarioEvent.ADD_USUARIO_EVENT;
+  public editUsuarioEvent = UsuarioEvent.EDIT_USUARIO_EVENT;
+
+  handleUsuarioEvent(action: string, id?: number): void {
+    if (action && action !== '') {
+      const usuarioEventData = id && id !== undefined ? { action, id } : { action };
+      // Emitir valor do evento
+      this.usuarioEvent.emit(usuarioEventData);
+    }
+  }
+
+  handleDeleteUsuario(id: number, email: string): void {
+    if (id !== undefined && email !== '') {
+      this.deleteUsuarioEvent.emit({ id, email });
+    }
+  }
 }
