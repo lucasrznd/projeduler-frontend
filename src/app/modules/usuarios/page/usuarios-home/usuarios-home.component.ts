@@ -48,23 +48,23 @@ export class UsuariosHomeComponent implements OnInit, OnDestroy {
 
   handleUsuarioAction(event: EventAction): void {
     if (event) {
-      this.dialogService.open(UsuariosFormComponent, {
-        header: event.action,
+      this.ref = this.dialogService.open(UsuariosFormComponent, {
+        header: event?.action,
         width: '35%',
-        contentStyle: {overflow: 'auto'},
+        contentStyle: { overflow: 'auto' },
         baseZIndex: 10000,
         maximizable: false,
         data: {
           event: event,
-          data: this.usuariosList
+          usuariosList: this.usuariosList
         }
       });
 
       this.ref.onClose
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: () => this.getAllUsuarios()
-      });
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => this.getAllUsuarios()
+        });
     }
   }
 

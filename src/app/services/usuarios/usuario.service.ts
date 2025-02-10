@@ -23,6 +23,10 @@ export class UsuarioService {
     return this.http.post<UsuarioResponse>(this.API_URL, data);
   }
 
+  editUsuario(id: number, data: UsuarioRequest): Observable<UsuarioResponse> {
+    return this.http.put<UsuarioResponse>(`${this.API_URL}/${id}`, data);
+  }
+
   deleteUsuario(id: number): Observable<void> {
     return this.http.delete<void>(`${this.API_URL}/${id}`);
   }
