@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
 import { PerfilEnum } from 'src/app/models/enums/perfis/PerfilEnum';
 import { UsuarioEvent } from 'src/app/models/enums/usuarios/UsuarioEvent';
@@ -46,7 +46,8 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private router: Router,
     private usuarioService: UsuarioService,
-    private ref: DynamicDialogConfig
+    private ref: DynamicDialogConfig,
+    private dialogRef: DynamicDialogRef
   ) { }
 
   ngOnInit(): void {
@@ -72,6 +73,8 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
           next: (response) => {
             if (response) {
               this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Usuário criado com sucesso', life: 2500 });
+
+              this.dialogRef.close();
             }
           },
           error: (err) => {
@@ -102,12 +105,16 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
         .subscribe({
           next: () => {
             this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Usuário editado com sucesso', life: 2500 });
+
+            this.dialogRef.close();
           },
           error: (err) => {
             this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao editar o usuário', life: 2500 });
           }
         })
     }
+
+    this.editUsuarioForm.reset();
   }
 
   setUsuarioData(id: number) {
