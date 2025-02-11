@@ -1,0 +1,89 @@
+.app-footer {
+  background: white;
+  border-top: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  position: relative;
+  margin-top: 5px;
+  border-radius: 5px;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+  box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.08);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-logo {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
+.brand-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-name {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 1.125rem;
+  line-height: 1;
+}
+
+.version-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #64748b;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.dot-separator {
+  color: #94a3b8;
+  font-size: 0.75rem;
+}
+
+.copyright {
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+// Animation for hover effect
+.footer-logo {
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+// Style for the version badge
+.version {
+  background: #f1f5f9;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+// Add a subtle gradient background variation
+
