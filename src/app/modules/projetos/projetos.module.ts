@@ -10,6 +10,7 @@ import { ProjetosHomeComponent } from './page/projetos-home/projetos-home.compon
 import { ProjetosTableComponent } from './components/projetos-table/projetos-table.component';
 
 import { CardModule } from 'primeng/card';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
@@ -20,11 +21,15 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ConfirmationService } from 'primeng/api';
 import { TagModule } from 'primeng/tag';
+import { ProjetosFormComponent } from './components/projetos-form/projetos-form.component';
+import { CalendarModule } from 'primeng/calendar';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [
     ProjetosHomeComponent,
-    ProjetosTableComponent
+    ProjetosTableComponent,
+    ProjetosFormComponent
   ],
   imports: [
     CommonModule,
@@ -40,6 +45,10 @@ import { TagModule } from 'primeng/tag';
     InputTextModule,
     DynamicDialogModule,
     DropdownModule,
+    InputTextareaModule,
+    CalendarModule,
+    DropdownModule,
+    AutoCompleteModule,
     TagModule,
     ToolbarModule,
     ConfirmDialogModule,
