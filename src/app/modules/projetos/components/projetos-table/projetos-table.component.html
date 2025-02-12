@@ -3,7 +3,7 @@
     <p-card styleClass="shadow-3">
       <p-toolbar styleClass="mb-3">
         <p-button styleClass="p-button-info" icon="pi pi-plus-circle" label="Novo" pTooltip="Adicionar projeto"
-          tooltipPosition="top" (onClick)="handleProjetoEvent()"></p-button>
+          tooltipPosition="top" (onClick)="handleProjetoEvent(addProjetoEvent)"></p-button>
       </p-toolbar>
 
       <p-table #projetosTable [value]="projetos" [rows]="5" [paginator]="true" [responsive]="true"
@@ -153,7 +153,7 @@
             <td>
               <div class="flex justify-content-center align-content-center align-items-center">
                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-text"
-                  pTooltip="Editar projeto" (click)="handleProjetoEvent()"></button>
+                  pTooltip="Editar projeto" (click)="handleProjetoEvent(editProjetoEvent, projeto?.id)"></button>
                 <i class="pi pi-ellipsis-v"></i>
                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text"
                   pTooltip="Remover projeto" (click)="handleDeleteProjeto()"></button>
