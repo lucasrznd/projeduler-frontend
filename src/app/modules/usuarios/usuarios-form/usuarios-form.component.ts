@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
@@ -24,14 +23,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
     usuariosList: Array<UsuarioResponse>;
   }
 
-  public addUsuarioForm = this.formBuilder.group({
-    nome: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    senha: ['', [Validators.required, Validators.minLength(4)]],
-    perfil: ['', Validators.required],
-  });
-
-  public editUsuarioForm = this.formBuilder.group({
+  public usuarioForm = this.formBuilder.group({
     nome: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     senha: ['', [Validators.required, Validators.minLength(4)]],
@@ -44,7 +36,6 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private messageService: MessageService,
-    private router: Router,
     private usuarioService: UsuarioService,
     private ref: DynamicDialogConfig,
     private dialogRef: DynamicDialogRef
@@ -58,13 +49,22 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  handleSubmitUsuarioAction(): void {
+    if (this.usuarioAction.event?.action === this.addUsuarioAction) {
+      this.handleSubmitAddUsuario();
+      return;
+    }
+
+    this.handleSubmitEditUsuario();
+  }
+
   handleSubmitAddUsuario(): void {
-    if (this.addUsuarioForm.value && this.addUsuarioForm.valid) {
+    if (this.usuarioForm.value && this.usuarioForm.valid) {
       const requestCreateUsuario: UsuarioRequest = {
-        nome: this.addUsuarioForm.value.nome as string,
-        email: this.addUsuarioForm.value.email as string,
-        senha: this.addUsuarioForm.value.senha as string,
-        perfil: this.addUsuarioForm.value.perfil as string
+        nome: this.usuarioForm.value.nome as string,
+        email: this.usuarioForm.value.email as string,
+        senha: this.usuarioForm.value.senha as string,
+        perfil: this.usuarioForm.value.perfil as string
       };
 
       this.usuarioService.createUsuario(requestCreateUsuario)
@@ -86,18 +86,18 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
         });
     }
 
-    this.addUsuarioForm.reset();
+    this.usuarioForm.reset();
   }
 
   handleSubmitEditUsuario(): void {
-    if (this.editUsuarioForm.value && this.editUsuarioForm.valid && this.usuarioAction.event.id) {
+    if (this.usuarioForm.value && this.usuarioForm.valid && this.usuarioAction.event.id) {
       const usuarioId = this.usuarioAction.event.id;
 
       const requestEditUsuario: UsuarioRequest = {
-        nome: this.editUsuarioForm.value.nome as string,
-        email: this.editUsuarioForm.value.email as string,
-        senha: this.editUsuarioForm.value.senha as string,
-        perfil: this.editUsuarioForm.value.perfil as string
+        nome: this.usuarioForm.value.nome as string,
+        email: this.usuarioForm.value.email as string,
+        senha: this.usuarioForm.value.senha as string,
+        perfil: this.usuarioForm.value.perfil as string
       }
 
       this.usuarioService.editUsuario(usuarioId, requestEditUsuario)
@@ -114,7 +114,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
         })
     }
 
-    this.editUsuarioForm.reset();
+    this.usuarioForm.reset();
   }
 
   setUsuarioData(id: number) {
@@ -124,7 +124,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
       const usuarioFiltrado = usuariosList.filter((usr) => usr.id === id);
 
       if (usuarioFiltrado) {
-        this.editUsuarioForm.setValue({
+        this.usuarioForm.setValue({
           nome: usuarioFiltrado[0].nome,
           email: usuarioFiltrado[0].email,
           senha: '',

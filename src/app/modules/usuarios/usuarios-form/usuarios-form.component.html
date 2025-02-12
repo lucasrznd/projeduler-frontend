@@ -1,15 +1,15 @@
-<!-- Form adicionar usuário -->
-<div class="form-container" *ngIf="usuarioAction?.event?.action === addUsuarioAction">
-  <form [formGroup]="addUsuarioForm" (ngSubmit)="handleSubmitAddUsuario()">
+<!-- Form usuário -->
+<div class="form-container">
+  <form [formGroup]="usuarioForm" (ngSubmit)="handleSubmitUsuarioAction()">
     <div class="form-body">
       <div class="form-field">
         <label for="nome">Nome</label>
         <span class="p-input-icon-left">
           <i class="pi pi-user"></i>
           <input id="nome" pInputText formControlName="nome" placeholder="Digite o nome completo"
-            [ngClass]="{'ng-invalid ng-dirty': addUsuarioForm.get('nome')?.invalid && addUsuarioForm.get('nome')?.touched}" />
+            [ngClass]="{'ng-invalid ng-dirty': usuarioForm.get('nome')?.invalid && usuarioForm.get('nome')?.touched}" />
         </span>
-        <small class="error-message" *ngIf="addUsuarioForm.get('nome')?.invalid && addUsuarioForm.get('nome')?.touched">
+        <small class="error-message" *ngIf="usuarioForm.get('nome')?.invalid && usuarioForm.get('nome')?.touched">
           Nome é obrigatório
         </small>
       </div>
@@ -19,10 +19,9 @@
         <span class="p-input-icon-left">
           <i class="pi pi-envelope"></i>
           <input id="email" pInputText formControlName="email" placeholder="Digite o email"
-            [ngClass]="{'ng-invalid ng-dirty': addUsuarioForm.get('email')?.invalid && addUsuarioForm.get('email')?.touched}" />
+            [ngClass]="{'ng-invalid ng-dirty': usuarioForm.get('email')?.invalid && usuarioForm.get('email')?.touched}" />
         </span>
-        <small class="error-message"
-          *ngIf="addUsuarioForm.get('email')?.invalid && addUsuarioForm.get('email')?.touched">
+        <small class="error-message" *ngIf="usuarioForm.get('email')?.invalid && usuarioForm.get('email')?.touched">
           Email inválido
         </small>
       </div>
@@ -32,10 +31,9 @@
         <span class="p-input-icon-left">
           <i class="pi pi-lock"></i>
           <input id="senha" type="password" pInputText formControlName="senha" placeholder="Digite a senha"
-            [ngClass]="{'ng-invalid ng-dirty': addUsuarioForm.get('senha')?.invalid && addUsuarioForm.get('senha')?.touched}" />
+            [ngClass]="{'ng-invalid ng-dirty': usuarioForm.get('senha')?.invalid && usuarioForm.get('senha')?.touched}" />
         </span>
-        <small class="error-message"
-          *ngIf="addUsuarioForm.get('senha')?.invalid && addUsuarioForm.get('senha')?.touched">
+        <small class="error-message" *ngIf="usuarioForm.get('senha')?.invalid && usuarioForm.get('senha')?.touched">
           Senha é obrigatória
         </small>
       </div>
@@ -43,81 +41,17 @@
       <div class="form-field">
         <label for="perfil">Perfil</label>
         <p-dropdown id="perfil" [options]="perfisArray" formControlName="perfil" placeholder="Selecione um perfil"
-          [ngClass]="{'ng-invalid ng-dirty': addUsuarioForm.get('perfil')?.invalid && addUsuarioForm.get('perfil')?.touched}"
+          [ngClass]="{'ng-invalid ng-dirty': usuarioForm.get('perfil')?.invalid && usuarioForm.get('perfil')?.touched}"
           [styleClass]="'w-full'">
         </p-dropdown>
-        <small class="error-message"
-          *ngIf="addUsuarioForm.get('perfil')?.invalid && addUsuarioForm.get('perfil')?.touched">
+        <small class="error-message" *ngIf="usuarioForm.get('perfil')?.invalid && usuarioForm.get('perfil')?.touched">
           Selecione um perfil
         </small>
       </div>
     </div>
 
     <div class="form-footer">
-      <p-button type="submit" label="Salvar" [disabled]="!addUsuarioForm.valid" icon="pi pi-check">
-      </p-button>
-    </div>
-  </form>
-</div>
-
-<!-- Form adicionar usuário -->
-<div class="form-container" *ngIf="usuarioAction?.event?.action === editUsuarioAction">
-  <form [formGroup]="editUsuarioForm" (ngSubmit)="handleSubmitEditUsuario()">
-    <div class="form-body">
-      <div class="form-field">
-        <label for="nome">Nome</label>
-        <span class="p-input-icon-left">
-          <i class="pi pi-user"></i>
-          <input id="nome" pInputText formControlName="nome" placeholder="Digite o nome completo"
-            [ngClass]="{'ng-invalid ng-dirty': editUsuarioForm.get('nome')?.invalid && editUsuarioForm.get('nome')?.touched}" />
-        </span>
-        <small class="error-message"
-          *ngIf="editUsuarioForm.get('nome')?.invalid && editUsuarioForm.get('nome')?.touched">
-          Nome é obrigatório
-        </small>
-      </div>
-
-      <div class="form-field">
-        <label for="email">Email</label>
-        <span class="p-input-icon-left">
-          <i class="pi pi-envelope"></i>
-          <input id="email" pInputText formControlName="email" placeholder="Digite o email"
-            [ngClass]="{'ng-invalid ng-dirty': editUsuarioForm.get('email')?.invalid && editUsuarioForm.get('email')?.touched}" />
-        </span>
-        <small class="error-message"
-          *ngIf="editUsuarioForm.get('email')?.invalid && editUsuarioForm.get('email')?.touched">
-          Email inválido
-        </small>
-      </div>
-
-      <div class="form-field">
-        <label for="senha">Senha</label>
-        <span class="p-input-icon-left">
-          <i class="pi pi-lock"></i>
-          <input id="senha" type="password" pInputText formControlName="senha" placeholder="Digite a senha"
-            [ngClass]="{'ng-invalid ng-dirty': editUsuarioForm.get('senha')?.invalid && editUsuarioForm.get('senha')?.touched}" />
-        </span>
-        <small class="error-message"
-          *ngIf="editUsuarioForm.get('senha')?.invalid && editUsuarioForm.get('senha')?.touched">
-          Senha é obrigatória
-        </small>
-      </div>
-
-      <div class="form-field">
-        <label for="perfil">Perfil</label>
-        <p-dropdown id="perfil" [options]="perfisArray" formControlName="perfil" placeholder="Selecione um perfil"
-          [ngClass]="{'ng-invalid ng-dirty': editUsuarioForm.get('perfil')?.invalid && editUsuarioForm.get('perfil')?.touched}"
-          [styleClass]="'w-full'">
-        </p-dropdown>
-        <small class="error-message"
-          *ngIf="editUsuarioForm.get('perfil')?.invalid && editUsuarioForm.get('perfil')?.touched">
-          Selecione um perfil
-        </small>
-      </div>
-    </div>
-
-    <div class="form-footer">
-      <p-button type="submit" label="Salvar" [disabled]="!editUsuarioForm.valid" icon="pi pi-check">
+      <p-button type="submit" label="Salvar" [disabled]="!usuarioForm.valid" icon="pi pi-check">
       </p-button>
     </div>
   </form>
