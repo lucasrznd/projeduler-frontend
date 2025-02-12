@@ -17,7 +17,7 @@ import { UsuariosHomeComponent } from './page/usuarios-home/usuarios-home.compon
 import { USUARIOS_ROUTES } from './usuarios.routing';
 import { UsuariosTableComponent } from './components/usuarios-table/usuarios-table.component';
 import { TooltipModule } from 'primeng/tooltip';
-import { UsuariosFormComponent } from './usuarios-form/usuarios-form.component';
+import { UsuariosFormComponent } from './components/usuarios-form/usuarios-form.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TagModule } from 'primeng/tag';

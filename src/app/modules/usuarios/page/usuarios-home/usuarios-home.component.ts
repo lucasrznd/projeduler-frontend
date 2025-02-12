@@ -6,7 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventAction';
 import { UsuarioResponse } from 'src/app/models/interfaces/usuarios/UsuarioResponse';
 import { UsuarioService } from 'src/app/services/usuarios/usuario.service';
-import { UsuariosFormComponent } from '../../usuarios-form/usuarios-form.component';
+import { UsuariosFormComponent } from '../../components/usuarios-form/usuarios-form.component';
 
 @Component({
   selector: 'app-usuarios-home',
