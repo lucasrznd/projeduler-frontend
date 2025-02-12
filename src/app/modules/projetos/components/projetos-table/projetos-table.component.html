@@ -1,0 +1,167 @@
+<div>
+  <div class="col-12">
+    <p-card styleClass="shadow-3">
+      <p-toolbar styleClass="mb-3">
+        <p-button styleClass="p-button-info" icon="pi pi-plus-circle" label="Novo" pTooltip="Adicionar projeto"
+          tooltipPosition="top" (onClick)="handleProjetoEvent()"></p-button>
+      </p-toolbar>
+
+      <p-table #projetosTable [value]="projetos" [rows]="5" [paginator]="true" [responsive]="true"
+        [globalFilterFields]="['nome', 'descricao', 'status', 'usuarioResponsavel.nome', 'prioridade']"
+        [tableStyle]="{'min-width': '75rem'}" [rowHover]="true" [(selection)]="projetoSelected"
+        [showCurrentPageReport]="true" dataKey="id"
+        currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} projetos">
+        <ng-template pTemplate="caption">
+          <div class="flex justify-content-between align-items-center">
+            <h5 class="m-0">Projetos</h5>
+            <div class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText class="w-full" type="text" (input)="onGlobalFilter(projetosTable, $event)"
+                placeholder="Buscar..." />
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="nome">
+              <div class="flex justify-content-center align-items-center">
+                <div class="flex justify-content-center">
+                  Nome
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="nome"></p-sortIcon>
+                  <p-columnFilter type="text" field="nome" display="menu" matchMode="contains" [showMatchModes]="false"
+                    [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
+            <th pSortableColumn="usuarioResponsavel.nome">
+              <div class="flex justify-content-center align-items-center">
+                <div class="flex justify-content-center">
+                  Descrição
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="usuarioResponsavel.nome"></p-sortIcon>
+                  <p-columnFilter type="text" field="usuarioResponsavel.nome" display="menu" matchMode="contains"
+                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
+            <th>
+              <div class="flex justify-content-center">
+                Data de Início
+              </div>
+            </th>
+
+            <th>
+              <div class="flex justify-content-center">
+                Data Fim
+              </div>
+            </th>
+
+            <th>
+              <div class="flex justify-content-center">
+                Status
+              </div>
+            </th>
+
+            <th pSortableColumn="descricao">
+              <div class="flex justify-content-center align-items-center">
+                <div class="flex justify-content-center">
+                  Responsavél
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="descricao"></p-sortIcon>
+                  <p-columnFilter type="text" field="descricao" display="menu" matchMode="contains"
+                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
+            <th>
+              <div class="flex justify-content-center">
+                Data de Criação
+              </div>
+            </th>
+
+            <th pSortableColumn="prioridade">
+              <div class="flex justify-content-center align-items-center">
+                <div class="flex justify-content-center">
+                  Prioridade
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="prioridade"></p-sortIcon>
+                  <p-columnFilter type="text" field="prioridade" display="menu" matchMode="contains"
+                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
+            <th>
+              <div class="flex justify-content-center">
+                Ações
+              </div>
+            </th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-projeto>
+          <tr>
+            <td [pTooltip]="projeto?.nome" tooltipPosition="top">
+              <div class="flex justify-content-center">
+                {{projeto?.nome | shorten: 25}}
+              </div>
+            </td>
+            <td [pTooltip]="projeto?.descricao" tooltipPosition="top">
+              <div class="flex justify-content-center">
+                {{projeto?.descricao | shorten: 25}}
+              </div>
+            </td>
+            <td>
+              <div class="flex justify-content-center">
+                {{projeto?.dataInicio | date: 'dd/MM/yyyy'}}
+              </div>
+            </td>
+            <td>
+              <div class="flex justify-content-center">
+                {{projeto?.dataFim | date: 'dd/MM/yyyy'}}
+              </div>
+            </td>
+            <td>
+              <div class="flex justify-content-center">
+                <p-tag [value]="projeto.status" [severity]="getProjetoStatus(projeto.status)"></p-tag>
+              </div>
+            </td>
+            <td>
+              <div class="flex justify-content-center">
+                {{projeto?.usuarioResponsavel.nome}}
+              </div>
+            </td>
+            <td>
+              <div class="flex justify-content-center">
+                {{projeto?.dataCriacao | date: 'dd/MM/yyyy HH:mm:ss'}}
+              </div>
+            </td>
+            <td>
+              <div class="flex justify-content-center">
+                <p-tag [value]="projeto.prioridade" [severity]="getProjetoPrioridade(projeto.prioridade)"></p-tag>
+              </div>
+            </td>
+            <td>
+              <div class="flex justify-content-center align-content-center align-items-center">
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-text"
+                  pTooltip="Editar projeto" (click)="handleProjetoEvent()"></button>
+                <i class="pi pi-ellipsis-v"></i>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text"
+                  pTooltip="Remover projeto" (click)="handleDeleteProjeto()"></button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
+</div>
