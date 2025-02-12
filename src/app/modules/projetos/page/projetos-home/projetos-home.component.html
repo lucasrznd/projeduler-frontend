@@ -1,5 +1,5 @@
 <app-toolbar-navigation></app-toolbar-navigation>
 
-<app-projetos-table [projetos]="projetosList"></app-projetos-table>
+<app-projetos-table [projetos]="projetosList" (projetoEvent)="handleProjetoAction($event)"></app-projetos-table>
 
 <app-footer></app-footer>

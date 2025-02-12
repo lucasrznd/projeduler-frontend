@@ -3,10 +3,12 @@ import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 import { ProjetoResponse } from 'src/app/models/interfaces/projetos/ProjetoResponse';
 import { ProjetoService } from 'src/app/services/projetos/projeto.service';
+import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventAction';
+import { ProjetosFormComponent } from '../../components/projetos-form/projetos-form.component';
 
 @Component({
   selector: 'app-projetos-home',
@@ -21,7 +23,8 @@ export class ProjetosHomeComponent implements OnInit, OnDestroy {
   constructor(
     private projetoService: ProjetoService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private dialogService: DialogService
   ) { }
 
   ngOnInit(): void {
@@ -42,6 +45,28 @@ export class ProjetosHomeComponent implements OnInit, OnDestroy {
           this.router.navigate(['/home']);
         }
       });
+  }
+
+  handleProjetoAction(event: EventAction): void {
+    if (event) {
+      this.ref = this.dialogService.open(ProjetosFormComponent, {
+        header: event?.action,
+        width: '35%',
+        contentStyle: { overflow: 'auto' },
+        baseZIndex: 10000,
+        maximizable: false,
+        data: {
+          event: event,
+          projetosList: this.projetosList
+        }
+      });
+
+      this.ref.onClose
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => this.getAllProjetos()
+        });
+    }
   }
 
   ngOnDestroy(): void {
