@@ -9,11 +9,13 @@ import { ButtonModule } from 'primeng/button';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ToolbarNavigationComponent } from './components/toolbar-navigation/toolbar-navigation.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ShortenPipe } from './pipes/shorten/shorten.pipe';
 
 @NgModule({
   declarations: [
     ToolbarNavigationComponent,
-    FooterComponent
+    FooterComponent,
+    ShortenPipe
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,7 @@ import { FooterComponent } from './components/footer/footer.component';
     CardModule,
     ButtonModule
   ],
-  exports: [ToolbarNavigationComponent, FooterComponent],
+  exports: [ToolbarNavigationComponent, FooterComponent, ShortenPipe],
   providers: [DialogService, CurrencyPipe]
 })
 export class SharedModule { }
