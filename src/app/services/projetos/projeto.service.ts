@@ -21,4 +21,8 @@ export class ProjetoService {
   createProjeto(data: ProjetoRequest): Observable<ProjetoResponse> {
     return this.http.post<ProjetoResponse>(this.API_URL, data);
   }
+
+  editProjeto(id: number, data: ProjetoRequest): Observable<ProjetoResponse> {
+    return this.http.put<ProjetoResponse>(`${this.API_URL}/${id}`, data);
+  }
 }
