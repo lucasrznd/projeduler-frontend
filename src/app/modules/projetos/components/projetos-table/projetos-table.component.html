@@ -6,7 +6,7 @@
           tooltipPosition="top" (onClick)="handleProjetoEvent(addProjetoEvent)"></p-button>
       </p-toolbar>
 
-      <p-table #projetosTable [value]="projetos" [rows]="5" [paginator]="true" [responsive]="true"
+      <p-table #projetosTable [value]="projetos" [rows]="5" [paginator]="true"
         [globalFilterFields]="['nome', 'descricao', 'status', 'usuarioResponsavel.nome', 'prioridade']"
         [tableStyle]="{'min-width': '75rem'}" [rowHover]="true" [(selection)]="projetoSelected"
         [showCurrentPageReport]="true" dataKey="id"
@@ -14,7 +14,7 @@
         <ng-template pTemplate="caption">
           <div class="flex justify-content-between align-items-center">
             <h5 class="m-0">Projetos</h5>
-            <div class="p-input-icon-left">
+            <div class="p-input-icon-left ml-3">
               <i class="pi pi-search"></i>
               <input pInputText class="w-full" type="text" (input)="onGlobalFilter(projetosTable, $event)"
                 placeholder="Buscar..." />
@@ -153,10 +153,11 @@
             <td>
               <div class="flex justify-content-center align-content-center align-items-center">
                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-text"
-                  pTooltip="Editar projeto" (click)="handleProjetoEvent(editProjetoEvent, projeto?.id)"></button>
+                  pTooltip="Editar projeto" tooltipPosition="top"
+                  (click)="handleProjetoEvent(editProjetoEvent, projeto?.id)"></button>
                 <i class="pi pi-ellipsis-v"></i>
                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text"
-                  pTooltip="Remover projeto" (click)="handleDeleteProjeto()"></button>
+                  pTooltip="Remover projeto" tooltipPosition="top" (click)="handleDeleteProjeto()"></button>
               </div>
             </td>
           </tr>

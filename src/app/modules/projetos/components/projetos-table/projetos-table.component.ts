@@ -29,7 +29,7 @@ export class ProjetosTableComponent {
     const statusMap: { [key: string]: string } = {
       'PLANEJADO': 'info',
       'EM ANDAMENTO': 'warning',
-      'CONCLUÍDO': 'success',
+      'CONCLUIDO': 'success',
       'CANCELADO': 'danger'
     };
     return statusMap[status.toUpperCase()] || 'info';
