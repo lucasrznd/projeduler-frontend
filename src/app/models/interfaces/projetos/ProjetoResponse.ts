@@ -6,6 +6,7 @@ export interface ProjetoResponse {
   dataFim: Date;
   status: string;
   usuarioResponsavel: {
+    id: number;
     nome: string;
     email: string;
   };
