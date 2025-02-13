@@ -15,6 +15,19 @@
       </div>
 
       <div class="form-field">
+        <label for="perfil">Prioridade</label>
+        <p-dropdown id="perfil" [options]="projetoPrioridadeArray" formControlName="prioridade"
+          placeholder="Selecione uma prioridade" optionLabel="label" optionValue="value"
+          [ngClass]="{'ng-invalid ng-dirty': projetoForm.get('prioridade')?.invalid && projetoForm.get('prioridade')?.touched}"
+          [styleClass]="'w-full'">
+        </p-dropdown>
+        <small class="error-message"
+          *ngIf="projetoForm.get('prioridade')?.invalid && projetoForm.get('prioridade')?.touched">
+          Selecione uma prioridade
+        </small>
+      </div>
+
+      <div class="form-field full-width">
         <label for="descricao">Descrição</label>
         <textarea id="descricao" formControlName="descricao" rows="5" cols="30" pInputTextarea [autoResize]="true"
           placeholder="Digite a descrição do projeto"></textarea>
@@ -30,14 +43,14 @@
       <div class="form-field">
         <label for="dataFim">Data Fim</label>
         <span class="p-fluid">
-          <p-calendar id="dataFim" formControlName="dataFim" [showIcon]="true"></p-calendar>
+          <p-calendar id="dataFim" formControlName="dataFim" [showIcon]="true" dateFormat="dd/mm/yy"></p-calendar>
         </span>
       </div>
 
       <div class="form-field">
         <label for="status">Status</label>
         <p-dropdown id="status" [options]="projetoStatusArray" formControlName="status"
-          placeholder="Selecione um status" optionLabel="value"
+          placeholder="Selecione um status" optionLabel="label" optionValue="value"
           [ngClass]="{'ng-invalid ng-dirty': projetoForm.get('status')?.invalid && projetoForm.get('status')?.touched}"
           [styleClass]="'w-full'">
         </p-dropdown>
@@ -51,24 +64,12 @@
         <span class="p-fluid">
           <p-autoComplete formControlName="usuarioResponsavel" [suggestions]="usuariosFiltrados"
             (completeMethod)="filtrarUsuario($event)" field="nome" [forceSelection]="true"
+            placeholder="Digite o nome do usuário"
             [ngClass]="{'ng-invalid ng-dirty': projetoForm.get('usuarioResponsavel')?.invalid && projetoForm.get('usuarioResponsavel')?.touched}"></p-autoComplete>
         </span>
         <small class="error-message"
           *ngIf="projetoForm.get('usuarioResponsavel')?.invalid && projetoForm.get('usuarioResponsavel')?.touched">
           Usuário Responsavél é obrigatório
-        </small>
-      </div>
-
-      <div class="form-field">
-        <label for="perfil">Prioridade</label>
-        <p-dropdown id="perfil" [options]="projetoPrioridadeArray" formControlName="prioridade"
-          placeholder="Selecione uma prioridade" optionLabel="value"
-          [ngClass]="{'ng-invalid ng-dirty': projetoForm.get('prioridade')?.invalid && projetoForm.get('prioridade')?.touched}"
-          [styleClass]="'w-full'">
-        </p-dropdown>
-        <small class="error-message"
-          *ngIf="projetoForm.get('prioridade')?.invalid && projetoForm.get('prioridade')?.touched">
-          Selecione uma prioridade
         </small>
       </div>
     </div>

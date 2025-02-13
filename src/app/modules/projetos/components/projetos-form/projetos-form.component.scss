@@ -16,9 +16,17 @@
 }
 
 .form-body {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  /* Garante que não ultrapasse o Dialog */
+}
+
+// Full-width fields
+.form-field.full-width {
+  grid-column: 1 / -1;
 }
 
 .form-field {
@@ -80,6 +88,16 @@
       padding: 0.75rem;
     }
   }
+
+  textarea {
+    width: 100%;
+    border-radius: 8px;
+
+    &:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    }
+  }
 }
 
 .error-message {
@@ -109,11 +127,12 @@
   }
 }
 
-// Responsive adjustments
-@media screen and (max-width: 640px) {
-  .form-container {
-    margin: 1rem;
-    padding: 1.5rem;
+@media screen and (max-width: 768px) {
+  .form-body {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+    width: 100%;
   }
 
   .form-footer {

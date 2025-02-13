@@ -159,3 +159,16 @@
 .mt-10 {
   margin-top: 30vh;
 }
+
+// PrimeNG Dialog
+@media screen and (max-width: 1200px) {
+  .p-dialog {
+    width: 60vw !important; /* Ocupa quase toda a tela em dispositivos pequenos */
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .p-dialog {
+    width: 70vw !important; /* Ocupa quase toda a tela em dispositivos pequenos */
+  }
+}
