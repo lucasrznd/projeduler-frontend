@@ -1,0 +1,6 @@
+export enum ProjetoStatus {
+  PLANEJADO = "PLANEJADO",
+  EM_ANDAMENTO = "EM ANDAMENTO",
+  CONCLUIDO = "CONCLUIDO",
+  CANCELADO = "CANCELADO"
+}
