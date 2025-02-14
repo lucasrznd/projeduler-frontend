@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Table } from 'primeng/table';
 import { ProjetoEvent } from 'src/app/models/enums/projetos/ProjetoEvent';
 import { DeleteProjetoAction } from 'src/app/models/interfaces/projetos/event/DeleteProjetoAction';
-
 import { ProjetoResponse } from 'src/app/models/interfaces/projetos/ProjetoResponse';
 import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventAction';
+
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-projetos-table',

@@ -8,6 +8,7 @@ import { PROJETOS_ROUTES } from './projetos.routing';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProjetosHomeComponent } from './page/projetos-home/projetos-home.component';
 import { ProjetosTableComponent } from './components/projetos-table/projetos-table.component';
+import { ProjetosFormComponent } from './components/projetos-form/projetos-form.component';
 
 import { CardModule } from 'primeng/card';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -21,7 +22,6 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ConfirmationService } from 'primeng/api';
 import { TagModule } from 'primeng/tag';
-import { ProjetosFormComponent } from './components/projetos-form/projetos-form.component';
 import { CalendarModule } from 'primeng/calendar';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 

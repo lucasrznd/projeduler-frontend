@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
+
+import { CookieService } from 'ngx-cookie-service';
+
 import { AuthRequest } from 'src/app/models/interfaces/auth/AuthRequest';
 import { AuthResponse } from 'src/app/models/interfaces/auth/AuthResponse';
 import { environment } from 'src/environment/environment';

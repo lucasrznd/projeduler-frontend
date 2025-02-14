@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -16,5 +17,4 @@ export class ToolbarNavigationComponent {
     // this.cookieService.delete('refreshToken');
     void this.router.navigate(['/login']);
   }
-
 }

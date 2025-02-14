@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+
 import { CookieService } from 'ngx-cookie-service';
-import { MessageService } from 'primeng/api';
 
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { AuthRequest } from 'src/app/models/interfaces/auth/AuthRequest';
+
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',

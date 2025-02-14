@@ -2,9 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
-import { MessageService } from 'primeng/api';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-
 import { ProjetoEvent } from 'src/app/models/enums/projetos/ProjetoEvent';
 import { ProjetoService } from 'src/app/services/projetos/projeto.service';
 import { UsuarioResponse } from 'src/app/models/interfaces/usuarios/UsuarioResponse';
@@ -15,6 +12,9 @@ import { ProjetoResponse } from 'src/app/models/interfaces/projetos/ProjetoRespo
 import { DropdownService } from 'src/app/services/dropdown/dropdown.service';
 import { DropdownOption } from 'src/app/models/interfaces/dropdown/DropdownOption';
 import { parseDate } from 'src/app/shared/utils/date-utils';
+
+import { MessageService } from 'primeng/api';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-projetos-form',
