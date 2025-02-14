@@ -108,19 +108,3 @@
     }
   }
 }
-
-// Responsive adjustments
-@media screen and (max-width: 640px) {
-  .form-container {
-    margin: 1rem;
-    padding: 1.5rem;
-  }
-
-  .form-footer {
-    flex-direction: column;
-
-    ::ng-deep .p-button {
-      width: 100%;
-    }
-  }
-}

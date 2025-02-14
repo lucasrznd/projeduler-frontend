@@ -1,5 +1,8 @@
 <app-toolbar-navigation></app-toolbar-navigation>
 
-<app-projetos-table [projetos]="projetosList" (projetoEvent)="handleProjetoAction($event)"></app-projetos-table>
+<app-projetos-table [projetos]="projetosList" (projetoEvent)="handleProjetoAction($event)"
+  (deleteProjetoEvent)="handleDeleteProjetoAction($event)"></app-projetos-table>
+
+<p-confirmDialog [style]="{width: '30vw'}"></p-confirmDialog>
 
 <app-footer></app-footer>

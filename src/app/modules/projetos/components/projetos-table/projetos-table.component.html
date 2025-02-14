@@ -157,7 +157,8 @@
                   (click)="handleProjetoEvent(editProjetoEvent, projeto?.id)"></button>
                 <i class="pi pi-ellipsis-v"></i>
                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text"
-                  pTooltip="Remover projeto" tooltipPosition="top" (click)="handleDeleteProjeto()"></button>
+                  pTooltip="Remover projeto" tooltipPosition="top"
+                  (click)="handleDeleteProjeto(projeto?.id, projeto?.nome)"></button>
               </div>
             </td>
           </tr>

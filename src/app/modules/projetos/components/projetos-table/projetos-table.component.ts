@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Table } from 'primeng/table';
 import { ProjetoEvent } from 'src/app/models/enums/projetos/ProjetoEvent';
+import { DeleteProjetoAction } from 'src/app/models/interfaces/projetos/event/DeleteProjetoAction';
 
 import { ProjetoResponse } from 'src/app/models/interfaces/projetos/ProjetoResponse';
 import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventAction';
@@ -14,6 +15,7 @@ import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventActio
 export class ProjetosTableComponent {
   @Input() public projetos: Array<ProjetoResponse> = [];
   @Output() projetoEvent = new EventEmitter<EventAction>();
+  @Output() deleteProjetoEvent = new EventEmitter<DeleteProjetoAction>();
 
   public projetoSelected!: ProjetoResponse;
   public addProjetoEvent = ProjetoEvent.ADD_PROJETO_EVENT;
@@ -52,7 +54,9 @@ export class ProjetosTableComponent {
     }
   }
 
-  handleDeleteProjeto(): void {
-
+  handleDeleteProjeto(id: number, nomeProjeto: string): void {
+    if (id !== undefined && nomeProjeto !== '') {
+      this.deleteProjetoEvent.emit({ id, nomeProjeto });
+    }
   }
 }

@@ -25,4 +25,8 @@ export class ProjetoService {
   editProjeto(id: number, data: ProjetoRequest): Observable<ProjetoResponse> {
     return this.http.put<ProjetoResponse>(`${this.API_URL}/${id}`, data);
   }
+
+  deleteProjeto(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.API_URL}/${id}`);
+  }
 }

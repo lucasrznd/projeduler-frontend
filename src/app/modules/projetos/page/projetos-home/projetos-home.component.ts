@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 import { ProjetoResponse } from 'src/app/models/interfaces/projetos/ProjetoResponse';
@@ -24,7 +24,8 @@ export class ProjetosHomeComponent implements OnInit, OnDestroy {
     private projetoService: ProjetoService,
     private router: Router,
     private messageService: MessageService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -65,6 +66,38 @@ export class ProjetosHomeComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => this.getAllProjetos()
+        });
+    }
+  }
+
+  handleDeleteProjetoAction(event: { id: number, nomeProjeto: string }): void {
+    if (event) {
+      this.confirmationService.confirm({
+        message: `Confirma a exclusão do projeto: ${event.nomeProjeto}?`,
+        header: 'Confirmação de exclusão',
+        icon: 'pi pi-exclamation-triangle',
+        acceptLabel: 'Sim',
+        acceptButtonStyleClass: 'p-button-danger',
+        rejectLabel: 'Não',
+        accept: () => this.deleteProjeto(event.id)
+      });
+    }
+  }
+
+  deleteProjeto(id: number): void {
+    if (id) {
+      this.projetoService.deleteProjeto(id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Projeto removido com sucesso', life: 2500 });
+            // Atualizar dados da tabela
+            this.getAllProjetos();
+          },
+          error: (err) => {
+            console.log(err);
+            this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao remover o projeto', life: 3000 });
+          }
         });
     }
   }
