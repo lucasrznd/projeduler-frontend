@@ -9,6 +9,8 @@ import { ProjetoResponse } from 'src/app/models/interfaces/projetos/ProjetoRespo
 import { ProjetoService } from 'src/app/services/projetos/projeto.service';
 import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventAction';
 import { ProjetosFormComponent } from '../../components/projetos-form/projetos-form.component';
+import { UsuarioProjetosFormComponent } from '../../components/usuario-projetos-form/usuario-projetos-form.component';
+import { ProjetosDataTransferService } from 'src/app/shared/services/projetos/projetos-data-transfer.service';
 
 @Component({
   selector: 'app-projetos-home',
@@ -25,7 +27,8 @@ export class ProjetosHomeComponent implements OnInit, OnDestroy {
     private router: Router,
     private messageService: MessageService,
     private dialogService: DialogService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private projetosDtTransfer: ProjetosDataTransferService
   ) { }
 
   ngOnInit(): void {
@@ -39,6 +42,7 @@ export class ProjetosHomeComponent implements OnInit, OnDestroy {
         next: (response) => {
           if (response.length > 0) {
             this.projetosList = response;
+            this.projetosDtTransfer.setProjetoData(response);
           }
         },
         error: () => {
@@ -53,7 +57,7 @@ export class ProjetosHomeComponent implements OnInit, OnDestroy {
       this.ref = this.dialogService.open(ProjetosFormComponent, {
         header: event?.action,
         width: '45vw',
-        contentStyle: { overflow: 'visible' },
+        contentStyle: { overflow: 'auto', 'max-height': '80vh' },
         baseZIndex: 10000,
         maximizable: false,
         data: {
@@ -67,6 +71,22 @@ export class ProjetosHomeComponent implements OnInit, OnDestroy {
         .subscribe({
           next: () => this.getAllProjetos()
         });
+    }
+  }
+
+  handleUsuarioProjetosAction(event: EventAction) {
+    if (event) {
+      this.ref = this.dialogService.open(UsuarioProjetosFormComponent, {
+        header: event?.action,
+        width: '45vw',
+        contentStyle: { overflow: 'auto', 'max-height': '80vh' },
+        baseZIndex: 10000,
+        maximizable: false,
+        data: {
+          event: event,
+          projetosList: this.projetosList
+        }
+      });
     }
   }
 

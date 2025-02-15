@@ -1,0 +1,77 @@
+<div class="form-container">
+  <form [formGroup]="usuarioProjetoForm" (ngSubmit)="handleSubmitUsuarioProjetoAction()">
+    <div class="form-body">
+      <div class="form-field">
+        <label for="usuario">Projeto</label>
+        <span class="p-fluid">
+          <p-autoComplete formControlName="projeto" [suggestions]="projetosFiltrados"
+            (onSelect)="findUsuariosDisponiveis($event)" (completeMethod)="filtrarProjeto($event)" field="nome"
+            [forceSelection]="true" placeholder="Digite o nome do projeto"
+            [ngClass]="{'ng-invalid ng-dirty': usuarioProjetoForm.get('usuario')?.invalid && usuarioProjetoForm.get('usuario')?.touched}"></p-autoComplete>
+        </span>
+        <small class="error-message"
+          *ngIf="usuarioProjetoForm.get('usuario')?.invalid && usuarioProjetoForm.get('usuario')?.touched">
+          Usuário é obrigatório
+        </small>
+      </div>
+
+      <div class="form-field full-width">
+        <label for="usuarios">Usuários Disponíveis</label>
+        <p-table [value]="usuariosDisponiveis" [(selection)]="this.usuarioProjetoForm.value.usuariosSelecionados"
+          id="usuarios" [paginator]="true" [rows]="5" dataKey="id">
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSelectableColumn></th>
+              <th>
+                <div class="flex justify-content-center align-items-center">
+                  <div class="flex justify-content-center">
+                    Nome
+                  </div>
+                  <div class="flex justify-content-between align-items-center">
+                    <p-sortIcon field="nome"></p-sortIcon>
+                    <p-columnFilter type="text" field="nome" display="menu" matchMode="contains"
+                      [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="flex justify-content-center">
+                  Email
+                </div>
+              </th>
+              <th>
+                <div class="flex justify-content-center">
+                  Perfil
+                </div>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-usuario>
+            <tr>
+              <td pSelectableColumn><p-tableCheckbox [value]="usuario"></p-tableCheckbox></td>
+              <td>
+                <div class="flex justify-content-center">
+                  {{usuario.nome}}
+                </div>
+              </td>
+              <td>
+                <div class="flex justify-content-center">
+                  {{usuario.email}}
+                </div>
+              </td>
+              <td>
+                <div class="flex justify-content-center">
+                  <p-tag [value]="usuario.perfil" [severity]="getPerfilSeverity(usuario.perfil)"></p-tag>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+    <div class="form-footer">
+      <p-button type="submit" label="Salvar" [disabled]="!usuarioProjetoForm.valid" icon="pi pi-check">
+      </p-button>
+    </div>
+  </form>
+</div>

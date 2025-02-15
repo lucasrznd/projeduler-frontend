@@ -15,10 +15,12 @@ import { Table } from 'primeng/table';
 export class ProjetosTableComponent {
   @Input() public projetos: Array<ProjetoResponse> = [];
   @Output() projetoEvent = new EventEmitter<EventAction>();
+  @Output() usuarioProjetoEvent = new EventEmitter<EventAction>();
   @Output() deleteProjetoEvent = new EventEmitter<DeleteProjetoAction>();
 
   public projetoSelected!: ProjetoResponse;
   public addProjetoEvent = ProjetoEvent.ADD_PROJETO_EVENT;
+  public addUsuarioProjetoEvent = ProjetoEvent.ADD_USUARIO_PROJETO_EVENT;
   public editProjetoEvent = ProjetoEvent.EDIT_PROJETO_EVENT;
 
   constructor() { }
@@ -51,6 +53,14 @@ export class ProjetosTableComponent {
       const projetoEventData = id && id !== undefined ? { action, id } : { action };
       // Emitir valor do evento
       this.projetoEvent.emit(projetoEventData);
+    }
+  }
+
+  handleUsuarioProjetoEvent(action: string, id?: number): void {
+    if (action && action !== '') {
+      const projetoEventData = id && id !== undefined ? { action, id } : { action };
+      // Emitir valor do evento
+      this.usuarioProjetoEvent.emit(projetoEventData);
     }
   }
 

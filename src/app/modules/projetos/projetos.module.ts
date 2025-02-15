@@ -24,12 +24,14 @@ import { ConfirmationService } from 'primeng/api';
 import { TagModule } from 'primeng/tag';
 import { CalendarModule } from 'primeng/calendar';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { UsuarioProjetosFormComponent } from './components/usuario-projetos-form/usuario-projetos-form.component';
 
 @NgModule({
   declarations: [
     ProjetosHomeComponent,
     ProjetosTableComponent,
-    ProjetosFormComponent
+    ProjetosFormComponent,
+    UsuarioProjetosFormComponent
   ],
   imports: [
     CommonModule,

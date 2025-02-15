@@ -64,7 +64,7 @@
         <span class="p-fluid">
           <p-autoComplete formControlName="usuarioResponsavel" [suggestions]="usuariosFiltrados"
             (completeMethod)="filtrarUsuario($event)" field="nome" [forceSelection]="true"
-            placeholder="Digite o nome do usuário"
+            placeholder="Digite o nome do responsavél"
             [ngClass]="{'ng-invalid ng-dirty': projetoForm.get('usuarioResponsavel')?.invalid && projetoForm.get('usuarioResponsavel')?.touched}"></p-autoComplete>
         </span>
         <small class="error-message"

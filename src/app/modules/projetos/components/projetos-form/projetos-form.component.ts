@@ -15,6 +15,7 @@ import { parseDate } from 'src/app/shared/utils/date-utils';
 
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { UsuariosDataTransferService } from 'src/app/shared/services/usuarios/usuarios-data-transfer.service';
 
 @Component({
   selector: 'app-projetos-form',
@@ -53,7 +54,8 @@ export class ProjetosFormComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private projetoService: ProjetoService,
     private usuarioService: UsuarioService,
-    private dropdownService: DropdownService
+    private dropdownService: DropdownService,
+    private usuariosDtService: UsuariosDataTransferService
   ) { }
 
   ngOnInit(): void {
@@ -75,6 +77,7 @@ export class ProjetosFormComponent implements OnInit, OnDestroy {
         next: (response) => {
           if (response.length > 0) {
             this.usuarios = response;
+            this.usuariosDtService.setUsuarioData(this.usuarios);
           }
         },
         error: () => {
