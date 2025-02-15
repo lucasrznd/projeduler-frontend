@@ -20,6 +20,12 @@ export class UsuarioService {
     return this.http.get<Array<UsuarioResponse>>(this.API_URL);
   }
 
+  findAllUsuariosDisponiveis(projetoId: number): Observable<Array<UsuarioResponse>> {
+    return this.http.get<Array<UsuarioResponse>>(`${this.API_URL}/disponiveis`, {
+      params: { projetoId: projetoId }
+    });
+  }
+
   createUsuario(data: UsuarioRequest): Observable<UsuarioResponse> {
     return this.http.post<UsuarioResponse>(this.API_URL, data);
   }
