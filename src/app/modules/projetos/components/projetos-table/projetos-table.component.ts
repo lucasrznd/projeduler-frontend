@@ -21,6 +21,7 @@ export class ProjetosTableComponent {
   public projetoSelected!: ProjetoResponse;
   public addProjetoEvent = ProjetoEvent.ADD_PROJETO_EVENT;
   public addUsuarioProjetoEvent = ProjetoEvent.ADD_USUARIO_PROJETO_EVENT;
+  public editUsuarioProjetoEvent = ProjetoEvent.EDIT_USUARIO_PROJETO_EVENT;
   public editProjetoEvent = ProjetoEvent.EDIT_PROJETO_EVENT;
 
   constructor() { }

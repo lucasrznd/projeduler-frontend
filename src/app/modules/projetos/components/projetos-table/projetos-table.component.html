@@ -159,7 +159,8 @@
             <td>
               <div class="flex justify-content-center align-content-center align-items-center">
                 <button pButton pRipple icon="pi pi-users" class="p-button-rounded p-button-success p-button-text"
-                  pTooltip="Equipe do Projeto" tooltipPosition="top"></button>
+                  pTooltip="Equipe do Projeto" tooltipPosition="top"
+                  (click)="handleUsuarioProjetoEvent(editUsuarioProjetoEvent, projeto.id)"></button>
                 <i class="pi pi-ellipsis-v"></i>
                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-text"
                   pTooltip="Editar projeto" tooltipPosition="top"
