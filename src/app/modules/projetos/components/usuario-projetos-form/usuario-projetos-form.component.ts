@@ -1,8 +1,6 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
+
 import { ProjetoEvent } from 'src/app/models/enums/projetos/ProjetoEvent';
 import { ProjetoResponse } from 'src/app/models/interfaces/projetos/ProjetoResponse';
 import { UsuarioProjetoRequest } from 'src/app/models/interfaces/usuario-projeto/UsuarioProjetoRequest';
@@ -10,8 +8,10 @@ import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventActio
 import { UsuarioResponse } from 'src/app/models/interfaces/usuarios/UsuarioResponse';
 import { UsuarioProjetoService } from 'src/app/services/usuario-projeto/usuario-projeto.service';
 import { UsuarioService } from 'src/app/services/usuarios/usuario.service';
-import { ProjetosDataTransferService } from 'src/app/shared/services/projetos/projetos-data-transfer.service';
 import { UsuariosDataTransferService } from 'src/app/shared/services/usuarios/usuarios-data-transfer.service';
+
+import { MessageService } from 'primeng/api';
+import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-usuario-projetos-form',
@@ -22,31 +22,31 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
   public projetosList: Array<ProjetoResponse> = [];
   public projetosFiltrados: Array<ProjetoResponse> = [];
+  public projetoSelecionado: any;
   public usuarioProjetoAction!: {
     event: EventAction
   }
   public usuariosDisponiveis: Array<UsuarioResponse> = [];
-  public usuariosSelecionados: Array<UsuarioResponse> = [];
-
-  public usuarioProjetoForm = this.formBuilder.group({
-    projeto: [{ id: 0 }, Validators.required],
-    usuariosSelecionados: [[] as Array<UsuarioResponse>]
-  });
+  public usuariosDoProjeto: Array<UsuarioResponse> = [];
 
   public addUsuarioProjetoEvent = ProjetoEvent.ADD_USUARIO_PROJETO_EVENT;
+  public editUsuarioProjetoEvent = ProjetoEvent.EDIT_USUARIO_PROJETO_EVENT;
 
   constructor(
-    private formBuilder: FormBuilder,
     private usuariosDtTransfer: UsuariosDataTransferService,
-    private projetosDtTransfer: ProjetosDataTransferService,
     private usuarioProjetoService: UsuarioProjetoService,
     private usuarioService: UsuarioService,
     private messageService: MessageService,
-    private dialogRef: DynamicDialogRef
+    private ref: DynamicDialogConfig,
   ) { }
 
   ngOnInit(): void {
+    this.usuarioProjetoAction = this.ref.data;
     this.getProjetosDatas();
+
+    if (this.usuarioProjetoAction.event.action === this.editUsuarioProjetoEvent && this.usuarioProjetoAction.event.id !== null || undefined) {
+      this.setUsuarioProjetoData(this.usuarioProjetoAction.event.id!);
+    }
   }
 
   getUsuariosDatas(): void {
@@ -58,18 +58,50 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
   }
 
   getProjetosDatas(): void {
-    const projetosCarregados = this.projetosDtTransfer.getProjetoData();
+    const projetosCarregados = this.ref.data.projetosList;
 
     if (projetosCarregados.length > 0) {
       this.projetosList = projetosCarregados;
     }
   }
 
-  findUsuariosDisponiveis(projeto: ProjetoResponse): void {
-    if (projeto.id) {
+  adicionarUsuario(usuario: UsuarioResponse): void {
+    // Remover da lista de disponíveis
+    this.usuariosDisponiveis = this.usuariosDisponiveis.filter(u => u.id !== usuario.id);
+
+    // Adicionar à lista de usuários do projeto
+    this.usuariosDoProjeto.push(usuario);
+
+    const requestCreateUsuarioProjeto: UsuarioProjetoRequest = {
+      usuarioId: usuario.id,
+      projetoId: this.projetoSelecionado.id as number
+    };
+
+    this.saveUsuarioProjeto(requestCreateUsuarioProjeto);
+  }
+
+  removerUsuario(usuario: UsuarioResponse): void {
+    // Remover da equipe do projeto
+    this.usuariosDoProjeto = this.usuariosDoProjeto.filter(u => u.id !== usuario.id);
+
+    // Adicionar de volta à lista de disponíveis
+    this.usuariosDisponiveis.push(usuario);
+
+    const requestDeleteUsuarioProjeto: UsuarioProjetoRequest = {
+      usuarioId: usuario.id,
+      projetoId: this.projetoSelecionado.id as number
+    };
+
+    this.deleteUsuarioDoProjeto(requestDeleteUsuarioProjeto.usuarioId, requestDeleteUsuarioProjeto.projetoId);
+  }
+
+  findUsuariosDisponiveis(projeto?: ProjetoResponse, projetoId?: number): void {
+    const idProjeto: number = projeto !== undefined ? projeto.id : projetoId!;
+
+    if (idProjeto) {
       this.getUsuariosDatas();
 
-      this.usuarioService.findAllUsuariosDisponiveis(projeto.id)
+      this.usuarioService.findAllUsuariosDisponiveis(idProjeto)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
@@ -79,39 +111,67 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
           },
           error: (err) => {
             console.error(err);
-            this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar os usuários do projeto', life: 2500 });
+            this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar os usuários disponíveis do projeto', life: 2500 });
           }
         });
     }
+
+    this.findAllUsuariosByProjetoId(idProjeto);
   }
 
-  handleSubmitUsuarioProjetoAction(): void {
-    if (this.usuarioProjetoForm.value.projeto && this.usuarioProjetoForm.value.usuariosSelecionados) {
-      const usuariosSelecionados: Array<UsuarioResponse> = this.usuarioProjetoForm.value.usuariosSelecionados;
+  saveUsuarioProjeto(data: UsuarioProjetoRequest): void {
+    this.usuarioProjetoService.addUsuarioAoProjeto(data)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: `Usuário ${response.usuario.nome} adicionado com sucesso`, life: 2500 });
+        },
+        error: (err) => {
+          console.log(err);
+          this.messageService.add({ severity: 'error', summary: 'Erro', detail: `Ocorreu um erro ao adicionar o usuário ${data.usuarioId} ao projeto.`, life: 2500 });
+        }
+      });
+  }
 
-      if (usuariosSelecionados.length > 0) {
-        usuariosSelecionados.forEach((usr) => {
-          const requestCreateUsuarioProjeto: UsuarioProjetoRequest = {
-            usuarioId: usr.id,
-            projetoId: this.usuarioProjetoForm.value.projeto!.id
-          };
+  deleteUsuarioDoProjeto(usuarioId: number, projetoId: number): void {
+    this.usuarioProjetoService.deleteUsuarioDoProjeto(usuarioId, projetoId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Usuário removido com sucesso', life: 2500 });
+          this.findUsuariosDisponiveis(undefined, projetoId);
+        },
+        error: (err) => {
+          console.log(err);
+          this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro ao remover usuário do projeto', life: 2500 });
+        }
+      });
+  }
 
-          console.log('Usuario projeto: ', requestCreateUsuarioProjeto);
+  findAllUsuariosByProjetoId(projetoId: number): void {
+    this.usuarioService.findAllUsuariosByProjetoId(projetoId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (response.length > 0) {
+            this.usuariosDoProjeto = response;
+          }
+        },
+        error: (err) => {
+          console.log(err);
+          this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar os usuários do projeto', life: 2500 });
+        }
+      });
+  }
 
-          this.usuarioProjetoService.addUsuarioAoProjeto(requestCreateUsuarioProjeto)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe({
-              next: (response) => {
-                this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: usuariosSelecionados.length === 1 ? 'Usuário adicionado com sucesso' : 'Usuários adicionados com sucesso', life: 2500 });
+  setUsuarioProjetoData(projetoId: number): void {
+    this.findUsuariosDisponiveis(undefined, projetoId);
 
-                this.usuarioProjetoForm.reset();
-              },
-              error: (err) => {
-                console.log(err);
-                this.messageService.add({ severity: 'error', summary: 'Erro', detail: `Ocorreu um erro ao adicionar o usuário ${requestCreateUsuarioProjeto.usuarioId} ao projeto.`, life: 2500 });
-              }
-            });
-        });
+    if (this.projetosList.length > 0) {
+      const projetoFiltrado = this.projetosList.filter((proj) => proj.id === projetoId);
+
+      if (projetoFiltrado) {
+        this.projetoSelecionado = projetoFiltrado;
       }
     }
   }

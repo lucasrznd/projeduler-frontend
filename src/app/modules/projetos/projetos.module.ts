@@ -9,6 +9,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ProjetosHomeComponent } from './page/projetos-home/projetos-home.component';
 import { ProjetosTableComponent } from './components/projetos-table/projetos-table.component';
 import { ProjetosFormComponent } from './components/projetos-form/projetos-form.component';
+import { UsuarioProjetosFormComponent } from './components/usuario-projetos-form/usuario-projetos-form.component';
 
 import { CardModule } from 'primeng/card';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -24,7 +25,7 @@ import { ConfirmationService } from 'primeng/api';
 import { TagModule } from 'primeng/tag';
 import { CalendarModule } from 'primeng/calendar';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-import { UsuarioProjetosFormComponent } from './components/usuario-projetos-form/usuario-projetos-form.component';
+import { PickListModule } from 'primeng/picklist';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { UsuarioProjetosFormComponent } from './components/usuario-projetos-form
     CalendarModule,
     DropdownModule,
     AutoCompleteModule,
+    PickListModule,
     TagModule,
     ToolbarModule,
     ConfirmDialogModule,

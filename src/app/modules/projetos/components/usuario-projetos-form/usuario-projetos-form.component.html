@@ -1,37 +1,26 @@
+<!-- Formulário de Gerenciamento de Usuários no Projeto -->
 <div class="form-container">
-  <form [formGroup]="usuarioProjetoForm" (ngSubmit)="handleSubmitUsuarioProjetoAction()">
+  <form>
     <div class="form-body">
-      <div class="form-field">
+      <div class="form-field full-width" *ngIf="usuarioProjetoAction.event.action === addUsuarioProjetoEvent">
         <label for="usuario">Projeto</label>
         <span class="p-fluid">
-          <p-autoComplete formControlName="projeto" [suggestions]="projetosFiltrados"
-            (onSelect)="findUsuariosDisponiveis($event)" (completeMethod)="filtrarProjeto($event)" field="nome"
-            [forceSelection]="true" placeholder="Digite o nome do projeto"
-            [ngClass]="{'ng-invalid ng-dirty': usuarioProjetoForm.get('usuario')?.invalid && usuarioProjetoForm.get('usuario')?.touched}"></p-autoComplete>
+          <p-autoComplete [(ngModel)]="projetoSelecionado" [suggestions]="projetosFiltrados"
+            [ngModelOptions]="{standalone: true}" (onSelect)="findUsuariosDisponiveis($event)"
+            (completeMethod)="filtrarProjeto($event)" field="nome" [forceSelection]="true"
+            placeholder="Digite o nome do projeto"></p-autoComplete>
         </span>
-        <small class="error-message"
-          *ngIf="usuarioProjetoForm.get('usuario')?.invalid && usuarioProjetoForm.get('usuario')?.touched">
-          Usuário é obrigatório
-        </small>
       </div>
 
-      <div class="form-field full-width">
-        <label for="usuarios">Usuários Disponíveis</label>
-        <p-table [value]="usuariosDisponiveis" [(selection)]="this.usuarioProjetoForm.value.usuariosSelecionados"
-          id="usuarios" [paginator]="true" [rows]="5" dataKey="id">
+      <!-- Usuários Disponíveis -->
+      <div class="col">
+        <h3>Usuários Disponíveis</h3>
+        <p-table [value]="usuariosDisponiveis" [paginator]="true" [rows]="3" dataKey="id">
           <ng-template pTemplate="header">
             <tr>
-              <th pSelectableColumn></th>
               <th>
-                <div class="flex justify-content-center align-items-center">
-                  <div class="flex justify-content-center">
-                    Nome
-                  </div>
-                  <div class="flex justify-content-between align-items-center">
-                    <p-sortIcon field="nome"></p-sortIcon>
-                    <p-columnFilter type="text" field="nome" display="menu" matchMode="contains"
-                      [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
-                  </div>
+                <div class="flex justify-content-center">
+                  Nome
                 </div>
               </th>
               <th>
@@ -44,19 +33,23 @@
                   Perfil
                 </div>
               </th>
+              <th>
+                <div class="flex justify-content-center">
+                  Ação
+                </div>
+              </th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-usuario>
             <tr>
-              <td pSelectableColumn><p-tableCheckbox [value]="usuario"></p-tableCheckbox></td>
               <td>
                 <div class="flex justify-content-center">
-                  {{usuario.nome}}
+                  {{ usuario.nome }}
                 </div>
               </td>
               <td>
                 <div class="flex justify-content-center">
-                  {{usuario.email}}
+                  {{ usuario.email }}
                 </div>
               </td>
               <td>
@@ -64,14 +57,72 @@
                   <p-tag [value]="usuario.perfil" [severity]="getPerfilSeverity(usuario.perfil)"></p-tag>
                 </div>
               </td>
+              <td>
+                <div class="flex justify-content-center">
+                  <p-button styleClass="p-button-text p-button-rounded" icon="pi pi-plus"
+                    (click)="adicionarUsuario(usuario)"></p-button>
+                </div>
+              </td>
             </tr>
           </ng-template>
         </p-table>
       </div>
-    </div>
-    <div class="form-footer">
-      <p-button type="submit" label="Salvar" [disabled]="!usuarioProjetoForm.valid" icon="pi pi-check">
-      </p-button>
+
+      <div class="col">
+        <!-- Usuários Atribuídos ao Projeto -->
+        <h3>Usuários no Projeto</h3>
+        <p-table [value]="usuariosDoProjeto" [paginator]="true" [rows]="3" dataKey="id">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>
+                <div class="flex justify-content-center">
+                  Nome
+                </div>
+              </th>
+              <th>
+                <div class="flex justify-content-center">
+                  Email
+                </div>
+              </th>
+              <th>
+                <div class="flex justify-content-center">
+                  Perfil
+                </div>
+              </th>
+              <th>
+                <div class="flex justify-content-center">
+                  Ação
+                </div>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-usuario>
+            <tr>
+              <td>
+                <div class="flex justify-content-center">
+                  {{ usuario.nome }}
+                </div>
+              </td>
+              <td>
+                <div class="flex justify-content-center">
+                  {{ usuario.email }}
+                </div>
+              </td>
+              <td>
+                <div class="flex justify-content-center">
+                  <p-tag [value]="usuario.perfil" [severity]="getPerfilSeverity(usuario.perfil)"></p-tag>
+                </div>
+              </td>
+              <td>
+                <div class="flex justify-content-center">
+                  <p-button styleClass="p-button-text p-button-rounded p-button-danger" icon="pi pi-minus"
+                    (click)="removerUsuario(usuario)"></p-button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
     </div>
   </form>
 </div>

@@ -78,7 +78,7 @@ export class ProjetosHomeComponent implements OnInit, OnDestroy {
     if (event) {
       this.ref = this.dialogService.open(UsuarioProjetosFormComponent, {
         header: event?.action,
-        width: '45vw',
+        width: '60vw',
         contentStyle: { overflow: 'auto', 'max-height': '80vh' },
         baseZIndex: 10000,
         maximizable: false,
