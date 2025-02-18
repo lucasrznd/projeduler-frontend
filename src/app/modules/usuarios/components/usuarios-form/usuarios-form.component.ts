@@ -5,9 +5,11 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
 import { PerfilEnum } from 'src/app/models/enums/perfis/PerfilEnum';
 import { UsuarioEvent } from 'src/app/models/enums/usuarios/UsuarioEvent';
+import { DropdownOption } from 'src/app/models/interfaces/dropdown/DropdownOption';
 import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventAction';
 import { UsuarioRequest } from 'src/app/models/interfaces/usuarios/UsuarioRequest';
 import { UsuarioResponse } from 'src/app/models/interfaces/usuarios/UsuarioResponse';
+import { DropdownService } from 'src/app/services/dropdown/dropdown.service';
 import { UsuarioService } from 'src/app/services/usuarios/usuario.service';
 
 @Component({
@@ -17,7 +19,7 @@ import { UsuarioService } from 'src/app/services/usuarios/usuario.service';
 })
 export class UsuariosFormComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
-  public perfisArray: Array<PerfilEnum> = [PerfilEnum.ADMIN, PerfilEnum.USER];
+  public usuarioPerfisArray: Array<DropdownOption> = [];
   public usuarioAction!: {
     event: EventAction,
     usuariosList: Array<UsuarioResponse>;
@@ -37,12 +39,14 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private messageService: MessageService,
     private usuarioService: UsuarioService,
+    private dropdownService: DropdownService,
     private ref: DynamicDialogConfig,
     private dialogRef: DynamicDialogRef
   ) { }
 
   ngOnInit(): void {
     this.usuarioAction = this.ref.data;
+    this.usuarioPerfisArray = this.dropdownService.getUsuarioPerfisOptions();
 
     if (this.usuarioAction.event.action === this.editUsuarioAction && this.usuarioAction.event.id !== null || undefined) {
       this.setUsuarioData(this.usuarioAction.event.id!);

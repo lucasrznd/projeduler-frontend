@@ -40,7 +40,8 @@
 
       <div class="form-field">
         <label for="perfil">Perfil</label>
-        <p-dropdown id="perfil" [options]="perfisArray" formControlName="perfil" placeholder="Selecione um perfil"
+        <p-dropdown id="perfil" [options]="usuarioPerfisArray" formControlName="perfil"
+          placeholder="Selecione um perfil" optionLabel="label" optionValue="value"
           [ngClass]="{'ng-invalid ng-dirty': usuarioForm.get('perfil')?.invalid && usuarioForm.get('perfil')?.touched}"
           [styleClass]="'w-full'">
         </p-dropdown>
