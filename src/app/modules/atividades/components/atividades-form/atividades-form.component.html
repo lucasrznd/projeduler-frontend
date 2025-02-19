@@ -62,11 +62,11 @@
       </div>
 
       <div class="form-field">
-        <label for="usuarioResponsavel">Usuário Responsavél</label>
+        <label for="usuarioResponsavel">Usuário Responsável</label>
         <span class="p-fluid">
           <p-autoComplete id="usuarioResponsavel" formControlName="usuarioResponsavel" [suggestions]="usuariosFiltrados"
             (completeMethod)="filtrarUsuario($event)" field="nome" [forceSelection]="true"
-            placeholder="Digite o nome do responsavél"
+            placeholder="Digite o nome do responsável"
             [ngClass]="{'ng-invalid ng-dirty': atividadeForm.get('usuarioResponsavel')?.invalid && atividadeForm.get('usuarioResponsavel')?.touched}"></p-autoComplete>
         </span>
         <small class="error-message"
