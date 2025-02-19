@@ -1,0 +1,84 @@
+<!-- Form atividade -->
+<div class="form-container">
+  <form [formGroup]="atividadeForm" (ngSubmit)="handleSubmitAddAtividade()">
+    <div class="form-body">
+      <div class="form-field">
+        <label for="projeto">Projeto</label>
+        <span class="p-fluid">
+          <p-autoComplete id="projeto" formControlName="projeto" [suggestions]="projetosFiltrados"
+            (completeMethod)="filtrarProjeto($event)" field="nome" [forceSelection]="true"
+            placeholder="Digite o nome do projeto"
+            [ngClass]="{'ng-invalid ng-dirty': atividadeForm.get('projeto')?.invalid && atividadeForm.get('projeto')?.touched}"></p-autoComplete>
+        </span>
+        <small class="error-message"
+          *ngIf="atividadeForm.get('projeto')?.invalid && atividadeForm.get('projeto')?.touched">
+          Projeto é obrigatório
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="nome">Nome</label>
+        <span class="p-input-icon-left">
+          <i class="pi pi-folder"></i>
+          <input id="nome" pInputText formControlName="nome" placeholder="Digite o nome da atividade"
+            [ngClass]="{'ng-invalid ng-dirty': atividadeForm.get('nome')?.invalid && atividadeForm.get('nome')?.touched}" />
+        </span>
+        <small class="error-message" *ngIf="atividadeForm.get('nome')?.invalid && atividadeForm.get('nome')?.touched">
+          Nome é obrigatório
+        </small>
+      </div>
+
+      <div class="form-field full-width">
+        <label for="descricao">Descrição</label>
+        <textarea id="descricao" formControlName="descricao" rows="5" cols="30" pInputTextarea [autoResize]="true"
+          placeholder="Digite a descrição da atividade"></textarea>
+      </div>
+
+      <div class="form-field">
+        <label for="dataInicio">Data de Início</label>
+        <span class="p-fluid">
+          <p-calendar id="dataInicio" formControlName="dataInicio" [showIcon]="true" dateFormat="dd/mm/yy"></p-calendar>
+        </span>
+      </div>
+
+      <div class="form-field">
+        <label for="dataFim">Data Fim</label>
+        <span class="p-fluid">
+          <p-calendar id="dataFim" formControlName="dataFim" [showIcon]="true" dateFormat="dd/mm/yy"></p-calendar>
+        </span>
+      </div>
+
+      <div class="form-field">
+        <label for="status">Status</label>
+        <p-dropdown id="status" [options]="atividadeStatusArray" formControlName="status"
+          placeholder="Selecione um status" optionLabel="label" optionValue="value"
+          [ngClass]="{'ng-invalid ng-dirty': atividadeForm.get('status')?.invalid && atividadeForm.get('status')?.touched}"
+          [styleClass]="'w-full'">
+        </p-dropdown>
+        <small class="error-message"
+          *ngIf="atividadeForm.get('status')?.invalid && atividadeForm.get('status')?.touched">
+          Selecione um status
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="usuarioResponsavel">Usuário Responsavél</label>
+        <span class="p-fluid">
+          <p-autoComplete id="usuarioResponsavel" formControlName="usuarioResponsavel" [suggestions]="usuariosFiltrados"
+            (completeMethod)="filtrarUsuario($event)" field="nome" [forceSelection]="true"
+            placeholder="Digite o nome do responsavél"
+            [ngClass]="{'ng-invalid ng-dirty': atividadeForm.get('usuarioResponsavel')?.invalid && atividadeForm.get('usuarioResponsavel')?.touched}"></p-autoComplete>
+        </span>
+        <small class="error-message"
+          *ngIf="atividadeForm.get('usuarioResponsavel')?.invalid && atividadeForm.get('usuarioResponsavel')?.touched">
+          Usuário Responsavél é obrigatório
+        </small>
+      </div>
+    </div>
+
+    <div class="form-footer">
+      <p-button type="submit" label="Salvar" [disabled]="!atividadeForm.valid" icon="pi pi-check">
+      </p-button>
+    </div>
+  </form>
+</div>

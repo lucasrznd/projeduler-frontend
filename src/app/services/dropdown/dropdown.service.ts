@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { PROJETO_PRIORIDADE_OPTIONS, PROJETO_STATUS_OPTIONS, USUARIO_PERFIS_OPTIONS } from 'src/app/constants/dropdown-options.constant';
+
+import { ATIVIDADE_STATUS_OPTIONS, PROJETO_PRIORIDADE_OPTIONS, PROJETO_STATUS_OPTIONS, USUARIO_PERFIS_OPTIONS } from 'src/app/constants/dropdown-options.constant';
 import { DropdownOption } from 'src/app/models/interfaces/dropdown/DropdownOption';
 
 @Injectable({
@@ -17,5 +18,9 @@ export class DropdownService {
 
   getProjetoPrioridadeOptions(): Array<DropdownOption> {
     return PROJETO_PRIORIDADE_OPTIONS;
+  }
+
+  getAtividadeStatusOptions(): Array<DropdownOption> {
+    return ATIVIDADE_STATUS_OPTIONS;
   }
 }
