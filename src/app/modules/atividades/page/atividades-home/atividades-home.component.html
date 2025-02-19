@@ -1,5 +1,6 @@
 <app-toolbar-navigation></app-toolbar-navigation>
 
-<app-atividades-table [atividades]="atividadesList"></app-atividades-table>
+<app-atividades-table [atividades]="atividadesList"
+  (atividadeEvent)="handleAtividadeAction($event)"></app-atividades-table>
 
 <app-footer></app-footer>
