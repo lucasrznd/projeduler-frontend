@@ -159,7 +159,8 @@
                   (click)="handleAtividadeEvent(editAtividadeEvent, atividade?.id)"></button>
                 <i class="pi pi-ellipsis-v"></i>
                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text"
-                  pTooltip="Remover atividade" tooltipPosition="top"></button>
+                  pTooltip="Remover atividade" tooltipPosition="top"
+                  (click)="handleDeleteAtividade(atividade?.id, atividade?.nome)"></button>
               </div>
             </td>
           </tr>

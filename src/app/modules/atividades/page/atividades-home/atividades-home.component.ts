@@ -72,6 +72,38 @@ export class AtividadesHomeComponent implements OnInit, OnDestroy {
     }
   }
 
+  handleDeleteAtividadeAction(event: { id: number, nomeAtividade: string }): void {
+    if (event) {
+      this.confirmationService.confirm({
+        message: `Confirma a exclusão da atividade: ${event.nomeAtividade}?`,
+        header: 'Confirmação de exclusão',
+        icon: 'pi pi-exclamation-triangle',
+        acceptLabel: 'Sim',
+        acceptButtonStyleClass: 'p-button-danger',
+        rejectLabel: 'Não',
+        accept: () => this.deleteAtividade(event.id)
+      });
+    }
+  }
+
+  deleteAtividade(id: number): void {
+    if (id) {
+      this.atividadeService.deleteAtividade(id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Atividade removida com sucesso', life: 2500 });
+
+            this.getAllAtividades();
+          },
+          error: (err) => {
+            console.log(err);
+            this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao remover a atividade', life: 3000 });
+          }
+        });
+    }
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

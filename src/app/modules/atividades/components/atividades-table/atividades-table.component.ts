@@ -40,4 +40,10 @@ export class AtividadesTableComponent {
       this.atividadeEvent.emit(atividadeEventData);
     }
   }
+
+  handleDeleteAtividade(id: number, nomeAtividade: string): void {
+    if (id !== undefined && nomeAtividade !== '') {
+      this.deleteAtividadeEvent.emit({ id, nomeAtividade });
+    }
+  }
 }
