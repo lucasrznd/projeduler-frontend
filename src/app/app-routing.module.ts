@@ -32,6 +32,11 @@ const routes: Routes = [
     path: 'atividades',
     loadChildren: () => import('./modules/atividades/atividades.module').then(m => m.AtividadesModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'lancamento-horas',
+    loadChildren: () => import('./modules/lancamento-horas/lancamento-horas.module').then(m => m.LancamentoHorasModule),
+    canActivate: [AuthGuard]
   }
 ];
 

@@ -1,0 +1,184 @@
+<div>
+  <div class="col-12">
+    <p-card styleClass="shadow-3">
+      <p-toolbar styleClass="mb-3">
+        <div class="p-toolbar-group-start">
+          <p-button styleClass="p-button-info" icon="pi pi-plus-circle" label="Novo"
+            pTooltip="Adicionar lançamento de hora" tooltipPosition="top"
+            (onClick)="handleLancamentoHoraEvent(addLancamentoHoraEvent)"></p-button>
+        </div>
+      </p-toolbar>
+
+      <p-table #lancamentosHorasTable [value]="lancamentoHoras" [rows]="5" [paginator]="true"
+        [globalFilterFields]="['atividade.nome', 'atividade.projeto.nome', 'usuario.nome', 'descricao']"
+        [tableStyle]="{'min-width': '75rem'}" [rowHover]="true" [(selection)]="lancamentoHoraSelected"
+        [showCurrentPageReport]="true" dataKey="id"
+        currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} lançamentos de horas">
+        <ng-template pTemplate="caption">
+          <div class="flex justify-content-between align-items-center">
+            <h5 class="m-0">Lançamentos</h5>
+            <div class="p-input-icon-left ml-3">
+              <i class="pi pi-search"></i>
+              <input pInputText class="w-full" type="text" (input)="onGlobalFilter(lancamentosHorasTable, $event)"
+                placeholder="Buscar..." />
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="atividade.nome">
+              <div class="flex justify-content-center align-items-center">
+                <div class="flex justify-content-center">
+                  Atividade
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="atividade.nome"></p-sortIcon>
+                  <p-columnFilter type="text" field="atividade.nome" display="menu" matchMode="contains"
+                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
+            <th pSortableColumn="atividade.projeto.nome">
+              <div class="flex justify-content-center align-items-center">
+                <div class="flex justify-content-center">
+                  Projeto
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="atividade.projeto.nome"></p-sortIcon>
+                  <p-columnFilter type="text" field="atividade.projeto.nome" display="menu" matchMode="contains"
+                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
+            <th pSortableColumn="usuario.nome">
+              <div class="flex justify-content-center align-items-center">
+                <div class="flex justify-content-center">
+                  Usuário
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="usuario.nome"></p-sortIcon>
+                  <p-columnFilter type="text" field="usuario.nome" display="menu" matchMode="contains"
+                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
+            <th pSortableColumn="descricao">
+              <div class="flex justify-content-center align-items-center">
+                <div class="flex justify-content-center">
+                  Descrição
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="descricao"></p-sortIcon>
+                  <p-columnFilter type="text" field="descricao" display="menu" matchMode="contains"
+                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                </div>
+              </div>
+            </th>
+
+            <th pSortableColumn="dataInicio">
+              <div class="flex justify-content-center align-items-center">
+                <div class="flex justify-content-center">
+                  Data de Início
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="dataInicio"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+
+            <th pSortableColumn="dataFim">
+              <div class="flex justify-content-center align-items-center">
+                <div class="flex justify-content-center">
+                  Data Fim
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="dataFim"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+
+            <th pSortableColumn="dataRegistro">
+              <div class="flex justify-content-center align-items-center">
+                <div class="flex justify-content-center">
+                  Data de Registro
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-sortIcon field="dataRegistro"></p-sortIcon>
+                </div>
+              </div>
+            </th>
+
+            <th>
+              <div class="flex justify-content-center">
+                Ações
+              </div>
+            </th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-lancamentoHora>
+          <tr>
+            <td [pTooltip]="lancamentoHora?.atividade.nome" tooltipPosition="top">
+              <div class="flex justify-content-center">
+                {{lancamentoHora?.atividade.nome | shorten: 25}}
+              </div>
+            </td>
+
+            <td [pTooltip]="lancamentoHora?.atividade.projeto.nome" tooltipPosition="top">
+              <div class="flex justify-content-center">
+                {{lancamentoHora?.atividade.projeto.nome | shorten: 25}}
+              </div>
+            </td>
+
+            <td [pTooltip]="lancamentoHora?.usuario.nome" tooltipPosition="top">
+              <div class="flex justify-content-center">
+                {{lancamentoHora?.usuario.nome}}
+              </div>
+            </td>
+
+            <td [pTooltip]="lancamentoHora?.descricao" tooltipPosition="top">
+              <div class="flex justify-content-center">
+                {{lancamentoHora?.descricao | shorten: 25}}
+              </div>
+            </td>
+
+            <td>
+              <div class="flex justify-content-center">
+                {{lancamentoHora?.dataInicio | date: 'dd/MM/yyyy HH:mm:ss'}}
+              </div>
+            </td>
+
+            <td>
+              <div class="flex justify-content-center">
+                {{lancamentoHora?.dataFim | date: 'dd/MM/yyyy HH:mm:ss'}}
+              </div>
+            </td>
+
+            <td>
+              <div class="flex justify-content-center">
+                {{lancamentoHora?.dataRegistro | date: 'dd/MM/yyyy HH:mm:ss'}}
+              </div>
+            </td>
+
+            <td>
+              <div class="flex justify-content-center align-content-center align-items-center">
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-text"
+                  pTooltip="Editar lançamento de hora" tooltipPosition="top"
+                  (click)="handleLancamentoHoraEvent(editLancamentoHoraEvent, lancamentoHora?.id)"></button>
+                <i class="pi pi-ellipsis-v"></i>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text"
+                  pTooltip="Remover lançamento de hora" tooltipPosition="top"
+                  (click)="handleDeleteLancamentoHora(lancamentoHora?.id, lancamentoHora?.atividade?.id)"></button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
+  <p-confirmDialog [style]="{width: '30vw'}"></p-confirmDialog>
+</div>
