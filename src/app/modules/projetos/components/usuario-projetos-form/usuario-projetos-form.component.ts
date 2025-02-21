@@ -22,7 +22,7 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
   public projetosList: Array<ProjetoResponse> = [];
   public projetosFiltrados: Array<ProjetoResponse> = [];
-  public projetoSelecionado: any;
+  public projetoSelecionado!: ProjetoResponse;
   public usuarioProjetoAction!: {
     event: EventAction
   }
@@ -171,7 +171,7 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
       const projetoFiltrado = this.projetosList.filter((proj) => proj.id === projetoId);
 
       if (projetoFiltrado) {
-        this.projetoSelecionado = projetoFiltrado;
+        this.projetoSelecionado = projetoFiltrado[0];
       }
     }
   }
