@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UpdateUsuarioProjeto } from 'src/app/models/interfaces/usuario-projeto/UpdateUsuarioProjeto';
+
 import { UsuarioProjetoRequest } from 'src/app/models/interfaces/usuario-projeto/UsuarioProjetoRequest';
 import { UsuarioProjetoResponse } from 'src/app/models/interfaces/usuario-projeto/UsuarioProjetoResponse';
 import { environment } from 'src/environment/environment';

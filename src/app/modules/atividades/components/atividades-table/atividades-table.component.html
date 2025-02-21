@@ -155,7 +155,8 @@
             <td>
               <div class="flex justify-content-center align-content-center align-items-center">
                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-text"
-                  pTooltip="Editar atividade" tooltipPosition="top"></button>
+                  pTooltip="Editar atividade" tooltipPosition="top"
+                  (click)="handleAtividadeEvent(editAtividadeEvent, atividade?.id)"></button>
                 <i class="pi pi-ellipsis-v"></i>
                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text"
                   pTooltip="Remover atividade" tooltipPosition="top"></button>
