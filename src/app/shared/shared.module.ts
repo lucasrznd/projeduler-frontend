@@ -10,12 +10,14 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { ToolbarNavigationComponent } from './components/toolbar-navigation/toolbar-navigation.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ShortenPipe } from './pipes/shorten/shorten.pipe';
+import { HasRoleDirective } from './directives/has-role.directive';
 
 @NgModule({
   declarations: [
     ToolbarNavigationComponent,
     FooterComponent,
-    ShortenPipe
+    ShortenPipe,
+    HasRoleDirective
   ],
   imports: [
     CommonModule,
