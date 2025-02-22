@@ -33,9 +33,9 @@ export class LancamentoHorasTableComponent {
     }
   }
 
-  handleDeleteLancamentoHora(id: number, atividadeId: number): void {
-    if (id !== undefined && atividadeId !== undefined) {
-      this.deleteLancamentoHoraEvent.emit({ id, atividadeId });
+  handleDeleteLancamentoHora(id: number, nomeAtividade: string): void {
+    if (id !== undefined && nomeAtividade !== '') {
+      this.deleteLancamentoHoraEvent.emit({ id, nomeAtividade });
     }
   }
 }

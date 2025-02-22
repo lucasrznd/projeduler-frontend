@@ -1,0 +1,61 @@
+<!-- Form lançamento de horas -->
+<div class="form-container">
+  <form [formGroup]="lancamentoHorasForm" (ngSubmit)="handleSubmitLancamentoHoraAction()">
+    <div class="form-body">
+      <div class="form-field">
+        <label for="atividade">Atividade</label>
+        <span class="p-fluid">
+          <p-autoComplete id="atividade" formControlName="atividade" [suggestions]="atividadesFiltradas"
+            (completeMethod)="filtrarAtividade($event)" field="nome" [forceSelection]="true"
+            placeholder="Digite o nome da atividade"
+            [ngClass]="{'ng-invalid ng-dirty': lancamentoHorasForm.get('atividade')?.invalid && lancamentoHorasForm.get('atividade')?.touched}"></p-autoComplete>
+        </span>
+        <small class="error-message"
+          *ngIf="lancamentoHorasForm.get('atividade')?.invalid && lancamentoHorasForm.get('atividade')?.touched">
+          Atividade é obrigatória
+        </small>
+      </div>
+
+      <div class="form-field full-width">
+        <label for="descricao">Descrição</label>
+        <textarea id="descricao" formControlName="descricao" rows="5" cols="30" pInputTextarea [autoResize]="true"
+          placeholder="Digite a descrição do lançamento"
+          [ngClass]="{'ng-invalid ng-dirty': lancamentoHorasForm.get('descricao')?.invalid && lancamentoHorasForm.get('descricao')?.touched}"></textarea>
+        <small class="error-message"
+          *ngIf="lancamentoHorasForm.get('descricao')?.invalid && lancamentoHorasForm.get('descricao')?.touched">
+          Descrição é obrigatória
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="dataInicio">Data/Hora de Início</label>
+        <span class="p-fluid">
+          <p-calendar id="dataInicio" formControlName="dataInicio" [showIcon]="true" dateFormat="dd/mm/yy"
+            [showTime]="true"
+            [ngClass]="{'ng-invalid ng-dirty': lancamentoHorasForm.get('dataInicio')?.invalid && lancamentoHorasForm.get('dataInicio')?.touched}"></p-calendar>
+          <small class="error-message"
+            *ngIf="lancamentoHorasForm.get('dataInicio')?.invalid && lancamentoHorasForm.get('dataInicio')?.touched">
+            Selecione uma Data/Hora de Início
+          </small>
+        </span>
+      </div>
+
+      <div class="form-field">
+        <label for="dataFim">Data/Hora Fim</label>
+        <span class="p-fluid">
+          <p-calendar id="dataFim" formControlName="dataFim" [showIcon]="true" dateFormat="dd/mm/yy" [showTime]="true"
+            [ngClass]="{'ng-invalid ng-dirty': lancamentoHorasForm.get('dataFim')?.invalid && lancamentoHorasForm.get('dataFim')?.touched}"></p-calendar>
+          <small class="error-message"
+            *ngIf="lancamentoHorasForm.get('dataFim')?.invalid && lancamentoHorasForm.get('dataFim')?.touched">
+            Selecione uma Data/Hora Fim
+          </small>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-footer">
+      <p-button type="submit" label="Salvar" [disabled]="!lancamentoHorasForm.valid" icon="pi pi-check">
+      </p-button>
+    </div>
+  </form>
+</div>

@@ -4,6 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { SharedModule } from 'src/app/shared/shared.module';
+import { LANCAMENTO_HORAS_ROUTES } from './lancamento-horas.routing';
+import { LancamentoHorasTableComponent } from './components/lancamento-horas-table/lancamento-horas-table.component';
+import { LancamentoHorasFormComponent } from './components/lancamento-horas-form/lancamento-horas-form.component';
+import { LancamentoHorasHomeComponent } from './page/lancamento-horas-home/lancamento-horas-home.component';
 
 import { ConfirmationService } from 'primeng/api';
 import { CardModule } from 'primeng/card';
@@ -17,15 +21,14 @@ import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { TooltipModule } from 'primeng/tooltip';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TableModule } from 'primeng/table';
-import { LancamentoHorasHomeComponent } from './page/lancamento-horas-home/lancamento-horas-home.component';
 import { RouterModule } from '@angular/router';
-import { LANCAMENTO_HORAS_ROUTES } from './lancamento-horas.routing';
-import { LancamentoHorasTableComponent } from './components/lancamento-horas-table/lancamento-horas-table.component';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [
     LancamentoHorasHomeComponent,
-    LancamentoHorasTableComponent
+    LancamentoHorasTableComponent,
+    LancamentoHorasFormComponent
   ],
   imports: [
     CommonModule,
@@ -39,6 +42,7 @@ import { LancamentoHorasTableComponent } from './components/lancamento-horas-tab
     ButtonModule,
     TableModule,
     InputTextModule,
+    InputTextareaModule,
     ToolbarModule,
     TagModule,
     TooltipModule,

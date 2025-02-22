@@ -1,5 +1,7 @@
 <app-toolbar-navigation></app-toolbar-navigation>
 
-<app-lancamento-horas-table [lancamentoHoras]="lancamentoHorasList"></app-lancamento-horas-table>
+<app-lancamento-horas-table [lancamentoHoras]="lancamentoHorasList"
+  (lancamentoHoraEvent)="handleLancamentoHoraAction($event)"
+  (deleteLancamentoHoraEvent)="handleDeleteLancamentoHoraAction($event)"></app-lancamento-horas-table>
 
 <app-footer></app-footer>
