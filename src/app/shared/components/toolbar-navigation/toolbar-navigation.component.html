@@ -25,7 +25,7 @@
     </p-button>
 
     <p-button icon="pi pi-users" label="Usuários" routerLink="/usuarios" routerLinkActive="active-route"
-      [styleClass]="'nav-button'">
+      [styleClass]="'nav-button'" *appHasRole="['ADMIN']">
     </p-button>
   </div>
 
