@@ -1,7 +1,7 @@
 <div>
   <div class="col-12">
     <p-card styleClass="shadow-3">
-      <p-toolbar styleClass="mb-3">
+      <p-toolbar styleClass="mb-3" *appHasRole="['ADMIN']">
         <div class="p-toolbar-group-start">
           <p-button styleClass="p-button-info" icon="pi pi-plus-circle" label="Novo" pTooltip="Adicionar projeto"
             tooltipPosition="top" (onClick)="handleProjetoEvent(addProjetoEvent)"></p-button>
@@ -171,14 +171,14 @@
                 <button pButton pRipple icon="pi pi-users" class="p-button-rounded p-button-success p-button-text"
                   pTooltip="Equipe do Projeto" tooltipPosition="top"
                   (click)="handleUsuarioProjetoEvent(editUsuarioProjetoEvent, projeto.id)"></button>
-                <i class="pi pi-ellipsis-v"></i>
+                <i class="pi pi-ellipsis-v" *appHasRole="['ADMIN']"></i>
                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-text"
                   pTooltip="Editar projeto" tooltipPosition="top"
-                  (click)="handleProjetoEvent(editProjetoEvent, projeto?.id)"></button>
-                <i class="pi pi-ellipsis-v"></i>
+                  (click)="handleProjetoEvent(editProjetoEvent, projeto?.id)" *appHasRole="['ADMIN']"></button>
+                <i class="pi pi-ellipsis-v" *appHasRole="['ADMIN']"></i>
                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text"
                   pTooltip="Remover projeto" tooltipPosition="top"
-                  (click)="handleDeleteProjeto(projeto?.id, projeto?.nome)"></button>
+                  (click)="handleDeleteProjeto(projeto?.id, projeto?.nome)" *appHasRole="['ADMIN']"></button>
               </div>
             </td>
           </tr>

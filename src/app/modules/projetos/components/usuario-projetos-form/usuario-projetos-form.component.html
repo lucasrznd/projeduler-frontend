@@ -13,7 +13,7 @@
       </div>
 
       <!-- Usuários Disponíveis -->
-      <div class="col">
+      <div class="col" *appHasRole="['ADMIN']">
         <h3>Usuários Disponíveis</h3>
         <p-table [value]="usuariosDisponiveis" [paginator]="true" [rows]="3" dataKey="id">
           <ng-template pTemplate="header">
@@ -70,7 +70,7 @@
 
       <div class="col">
         <!-- Usuários Atribuídos ao Projeto -->
-        <h3>Usuários no Projeto</h3>
+        <h3 *appHasRole="['ADMIN']">Usuários no Projeto</h3>
         <p-table [value]="usuariosDoProjeto" [paginator]="true" [rows]="3" dataKey="id">
           <ng-template pTemplate="header">
             <tr>
@@ -79,17 +79,17 @@
                   Nome
                 </div>
               </th>
-              <th>
+              <th *appHasRole="['ADMIN']">
                 <div class="flex justify-content-center">
                   Email
                 </div>
               </th>
-              <th>
+              <th *appHasRole="['ADMIN']">
                 <div class="flex justify-content-center">
                   Perfil
                 </div>
               </th>
-              <th>
+              <th *appHasRole="['ADMIN']">
                 <div class="flex justify-content-center">
                   Ação
                 </div>
@@ -103,17 +103,17 @@
                   {{ usuario.nome }}
                 </div>
               </td>
-              <td>
+              <td *appHasRole="['ADMIN']">
                 <div class="flex justify-content-center">
                   {{ usuario.email }}
                 </div>
               </td>
-              <td>
+              <td *appHasRole="['ADMIN']">
                 <div class="flex justify-content-center">
                   <p-tag [value]="usuario.perfil" [severity]="getPerfilSeverity(usuario.perfil)"></p-tag>
                 </div>
               </td>
-              <td>
+              <td *appHasRole="['ADMIN']">
                 <div class="flex justify-content-center">
                   <p-button styleClass="p-button-text p-button-rounded p-button-danger" icon="pi pi-minus"
                     (click)="removerUsuario(usuario)"></p-button>
