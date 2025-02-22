@@ -8,7 +8,7 @@ import { environment } from 'src/environment/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class LancamentoHorasService {
+export class LancamentoHoraService {
   private API_URL = `${environment.API_URL}/lancamentos-horas`;
 
   constructor(private http: HttpClient) { }

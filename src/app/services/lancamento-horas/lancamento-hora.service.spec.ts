@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LancamentoHorasService } from './lancamento-horas.service';
+import { LancamentoHoraService } from './lancamento-hora.service';
 
 describe('LancamentoHorasService', () => {
-  let service: LancamentoHorasService;
+  let service: LancamentoHoraService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(LancamentoHorasService);
+    service = TestBed.inject(LancamentoHoraService);
   });
 
   it('should be created', () => {
