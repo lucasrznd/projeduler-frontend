@@ -29,7 +29,7 @@ import { HasRoleDirective } from './directives/has-role.directive';
     CardModule,
     ButtonModule
   ],
-  exports: [ToolbarNavigationComponent, FooterComponent, ShortenPipe],
+  exports: [ToolbarNavigationComponent, FooterComponent, ShortenPipe, HasRoleDirective],
   providers: [DialogService, CurrencyPipe]
 })
 export class SharedModule { }
