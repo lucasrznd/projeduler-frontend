@@ -1,7 +1,7 @@
 <div>
   <div class="col-12">
     <p-card styleClass="shadow-3">
-      <p-toolbar styleClass="mb-3">
+      <p-toolbar styleClass="mb-3" *appHasRole="['ADMIN']">
         <div class="p-toolbar-group-start">
           <p-button styleClass="p-button-info" icon="pi pi-plus-circle" label="Novo" pTooltip="Adicionar atividade"
             tooltipPosition="top" (onClick)="handleAtividadeEvent(addAtividadeEvent)"></p-button>
@@ -112,7 +112,7 @@
               </div>
             </th>
 
-            <th>
+            <th *appHasRole="['ADMIN']">
               <div class="flex justify-content-center">
                 Ações
               </div>
@@ -162,7 +162,7 @@
                 {{atividade?.dataCriacao | date: 'dd/MM/yyyy HH:mm:ss'}}
               </div>
             </td>
-            <td>
+            <td *appHasRole="['ADMIN']">
               <div class="flex justify-content-center align-content-center align-items-center">
                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-text"
                   pTooltip="Editar atividade" tooltipPosition="top"
