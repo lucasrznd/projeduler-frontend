@@ -169,10 +169,11 @@
                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-text"
                   pTooltip="Editar lançamento de hora" tooltipPosition="top"
                   (click)="handleLancamentoHoraEvent(editLancamentoHoraEvent, lancamentoHora?.id)"></button>
-                <i class="pi pi-ellipsis-v"></i>
+                <i class="pi pi-ellipsis-v" *appHasRole="['ADMIN']"></i>
                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text"
                   pTooltip="Remover lançamento de hora" tooltipPosition="top"
-                  (click)="handleDeleteLancamentoHora(lancamentoHora?.id, lancamentoHora?.atividade?.nome)"></button>
+                  (click)="handleDeleteLancamentoHora(lancamentoHora?.id, lancamentoHora?.atividade?.nome)"
+                  *appHasRole="['ADMIN']"></button>
               </div>
             </td>
           </tr>
