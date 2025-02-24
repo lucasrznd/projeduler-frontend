@@ -97,12 +97,6 @@
               </div>
             </th>
 
-            <th>
-              <div class="flex justify-content-center">
-                Data de Criação
-              </div>
-            </th>
-
             <th pSortableColumn="prioridade">
               <div class="flex justify-content-center align-items-center">
                 <div class="flex justify-content-center">
@@ -113,6 +107,12 @@
                   <p-columnFilter type="text" field="prioridade" display="menu" matchMode="contains"
                     [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
                 </div>
+              </div>
+            </th>
+
+            <th *appHasRole="['ADMIN']">
+              <div class="flex justify-content-center">
+                Data de Criação
               </div>
             </th>
 
@@ -158,12 +158,12 @@
             </td>
             <td>
               <div class="flex justify-content-center">
-                {{projeto?.dataCriacao | date: 'dd/MM/yyyy HH:mm:ss'}}
+                <p-tag [value]="projeto.prioridade" [severity]="getProjetoPrioridade(projeto.prioridade)"></p-tag>
               </div>
             </td>
-            <td>
+            <td *appHasRole="['ADMIN']">
               <div class="flex justify-content-center">
-                <p-tag [value]="projeto.prioridade" [severity]="getProjetoPrioridade(projeto.prioridade)"></p-tag>
+                {{projeto?.dataCriacao | date: 'dd/MM/yyyy HH:mm:ss'}}
               </div>
             </td>
             <td>
