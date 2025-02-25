@@ -9,6 +9,5 @@ export interface AtividadeResponse {
   dataInicio: Date;
   dataFim: Date;
   status: string;
-  usuarioResponsavel: UsuarioResponse;
   dataCriacao: Date;
 }

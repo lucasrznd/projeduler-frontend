@@ -5,5 +5,4 @@ export interface AtividadeRequest {
   dataInicio?: Date;
   dataFim?: Date;
   status: string;
-  usuarioResponsavelId: number;
 }
