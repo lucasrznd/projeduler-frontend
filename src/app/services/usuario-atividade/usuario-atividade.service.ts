@@ -17,6 +17,10 @@ export class UsuarioAtividadeService {
     return this.http.post<UsuarioAtividadeResponse>(this.API_URL, data);
   }
 
+  addUsuariosNaAtividade(data: Array<UsuarioAtividadeRequest>): Observable<Array<UsuarioAtividadeResponse>> {
+    return this.http.post<Array<UsuarioAtividadeResponse>>(`${this.API_URL}/salvar-todos`, data);
+  }
+
   deleteUsuarioDaAtividade(usuarioId: number, atividadeId: number): Observable<void> {
     return this.http.delete<void>(`${this.API_URL}/${usuarioId}/${atividadeId}`);
   }
