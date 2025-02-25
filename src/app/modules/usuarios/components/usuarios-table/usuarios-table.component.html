@@ -6,7 +6,7 @@
           tooltipPosition="top" (onClick)="handleUsuarioEvent(addUsuarioEvent)"></p-button>
       </p-toolbar>
 
-      <p-table #usuariosTable [value]="usuarios" [rows]="5" [paginator]="true" [responsive]="true"
+      <p-table #usuariosTable [value]="usuarios" [rows]="5" [paginator]="true"
         [globalFilterFields]="['nome', 'email', 'perfil']" [tableStyle]="{'min-width': '75rem'}" [rowHover]="true"
         [(selection)]="usuarioSelected" [showCurrentPageReport]="true" dataKey="id"
         currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} usuários">
