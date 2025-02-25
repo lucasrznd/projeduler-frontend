@@ -15,7 +15,7 @@
         currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} atividades">
         <ng-template pTemplate="caption">
           <div class="flex justify-content-between align-items-center">
-            <h5 class="m-0">Projetos</h5>
+            <h5 class="m-0">Atividades</h5>
             <div class="p-input-icon-left ml-3">
               <i class="pi pi-search"></i>
               <input pInputText class="w-full" type="text" (input)="onGlobalFilter(atividadesTable, $event)"
@@ -93,19 +93,6 @@
               </div>
             </th>
 
-            <th pSortableColumn="usuarioResponsavel.nome">
-              <div class="flex justify-content-center align-items-center">
-                <div class="flex justify-content-center">
-                  Usuário Responsável
-                </div>
-                <div class="flex justify-content-between align-items-center">
-                  <p-sortIcon field="usuarioResponsavel.nome"></p-sortIcon>
-                  <p-columnFilter type="text" field="usuarioResponsavel.nome" display="menu" matchMode="contains"
-                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
-                </div>
-              </div>
-            </th>
-
             <th *appHasRole="['ADMIN']">
               <div class="flex justify-content-center">
                 Data de Criação
@@ -150,11 +137,6 @@
             <td>
               <div class="flex justify-content-center">
                 <p-tag [value]="atividade.status" [severity]="getAtividadeStatus(atividade.status)"></p-tag>
-              </div>
-            </td>
-            <td>
-              <div class="flex justify-content-center">
-                {{atividade?.usuarioResponsavel.nome}}
               </div>
             </td>
             <td *appHasRole="['ADMIN']">

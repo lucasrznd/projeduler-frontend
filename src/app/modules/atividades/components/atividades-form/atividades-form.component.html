@@ -2,7 +2,7 @@
 <div class="form-container">
   <form [formGroup]="atividadeForm" (ngSubmit)="handleSubmitAtividadeAction()">
     <div class="form-body">
-      <div class="form-field">
+      <div class="form-field full-width">
         <label for="projeto">Projeto</label>
         <span class="p-fluid">
           <p-autoComplete id="projeto" formControlName="projeto" [suggestions]="projetosFiltrados"
@@ -28,6 +28,19 @@
         </small>
       </div>
 
+      <div class="form-field">
+        <label for="status">Status</label>
+        <p-dropdown id="status" [options]="atividadeStatusArray" formControlName="status"
+          placeholder="Selecione um status" optionLabel="label" optionValue="value"
+          [ngClass]="{'ng-invalid ng-dirty': atividadeForm.get('status')?.invalid && atividadeForm.get('status')?.touched}"
+          [styleClass]="'w-full'">
+        </p-dropdown>
+        <small class="error-message"
+          *ngIf="atividadeForm.get('status')?.invalid && atividadeForm.get('status')?.touched">
+          Selecione um status
+        </small>
+      </div>
+
       <div class="form-field full-width">
         <label for="descricao">Descrição</label>
         <textarea id="descricao" formControlName="descricao" rows="5" cols="30" pInputTextarea [autoResize]="true"
@@ -48,36 +61,23 @@
         </span>
       </div>
 
-      <div class="form-field">
-        <label for="status">Status</label>
-        <p-dropdown id="status" [options]="atividadeStatusArray" formControlName="status"
-          placeholder="Selecione um status" optionLabel="label" optionValue="value"
-          [ngClass]="{'ng-invalid ng-dirty': atividadeForm.get('status')?.invalid && atividadeForm.get('status')?.touched}"
-          [styleClass]="'w-full'">
-        </p-dropdown>
-        <small class="error-message"
-          *ngIf="atividadeForm.get('status')?.invalid && atividadeForm.get('status')?.touched">
-          Selecione um status
-        </small>
-      </div>
-
-      <div class="form-field">
-        <label for="usuarioResponsavel">Usuário Responsável</label>
+      <div class="form-field full-width">
+        <label for="usuarios">Usuários</label>
         <span class="p-fluid">
-          <p-autoComplete id="usuarioResponsavel" formControlName="usuarioResponsavel" [suggestions]="usuariosFiltrados"
-            (completeMethod)="filtrarUsuario($event)" field="nome" [forceSelection]="true"
-            placeholder="Digite o nome do responsável"
-            [ngClass]="{'ng-invalid ng-dirty': atividadeForm.get('usuarioResponsavel')?.invalid && atividadeForm.get('usuarioResponsavel')?.touched}"></p-autoComplete>
+          <p-multiSelect [options]="usuariosList" formControlName="usuarios" [filter]="true" optionLabel="nome"
+            display="chip" (onChange)="onChangeUsuario($event)" optionDisabled="true"
+            [ngClass]="{'ng-invalid ng-dirty': atividadeForm.get('usuarios')?.invalid && atividadeForm.get('usuarios')?.touched}"></p-multiSelect>
         </span>
         <small class="error-message"
-          *ngIf="atividadeForm.get('usuarioResponsavel')?.invalid && atividadeForm.get('usuarioResponsavel')?.touched">
-          Usuário Responsavél é obrigatório
+          *ngIf="atividadeForm.get('usuarios')?.invalid && atividadeForm.get('usuarios')?.touched">
+          Selecione ao menos 1 usuário
         </small>
       </div>
     </div>
 
     <div class="form-footer">
-      <p-button type="submit" label="Salvar" [disabled]="!atividadeForm.valid" icon="pi pi-check">
+      <p-button type="submit" label="Salvar"
+        [disabled]="!atividadeForm.valid && atividadeForm.value.usuarios !== undefined" icon="pi pi-check">
       </p-button>
     </div>
   </form>

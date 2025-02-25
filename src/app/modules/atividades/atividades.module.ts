@@ -24,6 +24,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { TagModule } from 'primeng/tag';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CalendarModule } from 'primeng/calendar';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { CalendarModule } from 'primeng/calendar';
     ToolbarModule,
     TagModule,
     AutoCompleteModule,
+    MultiSelectModule,
     InputTextareaModule,
     CalendarModule,
     DynamicDialogModule,

@@ -2,21 +2,29 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
-import { AtividadeService } from 'src/app/services/atividades/atividade.service';
 import { AtividadeEvent } from 'src/app/models/enums/atividades/AtividadeEvent';
-import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventAction';
-import { ProjetoResponse } from 'src/app/models/interfaces/projetos/ProjetoResponse';
-import { ProjetoService } from 'src/app/services/projetos/projeto.service';
-import { DropdownService } from 'src/app/services/dropdown/dropdown.service';
-import { DropdownOption } from 'src/app/models/interfaces/dropdown/DropdownOption';
-import { UsuarioResponse } from 'src/app/models/interfaces/usuarios/UsuarioResponse';
-import { UsuarioService } from 'src/app/services/usuarios/usuario.service';
 import { AtividadeRequest } from 'src/app/models/interfaces/atividades/AtividadeRequest';
 import { AtividadeResponse } from 'src/app/models/interfaces/atividades/AtividadeResponse';
+import { DropdownOption } from 'src/app/models/interfaces/dropdown/DropdownOption';
+import { ProjetoResponse } from 'src/app/models/interfaces/projetos/ProjetoResponse';
+import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventAction';
+import { UsuarioResponse } from 'src/app/models/interfaces/usuarios/UsuarioResponse';
+import { AtividadeService } from 'src/app/services/atividades/atividade.service';
+import { DropdownService } from 'src/app/services/dropdown/dropdown.service';
+import { ProjetoService } from 'src/app/services/projetos/projeto.service';
+import { UsuarioService } from 'src/app/services/usuarios/usuario.service';
 import { parseDate } from 'src/app/shared/utils/date-utils';
 
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { UsuarioAtividadeRequest } from 'src/app/models/interfaces/usuario-atividade/UsuarioAtividadeRequest';
+import { UsuarioAtividadeService } from 'src/app/services/usuario-atividade/usuario-atividade.service';
+
+interface MultiSelectItem {
+  itemValue: object;
+  originalEvent: object;
+  value: [];
+}
 
 @Component({
   selector: 'app-atividades-form',
@@ -31,7 +39,7 @@ export class AtividadesFormComponent implements OnInit, OnDestroy {
   public atividadeStatusArray: Array<DropdownOption> = [];
 
   public usuariosList: Array<UsuarioResponse> = [];
-  public usuariosFiltrados: Array<UsuarioResponse> = [];
+  public usuariosSelecionados: Array<UsuarioResponse> = [];
 
   public addAtividadeAction = AtividadeEvent.ADD_ATIVIDADE_EVENT;
   public editAtividadeAction = AtividadeEvent.EDIT_ATIVIDADE_EVENT;
@@ -48,7 +56,7 @@ export class AtividadesFormComponent implements OnInit, OnDestroy {
     dataInicio: [null as unknown as Date | string],
     dataFim: [null as unknown as Date | string],
     status: ['', Validators.required],
-    usuarioResponsavel: [{ id: 0 }, Validators.required],
+    usuarios: [[] as Array<UsuarioResponse>, Validators.required]
   });
 
   constructor(
@@ -59,7 +67,8 @@ export class AtividadesFormComponent implements OnInit, OnDestroy {
     private atividadeService: AtividadeService,
     private projetoService: ProjetoService,
     private dropdownService: DropdownService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private usuarioAtividadeService: UsuarioAtividadeService
   ) { }
 
   ngOnInit(): void {
@@ -105,6 +114,26 @@ export class AtividadesFormComponent implements OnInit, OnDestroy {
       });
   }
 
+  updateUsuariosFormArray(atividadeId: number) {
+    this.usuarioService.findAllUsuariosByAtividadeId(atividadeId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (response.length > 0) {
+            this.atividadeForm.patchValue({
+              usuarios: response
+            });
+          }
+
+          this.usuariosSelecionados = response;
+        },
+        error: (err) => {
+          console.log(err);
+          this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar os usuários da atividade', life: 2500 });
+        }
+      });
+  }
+
   handleSubmitAtividadeAction(): void {
     if (this.atividadeAction?.event.action === this.addAtividadeAction) {
       this.handleSubmitAddAtividade();
@@ -123,7 +152,6 @@ export class AtividadesFormComponent implements OnInit, OnDestroy {
         dataInicio: this.atividadeForm.value.dataInicio as Date,
         dataFim: this.atividadeForm.value.dataFim as Date,
         status: this.atividadeForm.value.status as string,
-        usuarioResponsavelId: this.atividadeForm.value.usuarioResponsavel?.id as number
       };
 
       this.atividadeService.createAtividade(requestCreateAtividade)
@@ -132,6 +160,17 @@ export class AtividadesFormComponent implements OnInit, OnDestroy {
           next: (response) => {
             if (response) {
               this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Atividade criada com sucesso', life: 2500 });
+              let usuariosAtividades: Array<UsuarioAtividadeRequest> = [];
+
+              this.atividadeForm.value.usuarios?.forEach((usr) => {
+                const requestCreateUsuarioAtividade: UsuarioAtividadeRequest = {
+                  usuarioId: usr.id,
+                  atividadeId: response.id
+                };
+
+                usuariosAtividades.push(requestCreateUsuarioAtividade);
+              })
+              this.addUsuariosNaAtividade(usuariosAtividades);
 
               this.dialogRef.close();
             }
@@ -154,8 +193,7 @@ export class AtividadesFormComponent implements OnInit, OnDestroy {
         descricao: this.atividadeForm.value.descricao as string,
         dataInicio: this.atividadeForm.value.dataInicio as Date,
         dataFim: this.atividadeForm.value.dataFim as Date,
-        status: this.atividadeForm.value.status as string,
-        usuarioResponsavelId: this.atividadeForm.value.usuarioResponsavel?.id as number
+        status: this.atividadeForm.value.status as string
       };
 
       this.atividadeService.editAtividade(atividadeId, requestEditAtividade)
@@ -176,6 +214,89 @@ export class AtividadesFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  onChangeUsuario(ev: MultiSelectItem) {
+    const novaSelecao: Array<UsuarioResponse> = ev.value; // Lista atualizada de selecionados
+    const antigaSelecao = this.usuariosSelecionados; // Lista anterior de selecionados
+
+    const adicionados = novaSelecao.filter(novo => !antigaSelecao.some(antigo => antigo.id === novo.id));
+    const removidos = antigaSelecao.filter(antigo => !novaSelecao.some(novo => novo.id === antigo.id));
+
+    if (adicionados.length === 1) {
+      this.addUsuarioNaAtividade(adicionados[0].id, this.atividadeAction.event.id!);
+    }
+
+    if (adicionados.length > 1) {
+      let usuariosAtividades: Array<UsuarioAtividadeRequest> = [];
+
+      adicionados.forEach((usr) => {
+        const requestCreateUsuarioAtividade: UsuarioAtividadeRequest = {
+          usuarioId: usr.id,
+          atividadeId: this.atividadeAction.event.id!
+        };
+
+        usuariosAtividades.push(requestCreateUsuarioAtividade);
+      })
+
+      this.addUsuariosNaAtividade(usuariosAtividades);
+    }
+
+    if (removidos.length > 0) {
+      this.deleteUsuarioDaAtividade(removidos[0].id, this.atividadeAction.event.id!);
+    }
+
+    // Atualizar a lista anterior com a nova seleção
+    this.usuariosSelecionados = [...novaSelecao];
+  }
+
+  addUsuarioNaAtividade(usuarioId: number, atividadeId: number): void {
+    if (usuarioId && atividadeId) {
+      const requestCreateUsuarioAtividade: UsuarioAtividadeRequest = {
+        usuarioId: usuarioId,
+        atividadeId: atividadeId
+      }
+
+      this.usuarioAtividadeService.addUsuarioNaAtividade(requestCreateUsuarioAtividade)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            if (response) {
+              this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Usuário adicionado com sucesso', life: 2500 });
+            }
+          },
+          error: (err) => {
+            console.log(err);
+            this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao adicionar o usuário na atividade', life: 2500 });
+          }
+        });
+    }
+  }
+
+  addUsuariosNaAtividade(data: Array<UsuarioAtividadeRequest>) {
+    this.usuarioAtividadeService.addUsuariosNaAtividade(data)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (response.length > 0) {
+            this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Usuários adicionados com sucesso', life: 2500 });
+          }
+        }
+      });
+  }
+
+  deleteUsuarioDaAtividade(usuarioId: number, atividadeId: number): void {
+    this.usuarioAtividadeService.deleteUsuarioDaAtividade(usuarioId, atividadeId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Usuário removido com sucesso', life: 2500 });
+        },
+        error: (err) => {
+          console.log(err);
+          this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao remover o usuário da atividade', life: 2500 });
+        }
+      });
+  }
+
   setAtividadeData(atividadeId: number): void {
     const atividadesList: Array<AtividadeResponse> = this.atividadeAction.atividadesList;
 
@@ -183,15 +304,16 @@ export class AtividadesFormComponent implements OnInit, OnDestroy {
       const atividadeFiltrada = atividadesList.filter((atv) => atv.id === atividadeId);
 
       if (atividadeFiltrada) {
-        this.atividadeForm.setValue({
+        this.atividadeForm.patchValue({
           projeto: atividadeFiltrada[0].projeto,
           nome: atividadeFiltrada[0].nome,
           descricao: atividadeFiltrada[0].descricao,
           dataInicio: parseDate(atividadeFiltrada[0].dataInicio.toString()),
           dataFim: parseDate(atividadeFiltrada[0].dataFim.toString()),
-          status: atividadeFiltrada[0].status,
-          usuarioResponsavel: atividadeFiltrada[0].usuarioResponsavel
+          status: atividadeFiltrada[0].status
         });
+
+        this.updateUsuariosFormArray(atividadeId);
       }
     }
   }
@@ -214,7 +336,7 @@ export class AtividadesFormComponent implements OnInit, OnDestroy {
       let filtrados: UsuarioResponse[] = this.usuariosList.filter(e =>
         e.nome.toUpperCase().includes(query.toUpperCase())
       );
-      this.usuariosFiltrados = filtrados;
+      this.usuariosSelecionados = filtrados;
     }
   }
 

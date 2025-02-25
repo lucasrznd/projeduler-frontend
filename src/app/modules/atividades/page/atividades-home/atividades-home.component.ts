@@ -54,7 +54,7 @@ export class AtividadesHomeComponent implements OnInit, OnDestroy {
     if (event) {
       this.ref = this.dialogService.open(AtividadesFormComponent, {
         header: event?.action,
-        width: '45vw',
+        width: '50vw',
         contentStyle: { overflow: 'visible', 'max-height': '80vh' },
         baseZIndex: 10000,
         maximizable: false,
