@@ -28,6 +28,10 @@ export class UsuarioService {
     return this.http.get<Array<UsuarioResponse>>(`${this.API_URL}/projeto/${projetoId}/disponiveis`);
   }
 
+  findAllUsuariosByAtividadeId(atividadeId: number): Observable<Array<UsuarioResponse>> {
+    return this.http.get<Array<UsuarioResponse>>(`${this.API_URL}/atividade/${atividadeId}`);
+  }
+
   createUsuario(data: UsuarioRequest): Observable<UsuarioResponse> {
     return this.http.post<UsuarioResponse>(this.API_URL, data);
   }
