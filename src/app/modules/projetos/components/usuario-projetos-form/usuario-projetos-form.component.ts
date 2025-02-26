@@ -23,6 +23,7 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
   public projetosList: Array<ProjetoResponse> = [];
   public projetosFiltrados: Array<ProjetoResponse> = [];
   public projetoSelecionado!: ProjetoResponse;
+  public usuarioResponsavelSelecionado!: { id: number, nome: string, email: string };
   public usuarioProjetoAction!: {
     event: EventAction
   }
@@ -65,6 +66,34 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  onMoveToTarget(event: any): void {
+    // Usuários adicionados ao projeto
+    const usuariosAdicionados: UsuarioResponse[] = event.items;
+
+    if (usuariosAdicionados.length === 1) {
+      const requests = usuariosAdicionados.map(usuario => ({
+        usuarioId: usuario.id,
+        projetoId: this.projetoSelecionado.id
+      }));
+
+      this.saveUsuarioProjeto(requests[0]);
+    }
+  }
+
+  onMoveToSource(event: any): void {
+    // Usuários removidos do projeto
+    const usuariosRemovidos: UsuarioResponse[] = event.items;
+
+    if (usuariosRemovidos.length === 1) {
+      const requests = usuariosRemovidos.map(usuario => ({
+        usuarioId: usuario.id,
+        projetoId: this.usuarioProjetoAction.event.id as number
+      }));
+
+      this.deleteUsuarioDoProjeto(requests[0].usuarioId, requests[0].projetoId);
+    }
+  }
+
   adicionarUsuario(usuario: UsuarioResponse): void {
     // Remover da lista de disponíveis
     this.usuariosDisponiveis = this.usuariosDisponiveis.filter(u => u.id !== usuario.id);
@@ -97,6 +126,9 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
 
   findUsuariosDisponiveis(projeto?: ProjetoResponse, projetoId?: number): void {
     const idProjeto: number = projeto !== undefined ? projeto.id : projetoId!;
+    if (projeto) {
+      this.usuarioResponsavelSelecionado = projeto.usuarioResponsavel;
+    }
 
     if (idProjeto) {
       this.getUsuariosDatas();
@@ -124,11 +156,11 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: `Usuário ${response.usuario.nome} adicionado com sucesso`, life: 2500 });
+          this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Usuário adicionado com sucesso', life: 2500 });
         },
         error: (err) => {
           console.log(err);
-          this.messageService.add({ severity: 'error', summary: 'Erro', detail: `Ocorreu um erro ao adicionar o usuário ${data.usuarioId} ao projeto.`, life: 2500 });
+          this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao adicionar o usuário ao projeto.', life: 2500 });
         }
       });
   }
@@ -172,6 +204,7 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
 
       if (projetoFiltrado) {
         this.projetoSelecionado = projetoFiltrado[0];
+        this.usuarioResponsavelSelecionado = projetoFiltrado[0].usuarioResponsavel;
       }
     }
   }
