@@ -2,7 +2,7 @@
 <div class="form-container">
   <form [formGroup]="lancamentoHorasForm" (ngSubmit)="handleSubmitLancamentoHoraAction()">
     <div class="form-body">
-      <div class="form-field">
+      <div class="form-field full-width">
         <label for="atividade">Atividade</label>
         <span class="p-fluid">
           <p-autoComplete id="atividade" formControlName="atividade" [suggestions]="atividadesFiltradas"
@@ -28,28 +28,46 @@
       </div>
 
       <div class="form-field">
-        <label for="dataInicio">Data/Hora de Início</label>
+        <label for="dataInicio">Data de Início</label>
         <span class="p-fluid">
           <p-calendar id="dataInicio" formControlName="dataInicio" [showIcon]="true" dateFormat="dd/mm/yy"
-            [showTime]="true"
             [ngClass]="{'ng-invalid ng-dirty': lancamentoHorasForm.get('dataInicio')?.invalid && lancamentoHorasForm.get('dataInicio')?.touched}"></p-calendar>
           <small class="error-message"
             *ngIf="lancamentoHorasForm.get('dataInicio')?.invalid && lancamentoHorasForm.get('dataInicio')?.touched">
-            Selecione uma Data/Hora de Início
+            Selecione uma Data de Início
           </small>
         </span>
       </div>
 
       <div class="form-field">
-        <label for="dataFim">Data/Hora Fim</label>
+        <label for="horarioInicio">Horário de Início</label>
         <span class="p-fluid">
-          <p-calendar id="dataFim" formControlName="dataFim" [showIcon]="true" dateFormat="dd/mm/yy" [showTime]="true"
-            [ngClass]="{'ng-invalid ng-dirty': lancamentoHorasForm.get('dataFim')?.invalid && lancamentoHorasForm.get('dataFim')?.touched}"></p-calendar>
+          <p-calendar id="horarioInicio" formControlName="horarioInicio" [timeOnly]="true"
+            [ngClass]="{'ng-invalid ng-dirty': lancamentoHorasForm.get('horarioInicio')?.invalid && lancamentoHorasForm.get('horarioInicio')?.touched}"
+            (ngModelChange)="onTimeChange($event)"></p-calendar>
           <small class="error-message"
-            *ngIf="lancamentoHorasForm.get('dataFim')?.invalid && lancamentoHorasForm.get('dataFim')?.touched">
-            Selecione uma Data/Hora Fim
+            *ngIf="lancamentoHorasForm.get('horarioInicio')?.invalid && lancamentoHorasForm.get('horarioInicio')?.touched">
+            Selecione o Horário de Início
           </small>
         </span>
+      </div>
+
+      <div class="form-field">
+        <label for="horarioFim">Horário de Término</label>
+        <span class="p-fluid">
+          <p-calendar id="horarioFim" formControlName="horarioFim" [timeOnly]="true"
+            [ngClass]="{'ng-invalid ng-dirty': lancamentoHorasForm.get('horarioFim')?.invalid && lancamentoHorasForm.get('horarioFim')?.touched}"
+            (ngModelChange)="onTimeChange($event)"></p-calendar>
+          <small class="error-message"
+            *ngIf="lancamentoHorasForm.get('horarioFim')?.invalid && lancamentoHorasForm.get('horarioFim')?.touched">
+            Selecione o Horário de Término
+          </small>
+        </span>
+      </div>
+
+      <div class="form-field">
+        <label for="duracao">Duração</label>
+        <input id="duracao" pInputText formControlName="duracao" [readOnly]="true" />
       </div>
     </div>
 

@@ -9,7 +9,7 @@ import { LancamentoHoraResponse } from 'src/app/models/interfaces/lancamento-hor
 import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventAction';
 import { AtividadeService } from 'src/app/services/atividades/atividade.service';
 import { LancamentoHoraService } from 'src/app/services/lancamento-horas/lancamento-hora.service';
-import { parseDate } from 'src/app/shared/utils/date-utils';
+import { calcularDiferencaHora, parseDate } from 'src/app/shared/utils/date-utils';
 
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -25,6 +25,8 @@ export class LancamentoHorasFormComponent implements OnInit, OnDestroy {
   public atividadesList: Array<AtividadeResponse> = [];
   public atividadesFiltradas: Array<AtividadeResponse> = [];
 
+  public previewDuracao!: string;
+
   public addLancamentoHoraAction = LancamentoHoraEvent.ADD_LANCAMENTO_HORA_EVENT;
   public editLancamentoHoraAction = LancamentoHoraEvent.EDIT_LANCAMENTO_HORA_EVENT;
 
@@ -37,7 +39,10 @@ export class LancamentoHorasFormComponent implements OnInit, OnDestroy {
     atividade: [{ id: 0 }, Validators.required],
     descricao: ['', Validators.required],
     dataInicio: [null as unknown as Date | string, Validators.required],
-    dataFim: [null as unknown as Date | string, Validators.required]
+    horarioInicio: [null as unknown as Date | string, Validators.required],
+    horarioFim: [null as unknown as Date | string, Validators.required],
+    duracao: [''],
+    dataFim: [null as unknown as Date]
   });
 
   constructor(
@@ -86,8 +91,8 @@ export class LancamentoHorasFormComponent implements OnInit, OnDestroy {
 
   handleSubmitAddLancamentoHora(): void {
     if (this.lancamentoHorasForm.value && this.lancamentoHorasForm.valid) {
-      const dataInicio = new Date(this.lancamentoHorasForm.value.dataInicio!);
-      const dataFim = new Date(this.lancamentoHorasForm.value.dataFim!);
+      const dataInicio = new Date(this.lancamentoHorasForm.value.horarioInicio!);
+      const dataFim = new Date(this.lancamentoHorasForm.value.horarioFim!);
 
       const requestCreateLancamentoHora: LancamentoHoraRequest = {
         atividadeId: this.lancamentoHorasForm.value.atividade?.id as number,
@@ -117,8 +122,8 @@ export class LancamentoHorasFormComponent implements OnInit, OnDestroy {
   handleSubmitEditLancamentoHora(): void {
     if (this.lancamentoHorasForm.value && this.lancamentoHorasForm.valid && this.lancamentoHorasAction.event.id) {
       const lancamentoHoraId: number = this.lancamentoHorasAction.event.id;
-      const dataInicio = new Date(this.lancamentoHorasForm.value.dataInicio!);
-      const dataFim = new Date(this.lancamentoHorasForm.value.dataFim!);
+      const dataInicio = new Date(this.lancamentoHorasForm.value.horarioInicio!);
+      const dataFim = new Date(this.lancamentoHorasForm.value.horarioFim!);
 
       const requestEditLancamentoHora: LancamentoHoraRequest = {
         atividadeId: this.lancamentoHorasForm.value.atividade?.id as number,
@@ -147,6 +152,17 @@ export class LancamentoHorasFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  onTimeChange(event: Date) {
+    if (event) {
+      const horarioInicio: Date = this.lancamentoHorasForm.value.horarioInicio as Date;
+      const horarioFim: Date = this.lancamentoHorasForm.value.horarioFim as Date;
+
+      this.lancamentoHorasForm.patchValue({
+        duracao: calcularDiferencaHora(horarioInicio, horarioFim)
+      });
+    }
+  }
+
   setLancamentoHoraData(lancamentoHoraId: number): void {
     const lancamentosHorasList: Array<LancamentoHoraResponse> = this.lancamentoHorasAction.lancamentoHorasList;
 
@@ -154,11 +170,13 @@ export class LancamentoHorasFormComponent implements OnInit, OnDestroy {
       const lancamentoFiltrado = lancamentosHorasList.filter((lh) => lh.id === lancamentoHoraId);
 
       if (lancamentoFiltrado) {
-        this.lancamentoHorasForm.setValue({
+        this.lancamentoHorasForm.patchValue({
           atividade: lancamentoFiltrado[0].atividade,
           descricao: lancamentoFiltrado[0].descricao,
           dataInicio: parseDate(lancamentoFiltrado[0].dataInicio.toString()),
-          dataFim: parseDate(lancamentoFiltrado[0].dataFim.toString())
+          horarioInicio: parseDate(lancamentoFiltrado[0].dataInicio.toString()),
+          horarioFim: parseDate(lancamentoFiltrado[0].dataFim.toString()),
+          duracao: calcularDiferencaHora(parseDate(lancamentoFiltrado[0].dataInicio.toString()), parseDate(lancamentoFiltrado[0].dataFim.toString()))
         });
       }
     }
