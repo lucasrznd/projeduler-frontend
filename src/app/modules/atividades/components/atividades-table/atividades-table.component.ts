@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Table } from 'primeng/table';
 import { AtividadeEvent } from 'src/app/models/enums/atividades/AtividadeEvent';
 import { AtividadeResponse } from 'src/app/models/interfaces/atividades/AtividadeResponse';
@@ -10,14 +11,24 @@ import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventActio
   templateUrl: './atividades-table.component.html',
   styleUrls: ['./atividades-table.component.scss']
 })
-export class AtividadesTableComponent {
+export class AtividadesTableComponent implements OnInit {
   @Input() public atividades: Array<AtividadeResponse> = [];
   @Output() atividadeEvent = new EventEmitter<EventAction>();
   @Output() deleteAtividadeEvent = new EventEmitter<DeleteAtividadeAction>();
+  @ViewChild('atividadesTable') dt!: Table;
+  statusSelecionado: string | null = null;
 
   public atividadeSelected!: AtividadeResponse;
   public addAtividadeEvent = AtividadeEvent.ADD_ATIVIDADE_EVENT;
   public editAtividadeEvent = AtividadeEvent.EDIT_ATIVIDADE_EVENT;
+
+  constructor(
+    private route: ActivatedRoute
+  ) { }
+
+  ngOnInit(): void {
+    this.filtrarPorStatus();
+  }
 
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
@@ -31,6 +42,20 @@ export class AtividadesTableComponent {
       'PAUSADA': 'danger'
     };
     return statusMap[status.toUpperCase()] || 'info';
+  }
+
+  filtrarPorStatus(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params['filtro']) {
+        this.statusSelecionado = params['filtro'];
+
+        setTimeout(() => {
+          if (this.dt) {
+            this.dt.filter(this.statusSelecionado, 'status', 'equals');
+          }
+        });
+      }
+    });
   }
 
   handleAtividadeEvent(action: string, id?: number): void {
