@@ -1,0 +1,36 @@
+.user-card {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-radius: 8px;
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  transition: background 0.2s;
+}
+
+.user-card:hover {
+  background: #eef6ff;
+}
+
+.avatar {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #007ad9;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.user-info h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.user-info p {
+  margin: 3px 0 0;
+  color: #555;
+  font-size: 0.9rem;
+}
