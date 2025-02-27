@@ -6,11 +6,11 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 import { ProjetoResponse } from 'src/app/models/interfaces/projetos/ProjetoResponse';
-import { ProjetoService } from 'src/app/services/projetos/projeto.service';
 import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventAction';
+import { ProjetoService } from 'src/app/services/projetos/projeto.service';
+import { ProjetosDataTransferService } from 'src/app/shared/services/projetos/projetos-data-transfer.service';
 import { ProjetosFormComponent } from '../../components/projetos-form/projetos-form.component';
 import { UsuarioProjetosFormComponent } from '../../components/usuario-projetos-form/usuario-projetos-form.component';
-import { ProjetosDataTransferService } from 'src/app/shared/services/projetos/projetos-data-transfer.service';
 
 @Component({
   selector: 'app-projetos-home',

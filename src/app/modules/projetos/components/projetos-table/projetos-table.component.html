@@ -79,8 +79,16 @@
             </th>
 
             <th>
-              <div class="flex justify-content-center">
-                Status
+              <div class="flex justify-content-center align-items-center">
+                <div class="flex justify-content-center">
+                  Status
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <p-columnFilter display="input" type="text" field="status" display="menu" matchMode="contains"
+                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"
+                    [(ngModel)]="statusSelecionado" (ngModelChange)="dt.filter($event, 'status', 'contains')">
+                  </p-columnFilter>
+                </div>
               </div>
             </th>
 

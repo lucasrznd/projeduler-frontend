@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 
 import { ProjetoEvent } from 'src/app/models/enums/projetos/ProjetoEvent';
 import { DeleteProjetoAction } from 'src/app/models/interfaces/projetos/event/DeleteProjetoAction';
 import { ProjetoResponse } from 'src/app/models/interfaces/projetos/ProjetoResponse';
 import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventAction';
 
+import { ActivatedRoute } from '@angular/router';
 import { Table } from 'primeng/table';
 
 @Component({
@@ -12,11 +13,13 @@ import { Table } from 'primeng/table';
   templateUrl: './projetos-table.component.html',
   styleUrls: ['./projetos-table.component.scss']
 })
-export class ProjetosTableComponent {
+export class ProjetosTableComponent implements OnInit {
   @Input() public projetos: Array<ProjetoResponse> = [];
   @Output() projetoEvent = new EventEmitter<EventAction>();
   @Output() usuarioProjetoEvent = new EventEmitter<EventAction>();
   @Output() deleteProjetoEvent = new EventEmitter<DeleteProjetoAction>();
+  @ViewChild('projetosTable') dt!: Table;
+  statusSelecionado: string | null = null;
 
   public projetoSelected!: ProjetoResponse;
   public addProjetoEvent = ProjetoEvent.ADD_PROJETO_EVENT;
@@ -24,7 +27,13 @@ export class ProjetosTableComponent {
   public editUsuarioProjetoEvent = ProjetoEvent.EDIT_USUARIO_PROJETO_EVENT;
   public editProjetoEvent = ProjetoEvent.EDIT_PROJETO_EVENT;
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute
+  ) { }
+
+  ngOnInit(): void {
+    this.filtrarPorStatus();
+  }
 
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
@@ -47,6 +56,20 @@ export class ProjetosTableComponent {
       'BAIXA': 'info',
     };
     return priorityMap[prioridade.toUpperCase()] || 'info';
+  }
+
+  filtrarPorStatus(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params['filtro']) {
+        this.statusSelecionado = params['filtro'];
+
+        setTimeout(() => {
+          if (this.dt) {
+            this.dt.filter(this.statusSelecionado, 'status', 'equals');
+          }
+        });
+      }
+    });
   }
 
   handleProjetoEvent(action: string, id?: number): void {
