@@ -101,7 +101,13 @@
               </div>
             </th>
 
-            <th pSortableColumn="dataRegistro">
+            <th>
+              <div class="flex justify-content-center">
+                Duração
+              </div>
+            </th>
+
+            <th pSortableColumn="dataRegistro" *appHasRole="['ADMIN']">
               <div class="flex justify-content-center align-items-center">
                 <div class="flex justify-content-center">
                   Data de Registro
@@ -159,6 +165,12 @@
             </td>
 
             <td>
+              <div class="flex justify-content-center">
+                {{calcularDiferencaHora(lancamentoHora?.dataInicio, lancamentoHora?.dataFim)}}
+              </div>
+            </td>
+
+            <td *appHasRole="['ADMIN']">
               <div class="flex justify-content-center">
                 {{lancamentoHora?.dataRegistro | date: 'dd/MM/yyyy HH:mm:ss'}}
               </div>

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { calcularDiferencaHora } from 'src/app/shared/utils/date-utils';
 
 import { LancamentoHoraEvent } from 'src/app/models/enums/lancamento-horas/LancamentoHoraEvent';
 import { DeleteLancamentoHoraAction } from 'src/app/models/interfaces/lancamento-horas/event/DeleteLancamentoHoraAction';
@@ -37,5 +38,9 @@ export class LancamentoHorasTableComponent {
     if (id !== undefined && nomeAtividade !== '') {
       this.deleteLancamentoHoraEvent.emit({ id, nomeAtividade });
     }
+  }
+
+  calcularDiferencaHora(horarioInicio: Date | null, horarioFinal: Date | null): string {
+    return calcularDiferencaHora(horarioInicio, horarioFinal);
   }
 }
