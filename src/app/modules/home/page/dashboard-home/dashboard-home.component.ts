@@ -4,7 +4,6 @@ import { Subject, takeUntil } from 'rxjs';
 import { LancamentoHoraEvent } from 'src/app/models/enums/lancamento-horas/LancamentoHoraEvent';
 import { DashboardMetricaAdmin } from 'src/app/models/interfaces/dashboard/DashboardMetricaAdmin';
 import { DashboardMetricaGeral } from 'src/app/models/interfaces/dashboard/DashboardMetricaGeral';
-import { UsuariosAtivos } from 'src/app/models/interfaces/dashboard/UsuariosAtivos';
 import { LancamentoHoraResponse } from 'src/app/models/interfaces/lancamento-horas/LancamentoHoraResponse';
 import { LancamentoHorasFormComponent } from 'src/app/modules/lancamento-horas/components/lancamento-horas-form/lancamento-horas-form.component';
 import { DashboardService } from 'src/app/services/dashboard/dashboard.service';
@@ -28,7 +27,6 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
 
   public dashboardMetricaGeral!: DashboardMetricaGeral;
   public dashboardMetricasAdmin!: DashboardMetricaAdmin;
-  public usuariosAtivos!: UsuariosAtivos;
   public lancamentosHoras: Array<LancamentoHoraResponse> = [];
 
   constructor(
@@ -42,7 +40,6 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     this.getDashboardMetricaGeral();
     this.getUltimosCincoLancamentos();
     this.getDashboardMetricasAdmin();
-    this.getDashboardUsuariosAtivos();
   }
 
   getDashboardMetricaGeral(): void {
@@ -68,19 +65,6 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
         error: (err) => {
           console.log(err);
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar as métricas', life: 2500 });
-        }
-      });
-  }
-
-  getDashboardUsuariosAtivos(): void {
-    this.dashboardService.getDashboardUsuariosAtivos()
-      .subscribe({
-        next: (response) => {
-          this.usuariosAtivos = response;
-        },
-        error: (err) => {
-          console.log(err);
-          this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar os usuários ativos', life: 2500 });
         }
       });
   }
