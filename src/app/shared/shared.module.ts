@@ -1,16 +1,17 @@
-import { NgModule } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { ToolbarModule } from 'primeng/toolbar';
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
-import { DialogService } from 'primeng/dynamicdialog';
-import { ToolbarNavigationComponent } from './components/toolbar-navigation/toolbar-navigation.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { ShortenPipe } from './pipes/shorten/shorten.pipe';
+import { ToolbarNavigationComponent } from './components/toolbar-navigation/toolbar-navigation.component';
 import { HasRoleDirective } from './directives/has-role.directive';
+import { ShortenPipe } from './pipes/shorten/shorten.pipe';
+
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { DialogService } from 'primeng/dynamicdialog';
+import { ToolbarModule } from 'primeng/toolbar';
 
 @NgModule({
   declarations: [
