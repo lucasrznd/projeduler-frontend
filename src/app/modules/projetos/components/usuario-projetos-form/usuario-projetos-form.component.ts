@@ -8,7 +8,6 @@ import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventActio
 import { UsuarioResponse } from 'src/app/models/interfaces/usuarios/UsuarioResponse';
 import { UsuarioProjetoService } from 'src/app/services/usuario-projeto/usuario-projeto.service';
 import { UsuarioService } from 'src/app/services/usuarios/usuario.service';
-import { UsuariosDataTransferService } from 'src/app/shared/services/usuarios/usuarios-data-transfer.service';
 
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
@@ -36,7 +35,6 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
   public editUsuarioProjetoEvent = ProjetoEvent.EDIT_USUARIO_PROJETO_EVENT;
 
   constructor(
-    private usuariosDtTransfer: UsuariosDataTransferService,
     private usuarioProjetoService: UsuarioProjetoService,
     private usuarioService: UsuarioService,
     private authService: AuthService,
@@ -55,11 +53,19 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
   }
 
   getUsuariosDatas(): void {
-    const usuariosCarregados = this.usuariosDtTransfer.getUsuarioData();
-
-    if (usuariosCarregados.length > 0) {
-      this.usuariosDisponiveis = usuariosCarregados;
-    }
+    this.usuarioService.getAllUsuarios()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (response) => {
+        if (response.length > 0) {
+          this.usuariosDisponiveis = response;
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar os usuários', life: 2500 });
+      }
+    });
   }
 
   getProjetosDatas(): void {

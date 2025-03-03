@@ -3,19 +3,18 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
 import { ProjetoEvent } from 'src/app/models/enums/projetos/ProjetoEvent';
-import { ProjetoService } from 'src/app/services/projetos/projeto.service';
-import { UsuarioResponse } from 'src/app/models/interfaces/usuarios/UsuarioResponse';
-import { UsuarioService } from 'src/app/services/usuarios/usuario.service';
-import { ProjetoRequest } from 'src/app/models/interfaces/projetos/ProjetoRequest';
-import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventAction';
-import { ProjetoResponse } from 'src/app/models/interfaces/projetos/ProjetoResponse';
-import { DropdownService } from 'src/app/services/dropdown/dropdown.service';
 import { DropdownOption } from 'src/app/models/interfaces/dropdown/DropdownOption';
+import { ProjetoRequest } from 'src/app/models/interfaces/projetos/ProjetoRequest';
+import { ProjetoResponse } from 'src/app/models/interfaces/projetos/ProjetoResponse';
+import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventAction';
+import { UsuarioResponse } from 'src/app/models/interfaces/usuarios/UsuarioResponse';
+import { DropdownService } from 'src/app/services/dropdown/dropdown.service';
+import { ProjetoService } from 'src/app/services/projetos/projeto.service';
+import { UsuarioService } from 'src/app/services/usuarios/usuario.service';
 import { parseDate } from 'src/app/shared/utils/date-utils';
 
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { UsuariosDataTransferService } from 'src/app/shared/services/usuarios/usuarios-data-transfer.service';
 
 @Component({
   selector: 'app-projetos-form',
@@ -55,7 +54,6 @@ export class ProjetosFormComponent implements OnInit, OnDestroy {
     private projetoService: ProjetoService,
     private usuarioService: UsuarioService,
     private dropdownService: DropdownService,
-    private usuariosDtService: UsuariosDataTransferService
   ) { }
 
   ngOnInit(): void {
@@ -77,7 +75,6 @@ export class ProjetosFormComponent implements OnInit, OnDestroy {
         next: (response) => {
           if (response.length > 0) {
             this.usuarios = response;
-            this.usuariosDtService.setUsuarioData(this.usuarios);
           }
         },
         error: () => {
