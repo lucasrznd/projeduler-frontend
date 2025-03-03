@@ -4,4 +4,8 @@ export interface DashboardMetricaAdmin {
   projetosPlanejados: number;
   projetosEmAndamento: number;
   projetosConcluidos: number;
+  atividadesAbertas: number;
+  atividadesEmAndamento: number;
+  atividadesConcluidas: number;
+  atividadesPausadas: number;
 }

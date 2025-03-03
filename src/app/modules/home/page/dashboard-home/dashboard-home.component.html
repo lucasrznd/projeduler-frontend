@@ -85,8 +85,11 @@
         </div>
 
         <ng-template pTemplate="footer">
-          <a pButton label="Histórico" icon="pi pi-plus" class="p-button-text p-button-sm no-underline"
+          <a pButton label="Histórico" icon="pi pi-history" class="p-button-text p-button-sm no-underline"
             [routerLink]="['/lancamento-horas']"></a>
+
+          <p-button label="Novo Lançamento" icon="pi pi-plus-circle" styleClass="p-button-text p-button-sm"
+            (click)="handleNovoLancamento()"></p-button>
         </ng-template>
       </p-card>
     </div>
@@ -117,7 +120,7 @@
   <div class="grid mt-3">
     <div class="col-12 lg:col-6">
       <p-card header="Últimos Lançamentos" styleClass="shadow-2 border-round-lg">
-        <p-table [value]="lancamentosHoras" [rows]="5" [paginator]="true" styleClass="p-datatable-sm">
+        <p-table [value]="lancamentosHoras" [rows]="5" styleClass="p-datatable-sm">
           <ng-template pTemplate="header">
             <tr>
               <th>
@@ -142,12 +145,24 @@
           </ng-template>
           <ng-template pTemplate="body" let-lancamentoHora>
             <tr>
-              <td>{{lancamentoHora?.atividade.nome | shorten: 25}}</td>
-              <td>{{lancamentoHora?.atividade.projeto.nome | shorten: 25}}</td>
-              <td>{{lancamentoHora?.usuario.nome}}</td>
-              <td>{{lancamentoHora?.descricao | shorten: 25}}</td>
-              <td>{{lancamentoHora?.dataInicio | date: 'dd/MM/yyyy HH:mm'}}</td>
-              <td>{{lancamentoHora?.dataFim | date: 'dd/MM/yyyy HH:mm'}}</td>
+              <td>
+                <div class="flex justify-content-center"> {{lancamentoHora?.atividade.nome | shorten: 25}}</div>
+              </td>
+              <td>
+                <div class="flex justify-content-center"> {{lancamentoHora?.atividade.projeto.nome | shorten: 25}}</div>
+              </td>
+              <td>
+                <div class="flex justify-content-center"> {{lancamentoHora?.usuario.nome}}</div>
+              </td>
+              <td>
+                <div class="flex justify-content-center"> {{lancamentoHora?.descricao | shorten: 25}}</div>
+              </td>
+              <td>
+                <div class="flex justify-content-center">{{lancamentoHora?.dataInicio | date: 'dd/MM/yy HH:mm'}}</div>
+              </td>
+              <td>
+                <div class="flex justify-content-center">{{lancamentoHora?.dataFim | date: 'dd/MM/yy HH:mm'}}</div>
+              </td>
             </tr>
           </ng-template>
         </p-table>
@@ -178,7 +193,7 @@
             </div>
           </div>
 
-          <!-- Project Status -->
+          <!-- Status de Projetos -->
           <div class="col-12 mt-3">
             <h4 class="mb-2">Status de Projetos</h4>
             <div class="flex justify-content-between">
@@ -195,28 +210,34 @@
                 <span class="text-xs text-600">Concluídos</span>
                 <span class="text-lg font-semibold text-green-600">{{dashboardMetricasAdmin.projetosConcluidos}}</span>
               </div>
+              <div *ngIf="dashboardMetricasAdmin; else loading" class="flex flex-column align-items-center">
+                <span class="text-xs text-600">Cancelados</span>
+                <span class="text-lg font-semibold text-red-600">{{dashboardMetricasAdmin.projetosConcluidos}}</span>
+              </div>
             </div>
           </div>
 
-          <!-- Inactive Users Alert -->
-          <div *ngIf="usuariosAtivos; else loading" class="col-12">
-            <div class="bg-white border-round-lg">
-              <h4 class="text-primary mb-2">
-                <i class="pi pi-users mr-2"></i>
-                {{ usuariosAtivos.quantidade }} Usuário(s) Ativo(s)
-              </h4>
-
-              <div class="grid">
-                <div *ngFor="let usuario of usuariosAtivos.usuariosAtivos" class="col-12 md:col-6 lg:col-4">
-                  <div class="user-card">
-                    <div class="avatar">
-                      <i class="pi pi-user text-white text-2xl"></i>
-                    </div>
-                    <div class="user-info">
-                      <p>{{ usuario.email }}</p>
-                    </div>
-                  </div>
-                </div>
+          <!-- Status de Atividades -->
+          <div class="col-12 mt-3">
+            <h4 class="mb-2">Status de Atividades</h4>
+            <div class="flex justify-content-between">
+              <div *ngIf="dashboardMetricasAdmin; else loading" class="flex flex-column align-items-center">
+                <span class="text-xs text-600">Abertas</span>
+                <span class="text-lg font-semibold text-blue-600">{{dashboardMetricasAdmin.atividadesAbertas}}</span>
+              </div>
+              <div *ngIf="dashboardMetricasAdmin; else loading" class="flex flex-column align-items-center">
+                <span class="text-xs text-600">Em Andamento</span>
+                <span
+                  class="text-lg font-semibold text-orange-600">{{dashboardMetricasAdmin.atividadesEmAndamento}}</span>
+              </div>
+              <div *ngIf="dashboardMetricasAdmin; else loading" class="flex flex-column align-items-center">
+                <span class="text-xs text-600">Concluídas</span>
+                <span
+                  class="text-lg font-semibold text-green-600">{{dashboardMetricasAdmin.atividadesConcluidas}}</span>
+              </div>
+              <div *ngIf="dashboardMetricasAdmin; else loading" class="flex flex-column align-items-center">
+                <span class="text-xs text-600">Pausadas</span>
+                <span class="text-lg font-semibold text-red-600">{{dashboardMetricasAdmin.atividadesPausadas}}</span>
               </div>
             </div>
           </div>

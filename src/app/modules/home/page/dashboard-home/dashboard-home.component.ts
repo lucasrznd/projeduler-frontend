@@ -1,12 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
+
+import { LancamentoHoraEvent } from 'src/app/models/enums/lancamento-horas/LancamentoHoraEvent';
 import { DashboardMetricaAdmin } from 'src/app/models/interfaces/dashboard/DashboardMetricaAdmin';
 import { DashboardMetricaGeral } from 'src/app/models/interfaces/dashboard/DashboardMetricaGeral';
 import { UsuariosAtivos } from 'src/app/models/interfaces/dashboard/UsuariosAtivos';
 import { LancamentoHoraResponse } from 'src/app/models/interfaces/lancamento-horas/LancamentoHoraResponse';
+import { LancamentoHorasFormComponent } from 'src/app/modules/lancamento-horas/components/lancamento-horas-form/lancamento-horas-form.component';
 import { DashboardService } from 'src/app/services/dashboard/dashboard.service';
 import { LancamentoHoraService } from 'src/app/services/lancamento-horas/lancamento-hora.service';
+
+import { MessageService } from 'primeng/api';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-dashboard-home',
@@ -15,6 +20,7 @@ import { LancamentoHoraService } from 'src/app/services/lancamento-horas/lancame
 })
 export class DashboardHomeComponent implements OnInit, OnDestroy {
   private readonly destroy$: Subject<void> = new Subject();
+  private ref!: DynamicDialogRef;
 
   public dashboardMetricaGeral!: DashboardMetricaGeral;
   public dashboardMetricasAdmin!: DashboardMetricaAdmin;
@@ -24,12 +30,14 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
   constructor(
     private dashboardService: DashboardService,
     private lancamentoHoraService: LancamentoHoraService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private dialogService: DialogService
   ) { }
 
   ngOnInit(): void {
+    this.messageService.add({ severity: 'info', summary: 'Teste', detail: 'Toast funcionando?', life: 2500 });
     this.getDashboardMetricaGeral();
-    this.getAllLancamentoHoras();
+    this.getUltimosCincoLancamentos();
     this.getDashboardMetricasAdmin();
     this.getDashboardUsuariosAtivos();
   }
@@ -74,8 +82,8 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
       });
   }
 
-  getAllLancamentoHoras(): void {
-    this.lancamentoHoraService.getAllLancamentosHoras()
+  getUltimosCincoLancamentos(): void {
+    this.lancamentoHoraService.getUltimosCinco()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
@@ -86,6 +94,31 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
         error: (err) => {
           console.log(err);
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar os lançamentos', life: 2500 });
+        }
+      });
+  }
+
+  handleNovoLancamento(): void {
+    const addLancamentoHoraAction = LancamentoHoraEvent.ADD_LANCAMENTO_HORA_EVENT;
+
+    this.ref = this.dialogService.open(LancamentoHorasFormComponent, {
+      header: addLancamentoHoraAction,
+      width: '45vw',
+      contentStyle: { overflow: 'visible', 'max-height': '80vh' },
+      baseZIndex: 10000,
+      maximizable: false,
+      data: {
+        event: { action: addLancamentoHoraAction }
+      }
+    });
+
+    this.ref.onClose
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.getUltimosCincoLancamentos();
+          this.getDashboardMetricaGeral();
+          this.getDashboardMetricasAdmin();
         }
       });
   }
