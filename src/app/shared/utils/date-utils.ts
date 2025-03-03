@@ -47,7 +47,7 @@ export function calcularDiferencaHora(horarioInicio: Date | null, horarioFinal: 
 
   // Diferença negativa
   if (diffMs < 0 && (horas !== 0 || minutos !== 0)) {
-    return `-${horaFormatada}:${minutoFormatado}`;
+    return '00:00';
   }
 
   return `${horaFormatada}:${minutoFormatado}`;
