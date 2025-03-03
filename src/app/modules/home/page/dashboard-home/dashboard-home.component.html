@@ -28,6 +28,9 @@
         <ng-template pTemplate="footer">
           <a pButton label="Ver Detalhes" icon="pi pi-arrow-right" class="p-button-text p-button-sm no-underline"
             [routerLink]="['/projetos']" [queryParams]="{ filtro: 'Em Andamento' }"></a>
+
+          <p-button label="Novo Projeto" icon="pi pi-plus-circle" styleClass="p-button-text p-button-sm"
+            (click)="handleCreateNovoProjeto()" *appHasRole="['ADMIN']"></p-button>
         </ng-template>
       </p-card>
     </div>
@@ -50,6 +53,9 @@
         <ng-template pTemplate="footer">
           <a pButton label="Ver Todas" icon="pi pi-arrow-right" class="p-button-text p-button-sm no-underline"
             [routerLink]="['/atividades']" [queryParams]="{ filtro: 'Aberta' }"></a>
+
+          <p-button label="Nova Atividade" icon="pi pi-plus-circle" styleClass="p-button-text p-button-sm"
+            (click)="handleCreateNovaAtividade()" *appHasRole="['ADMIN']"></p-button>
         </ng-template>
       </p-card>
     </div>
@@ -89,7 +95,7 @@
             [routerLink]="['/lancamento-horas']"></a>
 
           <p-button label="Novo Lançamento" icon="pi pi-plus-circle" styleClass="p-button-text p-button-sm"
-            (click)="handleNovoLancamento()"></p-button>
+            (click)="handleCreateNovoLancamento()"></p-button>
         </ng-template>
       </p-card>
     </div>
@@ -130,10 +136,10 @@
                 <div class="flex justify-content-center">Projeto</div>
               </th>
               <th>
-                <div class="flex justify-content-center">Usuário</div>
+                <div class="flex justify-content-center">Descrição</div>
               </th>
               <th>
-                <div class="flex justify-content-center">Descrição</div>
+                <div class="flex justify-content-center">Usuário</div>
               </th>
               <th>
                 <div class="flex justify-content-center">Data de Início</div>
@@ -145,17 +151,17 @@
           </ng-template>
           <ng-template pTemplate="body" let-lancamentoHora>
             <tr>
-              <td>
+              <td [pTooltip]="lancamentoHora?.atividade.nome" tooltipPosition="top">
                 <div class="flex justify-content-center"> {{lancamentoHora?.atividade.nome | shorten: 25}}</div>
               </td>
-              <td>
+              <td [pTooltip]="lancamentoHora?.atividade.projeto.nome" tooltipPosition="top">
                 <div class="flex justify-content-center"> {{lancamentoHora?.atividade.projeto.nome | shorten: 25}}</div>
+              </td>
+              <td [pTooltip]="lancamentoHora?.descricao" tooltipPosition="top">
+                <div class="flex justify-content-center"> {{lancamentoHora?.descricao | shorten: 25}}</div>
               </td>
               <td>
                 <div class="flex justify-content-center"> {{lancamentoHora?.usuario.nome}}</div>
-              </td>
-              <td>
-                <div class="flex justify-content-center"> {{lancamentoHora?.descricao | shorten: 25}}</div>
               </td>
               <td>
                 <div class="flex justify-content-center">{{lancamentoHora?.dataInicio | date: 'dd/MM/yy HH:mm'}}</div>
@@ -183,13 +189,13 @@
             </div>
           </div>
 
-          <!-- Avg Hours -->
+          <!-- Média de horas por usuário -->
           <div class="col-6">
             <div *ngIf="dashboardMetricasAdmin; else loading"
               class="flex flex-column align-items-center border-round bg-green-50 p-3">
               <i class="pi pi-chart-bar text-green-500 text-3xl mb-2"></i>
               <h2 class="text-xl font-bold text-green-700">{{dashboardMetricasAdmin.mediaHoraPorUsuario}}</h2>
-              <p class="text-sm text-600 text-center">Avg Hours/User</p>
+              <p class="text-sm text-600 text-center">Média Horas Lançadas/Usuário</p>
             </div>
           </div>
 

@@ -20,6 +20,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SidebarModule } from 'primeng/sidebar';
 import { TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { ToolbarModule } from 'primeng/toolbar';
     DropdownModule,
     ProgressSpinnerModule,
     CardModule,
+    TooltipModule,
     ChartModule,
     // Shared
     SharedModule

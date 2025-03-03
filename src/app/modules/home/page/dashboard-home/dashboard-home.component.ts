@@ -12,6 +12,10 @@ import { LancamentoHoraService } from 'src/app/services/lancamento-horas/lancame
 
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { AtividadeEvent } from 'src/app/models/enums/atividades/AtividadeEvent';
+import { ProjetoEvent } from 'src/app/models/enums/projetos/ProjetoEvent';
+import { AtividadesFormComponent } from 'src/app/modules/atividades/components/atividades-form/atividades-form.component';
+import { ProjetosFormComponent } from 'src/app/modules/projetos/components/projetos-form/projetos-form.component';
 
 @Component({
   selector: 'app-dashboard-home',
@@ -35,7 +39,6 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.messageService.add({ severity: 'info', summary: 'Teste', detail: 'Toast funcionando?', life: 2500 });
     this.getDashboardMetricaGeral();
     this.getUltimosCincoLancamentos();
     this.getDashboardMetricasAdmin();
@@ -98,7 +101,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
       });
   }
 
-  handleNovoLancamento(): void {
+  handleCreateNovoLancamento(): void {
     const addLancamentoHoraAction = LancamentoHoraEvent.ADD_LANCAMENTO_HORA_EVENT;
 
     this.ref = this.dialogService.open(LancamentoHorasFormComponent, {
@@ -117,6 +120,54 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.getUltimosCincoLancamentos();
+          this.getDashboardMetricaGeral();
+          this.getDashboardMetricasAdmin();
+        }
+      });
+  }
+
+  handleCreateNovoProjeto(): void {
+    const addNovoProjetoAction = ProjetoEvent.ADD_PROJETO_EVENT
+
+    this.ref = this.dialogService.open(ProjetosFormComponent, {
+      header: addNovoProjetoAction,
+      width: '45vw',
+      contentStyle: { overflow: 'visible', 'max-height': '80vh' },
+      baseZIndex: 10000,
+      maximizable: false,
+      data: {
+        event: { action: addNovoProjetoAction }
+      }
+    });
+
+    this.ref.onClose
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.getDashboardMetricaGeral();
+          this.getDashboardMetricasAdmin();
+        }
+      });
+  }
+
+  handleCreateNovaAtividade(): void {
+    const addNovaAtividadeAction = AtividadeEvent.ADD_ATIVIDADE_EVENT;
+
+    this.ref = this.dialogService.open(AtividadesFormComponent, {
+      header: addNovaAtividadeAction,
+      width: '50vw',
+      contentStyle: { overflow: 'visible', 'max-height': '80vh' },
+      baseZIndex: 10000,
+      maximizable: false,
+      data: {
+        event: { action: addNovaAtividadeAction }
+      }
+    });
+
+    this.ref.onClose
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
           this.getDashboardMetricaGeral();
           this.getDashboardMetricasAdmin();
         }
