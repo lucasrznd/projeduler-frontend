@@ -12,6 +12,7 @@ import { UsuariosDataTransferService } from 'src/app/shared/services/usuarios/us
 
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-usuario-projetos-form',
@@ -29,6 +30,7 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
   }
   public usuariosDisponiveis: Array<UsuarioResponse> = [];
   public usuariosDoProjeto: Array<UsuarioResponse> = [];
+  public pickListEditavel: boolean = true;
 
   public addUsuarioProjetoEvent = ProjetoEvent.ADD_USUARIO_PROJETO_EVENT;
   public editUsuarioProjetoEvent = ProjetoEvent.EDIT_USUARIO_PROJETO_EVENT;
@@ -37,6 +39,7 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
     private usuariosDtTransfer: UsuariosDataTransferService,
     private usuarioProjetoService: UsuarioProjetoService,
     private usuarioService: UsuarioService,
+    private authService: AuthService,
     private messageService: MessageService,
     private ref: DynamicDialogConfig,
   ) { }
@@ -44,6 +47,7 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.usuarioProjetoAction = this.ref.data;
     this.getProjetosDatas();
+    this.hasRole();
 
     if (this.usuarioProjetoAction.event.action === this.editUsuarioProjetoEvent && this.usuarioProjetoAction.event.id !== null || undefined) {
       this.setUsuarioProjetoData(this.usuarioProjetoAction.event.id!);
@@ -64,6 +68,17 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
     if (projetosCarregados.length > 0) {
       this.projetosList = projetosCarregados;
     }
+  }
+
+  hasRole(): void {
+    const requiredRoles = ['ADMIN'];
+    const hasRole = this.authService.hasRole(requiredRoles);
+
+    if (!hasRole) {
+      this.pickListEditavel = true;
+      return;
+    }
+    this.pickListEditavel = false;
   }
 
   onMoveToTarget(event: any): void {

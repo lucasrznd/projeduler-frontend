@@ -23,10 +23,10 @@
 
       <div class="form-field full-width">
         <p-pickList [source]=" usuariosDisponiveis" [target]="usuariosDoProjeto" sourceHeader="Disponíveis"
-          targetHeader="Equipe do Projeto" [dragdrop]="true" [responsive]="true" [sourceStyle]="{ height: '20rem' }"
-          [targetStyle]="{ height: '20rem' }" filterBy="nome" sourceFilterPlaceholder="Buscar por nome"
-          targetFilterPlaceholder="Buscar por nome" breakpoint="1400px" (onMoveToSource)="onMoveToSource($event)"
-          (onMoveToTarget)="onMoveToTarget($event)">
+          [disabled]="pickListEditavel" targetHeader="Equipe do Projeto" [dragdrop]="true" [responsive]="true"
+          [sourceStyle]="{ height: '20rem' }" [targetStyle]="{ height: '20rem' }" filterBy="nome"
+          sourceFilterPlaceholder="Buscar por nome" targetFilterPlaceholder="Buscar por nome" breakpoint="1400px"
+          (onMoveToSource)="onMoveToSource($event)" (onMoveToTarget)="onMoveToTarget($event)">
           <ng-template let-usuario pTemplate="item">
             <div class="flex flex-wrap p-2 align-items-center gap-3">
               <div class="flex-1 flex flex-column gap-2">
