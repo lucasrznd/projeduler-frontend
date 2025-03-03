@@ -240,7 +240,7 @@ export class AtividadesFormComponent implements OnInit, OnDestroy {
       this.addUsuariosNaAtividade(usuariosAtividades);
     }
 
-    if (removidos.length > 0) {
+    if (this.atividadeAction.event.action === this.editAtividadeAction && removidos.length > 0) {
       this.deleteUsuarioDaAtividade(removidos[0].id, this.atividadeAction.event.id!);
     }
 
