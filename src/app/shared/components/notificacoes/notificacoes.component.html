@@ -1,0 +1,27 @@
+<p-overlayPanel #op>
+  <ng-template pTemplate="content">
+    <div class="notification-header">
+      <h3>Notificações</h3>
+    </div>
+    <div class="notification-list">
+      <div *ngIf="notificacoes.length === 0" class="empty-state">
+        <i class="pi pi-inbox"></i>
+        <p>Sem novas notificações</p>
+      </div>
+
+      <div *ngFor="let notificacao of notificacoes" class="notification-item"
+        (click)="marcarComoLida(notificacao)">
+        <i class="pi pi-folder"></i>
+        <div class="notification-content">
+          <p>{{ notificacao.mensagem }}</p>
+          <small>{{ notificacao.dataCriacao | date: 'dd/MM/yyyy HH:mm:ss' }}</small>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<div class="notification-badge" (click)="op.toggle($event)">
+  <i class="pi pi-bell"></i>
+  <span *ngIf="contadorNotificacoes > 0" class="badge">{{ contadorNotificacoes }}</span>
+</div>
