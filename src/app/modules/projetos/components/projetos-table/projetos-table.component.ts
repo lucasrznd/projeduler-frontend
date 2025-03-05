@@ -60,8 +60,8 @@ export class ProjetosTableComponent implements OnInit {
 
   filtrarPorStatus(): void {
     this.route.queryParams.subscribe(params => {
-      if (params['filtro']) {
-        this.statusSelecionado = params['filtro'];
+      if (params['status']) {
+        this.statusSelecionado = params['status'];
 
         setTimeout(() => {
           if (this.dt) {

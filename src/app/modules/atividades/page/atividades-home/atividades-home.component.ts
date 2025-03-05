@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 
 import { AtividadeService } from 'src/app/services/atividades/atividade.service';
@@ -26,11 +26,18 @@ export class AtividadesHomeComponent implements OnInit, OnDestroy {
     private dialogService: DialogService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.getAllAtividades();
+    this.route.queryParams.subscribe(params => {
+      if (params['filtro']) {
+        this.getAllAtividadesAtrasadas();
+        return;
+      }
+      this.getAllAtividades();
+    });
   }
 
   getAllAtividades(): void {
@@ -102,6 +109,23 @@ export class AtividadesHomeComponent implements OnInit, OnDestroy {
           }
         });
     }
+  }
+
+  getAllAtividadesAtrasadas(): void {
+    this.atividadeService.getAllAtividadesAtrasadas()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (response.length > 0) {
+            this.atividadesList = response;
+          }
+        },
+        error: (err) => {
+          console.log(err);
+          this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar atividades atrasadas', life: 2500 });
+          this.router.navigate(['/home']);
+        }
+      });
   }
 
   ngOnDestroy(): void {

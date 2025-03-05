@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Table } from 'primeng/table';
+
 import { AtividadeEvent } from 'src/app/models/enums/atividades/AtividadeEvent';
 import { AtividadeResponse } from 'src/app/models/interfaces/atividades/AtividadeResponse';
 import { DeleteAtividadeAction } from 'src/app/models/interfaces/atividades/event/DeleteAtividadeAction';
 import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventAction';
 
+import { Table } from 'primeng/table';
 @Component({
   selector: 'app-atividades-table',
   templateUrl: './atividades-table.component.html',
@@ -46,8 +47,8 @@ export class AtividadesTableComponent implements OnInit {
 
   filtrarPorStatus(): void {
     this.route.queryParams.subscribe(params => {
-      if (params['filtro']) {
-        this.statusSelecionado = params['filtro'];
+      if (params['status']) {
+        this.statusSelecionado = params['status'];
 
         setTimeout(() => {
           if (this.dt) {

@@ -18,6 +18,10 @@ export class AtividadeService {
     return this.http.get<Array<AtividadeResponse>>(this.API_URL);
   }
 
+  getAllAtividadesAtrasadas(): Observable<Array<AtividadeResponse>> {
+    return this.http.get<Array<AtividadeResponse>>(`${this.API_URL}/atrasadas`);
+  }
+
   createAtividade(data: AtividadeRequest): Observable<AtividadeResponse> {
     return this.http.post<AtividadeResponse>(this.API_URL, data);
   }
