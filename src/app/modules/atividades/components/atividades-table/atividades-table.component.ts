@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { AtividadeEvent } from 'src/app/models/enums/atividades/AtividadeEvent';
@@ -12,7 +12,7 @@ import { Table } from 'primeng/table';
   templateUrl: './atividades-table.component.html',
   styleUrls: ['./atividades-table.component.scss']
 })
-export class AtividadesTableComponent implements OnInit {
+export class AtividadesTableComponent implements AfterViewInit {
   @Input() public atividades: Array<AtividadeResponse> = [];
   @Output() atividadeEvent = new EventEmitter<EventAction>();
   @Output() deleteAtividadeEvent = new EventEmitter<DeleteAtividadeAction>();
@@ -24,10 +24,11 @@ export class AtividadesTableComponent implements OnInit {
   public editAtividadeEvent = AtividadeEvent.EDIT_ATIVIDADE_EVENT;
 
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.filtrarPorStatus();
   }
 
@@ -48,13 +49,13 @@ export class AtividadesTableComponent implements OnInit {
   filtrarPorStatus(): void {
     this.route.queryParams.subscribe(params => {
       if (params['status']) {
-        this.statusSelecionado = params['status'];
+        const statusSelecionado = params['status'];
 
-        setTimeout(() => {
-          if (this.dt) {
-            this.dt.filter(this.statusSelecionado, 'status', 'equals');
-          }
-        });
+        if (this.dt) {
+          this.dt.filters['status'] = [{ value: statusSelecionado, matchMode: 'equals' }];
+        }
+
+        this.cdr.detectChanges();
       }
     });
   }

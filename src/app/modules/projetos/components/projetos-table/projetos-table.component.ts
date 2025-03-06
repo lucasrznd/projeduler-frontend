@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 import { ProjetoEvent } from 'src/app/models/enums/projetos/ProjetoEvent';
 import { DeleteProjetoAction } from 'src/app/models/interfaces/projetos/event/DeleteProjetoAction';
@@ -13,13 +13,12 @@ import { Table } from 'primeng/table';
   templateUrl: './projetos-table.component.html',
   styleUrls: ['./projetos-table.component.scss']
 })
-export class ProjetosTableComponent implements OnInit {
+export class ProjetosTableComponent implements AfterViewInit {
   @Input() public projetos: Array<ProjetoResponse> = [];
   @Output() projetoEvent = new EventEmitter<EventAction>();
   @Output() usuarioProjetoEvent = new EventEmitter<EventAction>();
   @Output() deleteProjetoEvent = new EventEmitter<DeleteProjetoAction>();
   @ViewChild('projetosTable') dt!: Table;
-  statusSelecionado: string | null = null;
 
   public projetoSelected!: ProjetoResponse;
   public addProjetoEvent = ProjetoEvent.ADD_PROJETO_EVENT;
@@ -28,10 +27,11 @@ export class ProjetosTableComponent implements OnInit {
   public editProjetoEvent = ProjetoEvent.EDIT_PROJETO_EVENT;
 
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.filtrarPorStatus();
   }
 
@@ -61,13 +61,13 @@ export class ProjetosTableComponent implements OnInit {
   filtrarPorStatus(): void {
     this.route.queryParams.subscribe(params => {
       if (params['status']) {
-        this.statusSelecionado = params['status'];
+        const statusSelecionado = params['status'];
 
-        setTimeout(() => {
-          if (this.dt) {
-            this.dt.filter(this.statusSelecionado, 'status', 'equals');
-          }
-        });
+        if (this.dt) {
+          this.dt.filters['status'] = [{ value: statusSelecionado, matchMode: 'equals' }];
+        }
+
+        this.cdr.detectChanges();
       }
     });
   }
