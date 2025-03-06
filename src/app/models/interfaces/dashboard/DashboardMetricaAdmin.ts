@@ -1,6 +1,6 @@
 export interface DashboardMetricaAdmin {
   usuariosAtivos: number;
-  mediaHoraPorUsuario: number;
+  mediaHorasMes: string;
   projetosPlanejados: number;
   projetosEmAndamento: number;
   projetosConcluidos: number;
