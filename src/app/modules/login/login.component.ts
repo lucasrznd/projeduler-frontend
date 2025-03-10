@@ -36,6 +36,7 @@ export class LoginComponent {
           next: (response) => {
             if (response) {
               this.cookieService.set('accessToken', response.token);
+              this.cookieService.set('refreshToken', response.refreshToken);
 
               this.loginForm.reset();
               this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Login realizado com sucesso!', life: 2000 });
@@ -49,7 +50,6 @@ export class LoginComponent {
             }
 
             this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro ao realizar login!', life: 2500 });
-            console.log(err);
           }
         });
     }
