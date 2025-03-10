@@ -31,6 +31,15 @@ export class UsuariosTableComponent {
     return severityMap[perfil.toUpperCase()] || 'info';
   }
 
+  getAtivo(ativo: boolean): string {
+    const ativoMap: { [key: string]: string } = {
+      'ATIVO': 'success',
+      'INATIVO': 'danger',
+    };
+
+    return ativo === true ? ativoMap['ATIVO'] : ativoMap['INATIVO'];
+  }
+
   handleUsuarioEvent(action: string, id?: number): void {
     if (action && action !== '') {
       const usuarioEventData = id && id !== undefined ? { action, id } : { action };

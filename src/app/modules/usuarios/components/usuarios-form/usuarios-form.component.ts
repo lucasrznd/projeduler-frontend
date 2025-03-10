@@ -3,7 +3,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
-import { PerfilEnum } from 'src/app/models/enums/perfis/PerfilEnum';
 import { UsuarioEvent } from 'src/app/models/enums/usuarios/UsuarioEvent';
 import { DropdownOption } from 'src/app/models/interfaces/dropdown/DropdownOption';
 import { EventAction } from 'src/app/models/interfaces/usuarios/event/EventAction';

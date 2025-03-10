@@ -76,6 +76,12 @@
 
             <th>
               <div class="flex justify-content-center">
+                Ativo
+              </div>
+            </th>
+
+            <th>
+              <div class="flex justify-content-center">
                 Ações
               </div>
             </th>
@@ -110,12 +116,19 @@
               </div>
             </td>
             <td>
+              <div class="flex justify-content-center">
+                <p-tag [value]="usuario.ativo === true ? 'ATIVO' : 'INATIVO'"
+                  [severity]="getAtivo(usuario.ativo)"></p-tag>
+              </div>
+            </td>
+            <td>
               <div class="flex justify-content-center align-content-center align-items-center">
                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-text"
                   pTooltip="Editar usuário" (click)="handleUsuarioEvent(editUsuarioEvent, usuario.id)"></button>
-                <i class="pi pi-ellipsis-v"></i>
+                <i class="pi pi-ellipsis-v" *ngIf="usuario.ativo"></i>
                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text"
-                  pTooltip="Remover usuário" (click)="handleDeleteUsuario(usuario.id, usuario.email)"></button>
+                  pTooltip="Remover usuário" (click)="handleDeleteUsuario(usuario.id, usuario.email)"
+                  *ngIf="usuario.ativo"></button>
               </div>
             </td>
           </tr>

@@ -5,4 +5,5 @@ export interface UsuarioResponse {
   dataCriacao: Date,
   ultimoLogin: Date
   perfil: string;
+  ativo: string;
 }

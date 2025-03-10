@@ -94,7 +94,7 @@ export class UsuariosHomeComponent implements OnInit, OnDestroy {
           },
           error: (err) => {
             if (err.status === 409) {
-              this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Usuário possui registros vínculados', life: 3000 });
+              this.messageService.add({ severity: 'error', summary: 'Erro', detail: err.error.message, life: 3000 });
               return;
             }
             console.log(err);
