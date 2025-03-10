@@ -66,6 +66,8 @@
         <span class="p-fluid">
           <p-multiSelect [options]="usuariosList" formControlName="usuarios" [filter]="true" optionLabel="nome"
             display="chip" (onChange)="onChangeUsuario($event)" optionDisabled="true"
+            emptyMessage="Nenhum usuário encontrado" emptyFilterMessage="Nenhum usuário encontrado"
+            [showToggleAll]="false"
             [ngClass]="{'ng-invalid ng-dirty': atividadeForm.get('usuarios')?.invalid && atividadeForm.get('usuarios')?.touched}"></p-multiSelect>
         </span>
         <small class="error-message"
