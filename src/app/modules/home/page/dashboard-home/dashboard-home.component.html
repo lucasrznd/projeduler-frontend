@@ -12,7 +12,7 @@
   <div class="grid">
     <!-- Card de Projetos Ativos -->
     <div class="col-12 md:col-6 lg:col-3">
-      <p-card styleClass="dashboard-card h-full">
+      <p-card styleClass="dashboard-card">
         <ng-template pTemplate="header">
           <div class="flex align-items-center p-3 border-bottom-1 border-300">
             <i class="pi pi-briefcase text-orange-400 text-xl mr-2"></i>
@@ -42,7 +42,7 @@
 
     <!-- Card de Atividades -->
     <div class="col-12 md:col-6 lg:col-3">
-      <p-card styleClass="dashboard-card h-full">
+      <p-card styleClass="dashboard-card">
         <ng-template pTemplate="header">
           <div class="flex align-items-center p-3 border-bottom-1 border-300">
             <i class="pi pi-check-square text-blue-600 text-xl mr-2"></i>
@@ -77,7 +77,7 @@
 
     <!-- Card de Lançamentos de Horas-->
     <div class="col-12 md:col-6 lg:col-3">
-      <p-card styleClass="dashboard-card h-full">
+      <p-card styleClass="dashboard-card">
         <ng-template pTemplate="header">
           <div class="flex align-items-center p-3 border-bottom-1 border-300">
             <i class="pi pi-clock text-green-600 text-xl mr-2"></i>
@@ -86,14 +86,15 @@
         </ng-template>
 
         <ng-template pTemplate="content">
-          <div *ngIf="dashboardMetricaGeral; else loading" class="flex flex-column align-items-center p-3">
+          <div *ngIf="dashboardMetricaGeral; else loading" class="flex flex-column align-items-center">
+            <!-- Coluna principal com horas mensais -->
             <div class="flex align-items-end justify-content-center gap-1">
               <span class="text-6xl font-bold text-green-600 m-0 line-height-1">
                 {{ dashboardMetricaGeral.horasLancadasMes }}
               </span>
               <span class="text-xl font-bold text-green-600 mb-1">h</span>
             </div>
-            <p class="text-color-secondary mb-3 mt-2">Horas lançadas este mês</p>
+            <p class="text-color-secondary mb-1 mt-2">Horas lançadas este mês</p>
 
             <div class="flex justify-content-center gap-5 w-full">
               <div class="flex flex-column align-items-center">
@@ -110,11 +111,6 @@
               </div>
             </div>
           </div>
-          <ng-template #loading>
-            <div class="flex justify-content-center p-4">
-              <p-progressSpinner [style]="{width: '40px', height: '40px'}" strokeWidth="4"></p-progressSpinner>
-            </div>
-          </ng-template>
         </ng-template>
 
         <ng-template pTemplate="footer">
@@ -132,7 +128,7 @@
 
     <!-- Card de Atividades Atrasadas -->
     <div class="col-12 md:col-6 lg:col-3">
-      <p-card styleClass="dashboard-card h-full">
+      <p-card styleClass="dashboard-card">
         <ng-template pTemplate="header">
           <div class="flex align-items-center p-3 border-bottom-1 border-300">
             <i class="pi pi-exclamation-triangle text-red-600 text-xl mr-2"></i>
@@ -159,7 +155,7 @@
   </div>
 
   <!-- Additional Content -->
-  <div class="grid mt-4">
+  <div class="grid">
     <!-- Card de Lançamentos Recentes -->
     <div class="col-12 lg:col-6">
       <p-card styleClass="dashboard-card">
@@ -247,11 +243,10 @@
           </div>
         </ng-template>
 
-        <div class="p-3">
           <!-- Main Admin Metrics -->
           <div class="grid">
             <!-- Active Users -->
-            <div class="col-6 mb-3">
+            <div class="col-6">
               <div *ngIf="dashboardMetricasAdmin; else loading"
                 class="p-3 border-round-lg bg-blue-50 flex flex-column align-items-center">
                 <div class="flex align-items-center justify-content-center bg-blue-100 border-circle mb-2"
@@ -282,13 +277,13 @@
           </div>
 
           <!-- Status de Projetos -->
-          <div class="mb-4">
+          <div class="mb-1">
             <h4 class="font-medium text-lg mb-3">Status de Projetos</h4>
             <div class="grid">
               <div class="col-3 p-2">
                 <div *ngIf="dashboardMetricasAdmin; else loading"
                   class="border-1 border-300 p-2 border-round-lg flex flex-column align-items-center">
-                  <span class="text-xs text-color-secondary mb-1">Planejados</span>
+                  <span class="text-xs text-color-secondary">Planejados</span>
                   <span class="text-lg font-semibold text-blue-600">
                     {{dashboardMetricasAdmin.projetosPlanejados}}
                   </span>
@@ -297,7 +292,7 @@
               <div class="col-3 p-2">
                 <div *ngIf="dashboardMetricasAdmin; else loading"
                   class="border-1 border-300 p-2 border-round-lg flex flex-column align-items-center">
-                  <span class="text-xs text-color-secondary mb-1">Em Andamento</span>
+                  <span class="text-xs text-color-secondary">Em Andamento</span>
                   <span class="text-lg font-semibold text-orange-600">
                     {{dashboardMetricasAdmin.projetosEmAndamento}}
                   </span>
@@ -306,7 +301,7 @@
               <div class="col-3 p-2">
                 <div *ngIf="dashboardMetricasAdmin; else loading"
                   class="border-1 border-300 p-2 border-round-lg flex flex-column align-items-center">
-                  <span class="text-xs text-color-secondary mb-1">Concluídos</span>
+                  <span class="text-xs text-color-secondary">Concluídos</span>
                   <span class="text-lg font-semibold text-green-600">
                     {{dashboardMetricasAdmin.projetosConcluidos}}
                   </span>
@@ -315,7 +310,7 @@
               <div class="col-3 p-2">
                 <div *ngIf="dashboardMetricasAdmin; else loading"
                   class="border-1 border-300 p-2 border-round-lg flex flex-column align-items-center">
-                  <span class="text-xs text-color-secondary mb-1">Cancelados</span>
+                  <span class="text-xs text-color-secondary">Cancelados</span>
                   <span class="text-lg font-semibold text-red-600">
                     {{dashboardMetricasAdmin.projetosConcluidos}}
                   </span>
@@ -326,12 +321,12 @@
 
           <!-- Status de Atividades -->
           <div>
-            <h4 class="font-medium text-lg mb-3">Status de Atividades</h4>
+            <h4 class="font-medium text-lg pb-3">Status de Atividades</h4>
             <div class="grid">
               <div class="col-3 p-2">
                 <div *ngIf="dashboardMetricasAdmin; else loading"
                   class="border-1 border-300 p-2 border-round-lg flex flex-column align-items-center">
-                  <span class="text-xs text-color-secondary mb-1">Abertas</span>
+                  <span class="text-xs text-color-secondary">Abertas</span>
                   <span class="text-lg font-semibold text-blue-600">
                     {{dashboardMetricasAdmin.atividadesAbertas}}
                   </span>
@@ -340,7 +335,7 @@
               <div class="col-3 p-2">
                 <div *ngIf="dashboardMetricasAdmin; else loading"
                   class="border-1 border-300 p-2 border-round-lg flex flex-column align-items-center">
-                  <span class="text-xs text-color-secondary mb-1">Em Andamento</span>
+                  <span class="text-xs text-color-secondary">Em Andamento</span>
                   <span class="text-lg font-semibold text-orange-600">
                     {{dashboardMetricasAdmin.atividadesEmAndamento}}
                   </span>
@@ -349,7 +344,7 @@
               <div class="col-3 p-2">
                 <div *ngIf="dashboardMetricasAdmin; else loading"
                   class="border-1 border-300 p-2 border-round-lg flex flex-column align-items-center">
-                  <span class="text-xs text-color-secondary mb-1">Concluídas</span>
+                  <span class="text-xs text-color-secondary">Concluídas</span>
                   <span class="text-lg font-semibold text-green-600">
                     {{dashboardMetricasAdmin.atividadesConcluidas}}
                   </span>
@@ -358,14 +353,13 @@
               <div class="col-3 p-2">
                 <div *ngIf="dashboardMetricasAdmin; else loading"
                   class="border-1 border-300 p-2 border-round-lg flex flex-column align-items-center">
-                  <span class="text-xs text-color-secondary mb-1">Pausadas</span>
+                  <span class="text-xs text-color-secondary">Pausadas</span>
                   <span class="text-lg font-semibold text-red-600">
                     {{dashboardMetricasAdmin.atividadesPausadas}}
                   </span>
                 </div>
               </div>
             </div>
-          </div>
         </div>
       </p-card>
     </div>
