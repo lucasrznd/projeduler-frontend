@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
-import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-toolbar-navigation',
@@ -10,11 +9,9 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class ToolbarNavigationComponent {
 
-  constructor(private cookieService: CookieService, private router: Router) { }
+  constructor(private authService: AuthService) { }
 
   logout(): void {
-    this.cookieService.delete('accessToken');
-    // this.cookieService.delete('refreshToken');
-    void this.router.navigate(['/login']);
+    this.authService.logout();
   }
 }
