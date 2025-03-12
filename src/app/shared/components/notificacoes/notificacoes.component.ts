@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { interval, Subject, switchMap, takeUntil, tap } from 'rxjs';
+
 import { NotificacaoResponse } from 'src/app/models/interfaces/notificacoes/NotificacaoResponse';
 import { NotificacaoService } from 'src/app/services/notificacoes/notificacao.service';
 
@@ -17,31 +18,43 @@ export class NotificacoesComponent implements OnInit, OnDestroy {
   constructor(private notificacaoService: NotificacaoService) { }
 
   ngOnInit(): void {
-    this.findAllNotificacoes();
+    this.fetchNotifications()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
+
+    interval(5000)
+      .pipe(
+        switchMap(() => this.fetchNotifications()),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
-  marcarComoLida(notificacao: any): void {
-    this.notificacaoService.marcarComoLida(notificacao.id)
+  marcarComoLida(notificacao: NotificacaoResponse): void {
+    this.notificacaoService
+      .marcarComoLida(notificacao.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.findAllNotificacoes();
-          this.contadorNotificacoes--;
+          this.notificacoes = this.notificacoes.map((n) =>
+            n.id === notificacao.id ? { ...n, lida: true } : n
+          );
+          this.updateContador();
         }
       });
   }
 
-  findAllNotificacoes(): void {
-    this.notificacaoService.findAllNotificacoes()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response) => {
-          if (response.length > 0) {
-            this.notificacoes = response;
-            this.contadorNotificacoes = response.length;
-          }
-        }
-      });
+  private fetchNotifications() {
+    return this.notificacaoService.findAllNotificacoes().pipe(
+      tap((response: NotificacaoResponse[]) => {
+        this.notificacoes = response;
+        this.updateContador();
+      })
+    );
+  }
+
+  private updateContador(): void {
+    this.contadorNotificacoes = this.notificacoes.filter((n) => !n.lida).length;
   }
 
   ngOnDestroy(): void {
