@@ -137,7 +137,7 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
     this.usuariosDisponiveis.push(usuario);
 
     const requestDeleteUsuarioProjeto: UsuarioProjetoRequest = {
-      usuarioId: usuario.id,
+      usuarioId: usuario.id as number,
       projetoId: this.projetoSelecionado.id as number
     };
 
