@@ -54,18 +54,17 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
 
   getUsuariosDatas(): void {
     this.usuarioService.getAllUsuarios()
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (response) => {
-        if (response.length > 0) {
-          this.usuariosDisponiveis = response;
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (response.length > 0) {
+            this.usuariosDisponiveis = response;
+          }
+        },
+        error: () => {
+          this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar os usuários', life: 2500 });
         }
-      },
-      error: (err) => {
-        console.error(err);
-        this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar os usuários', life: 2500 });
-      }
-    });
+      });
   }
 
   getProjetosDatas(): void {
@@ -162,8 +161,7 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
               this.usuariosDisponiveis = response;
             }
           },
-          error: (err) => {
-            console.error(err);
+          error: () => {
             this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar os usuários disponíveis do projeto', life: 2500 });
           }
         });
@@ -176,11 +174,10 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
     this.usuarioProjetoService.addUsuarioAoProjeto(data)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (response) => {
+        next: () => {
           this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Usuário adicionado com sucesso', life: 2500 });
         },
-        error: (err) => {
-          console.log(err);
+        error: () => {
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao adicionar o usuário ao projeto.', life: 2500 });
         }
       });
@@ -194,8 +191,7 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
           this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Usuário removido com sucesso', life: 2500 });
           this.findUsuariosDisponiveis(undefined, projetoId);
         },
-        error: (err) => {
-          console.log(err);
+        error: () => {
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro ao remover usuário do projeto', life: 2500 });
         }
       });
@@ -210,8 +206,7 @@ export class UsuarioProjetosFormComponent implements OnInit, OnDestroy {
             this.usuariosDoProjeto = response;
           }
         },
-        error: (err) => {
-          console.log(err);
+        error: () => {
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar os usuários do projeto', life: 2500 });
         }
       });

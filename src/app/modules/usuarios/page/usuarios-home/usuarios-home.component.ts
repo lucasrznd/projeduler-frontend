@@ -93,11 +93,7 @@ export class UsuariosHomeComponent implements OnInit, OnDestroy {
             this.getAllUsuarios();
           },
           error: (err) => {
-            if (err.status === 409) {
-              this.messageService.add({ severity: 'error', summary: 'Erro', detail: err.error.message, life: 3000 });
-              return;
-            }
-            console.log(err);
+            if (err.status === 409) return this.messageService.add({ severity: 'error', summary: 'Erro', detail: err.error.message, life: 3000 });
             this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao remover o usuário', life: 3000 });
           }
         })

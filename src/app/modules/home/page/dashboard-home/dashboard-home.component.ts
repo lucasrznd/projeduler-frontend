@@ -49,8 +49,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
         next: (response) => {
           this.dashboardMetricaGeral = response;
         },
-        error: (err) => {
-          console.log(err);
+        error: () => {
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar as métricas', life: 2500 });
         }
       });
@@ -62,8 +61,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
         next: (response) => {
           this.dashboardMetricasAdmin = response;
         },
-        error: (err) => {
-          console.log(err);
+        error: () => {
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar as métricas', life: 2500 });
         }
       });
@@ -79,7 +77,6 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
           }
         },
         error: (err) => {
-          console.log(err);
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar os lançamentos', life: 2500 });
         }
       });

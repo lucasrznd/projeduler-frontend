@@ -114,8 +114,7 @@ export class ProjetosFormComponent implements OnInit, OnDestroy {
               this.dialogRef.close();
             }
           },
-          error: (err) => {
-            console.log(err);
+          error: () => {
             this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao criar o projeto', life: 2500 });
           }
         });

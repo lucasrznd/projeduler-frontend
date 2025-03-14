@@ -73,8 +73,7 @@ export class LancamentoHorasFormComponent implements OnInit, OnDestroy {
             this.atividadesList = response;
           }
         },
-        error: (err) => {
-          console.log(err);
+        error: () => {
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar as atividades', life: 2500 });
         }
       });
@@ -112,7 +111,6 @@ export class LancamentoHorasFormComponent implements OnInit, OnDestroy {
             }
           },
           error: (err) => {
-            console.log(err);
             if (err.status === 409) return this.messageService.add({ severity: 'error', summary: 'Erro', detail: err.error.message, life: 2500 });
             this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro no lançamento', life: 2500 });
           }
@@ -133,8 +131,6 @@ export class LancamentoHorasFormComponent implements OnInit, OnDestroy {
         dataFim: new Date(dataFim.getTime() - dataFim.getTimezoneOffset() * 60000).toISOString(),
       };
 
-      console.log(requestEditLancamentoHora)
-
       this.lancamentoHoraService.editLancamentoHora(lancamentoHoraId, requestEditLancamentoHora)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
@@ -145,8 +141,7 @@ export class LancamentoHorasFormComponent implements OnInit, OnDestroy {
               this.dialogRef.close();
             }
           },
-          error: (err) => {
-            console.log(err);
+          error: () => {
             this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao editar o lançamento', life: 2500 });
           }
         });

@@ -111,8 +111,7 @@ export class ProjetosHomeComponent implements OnInit, OnDestroy {
             // Atualizar dados da tabela
             this.getAllProjetos();
           },
-          error: (err) => {
-            console.log(err);
+          error: () => {
             this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao remover o projeto', life: 3000 });
           }
         });

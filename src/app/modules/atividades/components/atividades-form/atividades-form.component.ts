@@ -91,8 +91,7 @@ export class AtividadesFormComponent implements OnInit, OnDestroy {
             this.projetosList = response;
           }
         },
-        error: (err) => {
-          console.log(err);
+        error: () => {
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar os projetos', life: 2500 });
         }
       });
@@ -107,8 +106,7 @@ export class AtividadesFormComponent implements OnInit, OnDestroy {
             this.usuariosList = response;
           }
         },
-        error: (err) => {
-          console.log(err);
+        error: () => {
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar os usuários', life: 2500 });
         }
       });
@@ -127,8 +125,7 @@ export class AtividadesFormComponent implements OnInit, OnDestroy {
 
           this.usuariosSelecionados = response;
         },
-        error: (err) => {
-          console.log(err);
+        error: () => {
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar os usuários da atividade', life: 2500 });
         }
       });
@@ -175,8 +172,7 @@ export class AtividadesFormComponent implements OnInit, OnDestroy {
               this.dialogRef.close();
             }
           },
-          error: (err) => {
-            console.log(err);
+          error: () => {
             this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao criar a atividade', life: 2500 });
           }
         });
@@ -206,8 +202,7 @@ export class AtividadesFormComponent implements OnInit, OnDestroy {
               this.dialogRef.close();
             }
           },
-          error: (err) => {
-            console.log(err);
+          error: () => {
             this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao editar a atividade', life: 2500 });
           }
         });
@@ -263,8 +258,7 @@ export class AtividadesFormComponent implements OnInit, OnDestroy {
               this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Usuário adicionado com sucesso', life: 2500 });
             }
           },
-          error: (err) => {
-            console.log(err);
+          error: () => {
             this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao adicionar o usuário na atividade', life: 2500 });
           }
         });
@@ -290,8 +284,7 @@ export class AtividadesFormComponent implements OnInit, OnDestroy {
         next: () => {
           this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Usuário removido com sucesso', life: 2500 });
         },
-        error: (err) => {
-          console.log(err);
+        error: () => {
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao remover o usuário da atividade', life: 2500 });
         }
       });

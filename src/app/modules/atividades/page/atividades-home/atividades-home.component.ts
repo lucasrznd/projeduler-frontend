@@ -49,8 +49,7 @@ export class AtividadesHomeComponent implements OnInit, OnDestroy {
             this.atividadesList = response;
           }
         },
-        error: (err) => {
-          console.log(err);
+        error: () => {
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar atividades', life: 2500 });
           this.router.navigate(['/home']);
         }
@@ -103,8 +102,7 @@ export class AtividadesHomeComponent implements OnInit, OnDestroy {
 
             this.getAllAtividades();
           },
-          error: (err) => {
-            console.log(err);
+          error: () => {
             this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao remover a atividade', life: 3000 });
           }
         });
@@ -120,8 +118,7 @@ export class AtividadesHomeComponent implements OnInit, OnDestroy {
             this.atividadesList = response;
           }
         },
-        error: (err) => {
-          console.log(err);
+        error: () => {
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar atividades atrasadas', life: 2500 });
           this.router.navigate(['/home']);
         }

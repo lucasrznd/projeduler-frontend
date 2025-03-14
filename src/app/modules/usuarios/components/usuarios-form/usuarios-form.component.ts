@@ -81,7 +81,6 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
             }
           },
           error: (err) => {
-            console.log(err);
             if (err.status === 409) return this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'E-mail já existente', life: 2500 });
 
             this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao criar o usuário', life: 2500 });

@@ -42,8 +42,7 @@ export class LancamentoHorasHomeComponent implements OnInit, OnDestroy {
             this.lancamentoHorasList = response;
           }
         },
-        error: (err) => {
-          console.log(err);
+        error: () => {
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao buscar os lançamentos', life: 2500 });
 
           this.router.navigate(['/home']);
@@ -97,8 +96,7 @@ export class LancamentoHorasHomeComponent implements OnInit, OnDestroy {
 
             this.getAllLancamentosHoras();
           },
-          error: (err) => {
-            console.log(err);
+          error: () => {
             this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao remover o lançamento', life: 3000 });
           }
         });
