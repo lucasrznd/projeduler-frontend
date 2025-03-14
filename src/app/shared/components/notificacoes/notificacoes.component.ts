@@ -1,8 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { interval, Subject, switchMap, takeUntil, tap } from 'rxjs';
 
 import { NotificacaoResponse } from 'src/app/models/interfaces/notificacoes/NotificacaoResponse';
 import { NotificacaoService } from 'src/app/services/notificacoes/notificacao.service';
+
+import { MessageService } from 'primeng/api';
+
+const ROTAS = {
+  PROJETO: 'projetos',
+  ATIVIDADE: 'atividades'
+};
 
 @Component({
   selector: 'app-notificacoes',
@@ -15,7 +23,11 @@ export class NotificacoesComponent implements OnInit, OnDestroy {
   public notificacoes: Array<NotificacaoResponse> = [];
   contadorNotificacoes!: number;
 
-  constructor(private notificacaoService: NotificacaoService) { }
+  constructor(
+    private notificacaoService: NotificacaoService,
+    private router: Router,
+    private messageService: MessageService
+  ) { }
 
   ngOnInit(): void {
     this.fetchNotifications()
@@ -40,8 +52,32 @@ export class NotificacoesComponent implements OnInit, OnDestroy {
             n.id === notificacao.id ? { ...n, lida: true } : n
           );
           this.updateContador();
+
+          const rota = this.getRotaByNotificacao(notificacao);
+          const nome = this.getNomeByNotificacao(notificacao);
+
+          if (rota && nome) {
+            this.router.navigate([rota], { queryParams: { nome } });
+          }
+        },
+        error: () => {
+          this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao marcar a notificação como lida', life: 2500 });
         }
       });
+  }
+
+  private getNomeByNotificacao(notificacao: NotificacaoResponse): string {
+    if (!notificacao?.mensagem) return '';
+
+    const regex = /Você foi adicionado (ao projeto|à atividade): (.+)/;
+    const match = notificacao.mensagem.match(regex);
+    return match ? match[2].trim() : '';
+  }
+
+  private getRotaByNotificacao(notificacao: NotificacaoResponse): string {
+    if (!notificacao?.mensagem) return '';
+
+    return notificacao.mensagem.includes('projeto') ? ROTAS.PROJETO : ROTAS.ATIVIDADE;
   }
 
   private fetchNotifications() {
