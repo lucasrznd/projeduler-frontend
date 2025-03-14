@@ -1,27 +1,66 @@
-# ProjedulerFrontend
+<p align="center">
+  <img width="598" height="110" src="https://github.com/user-attachments/assets/019bed37-dd8e-4d6a-bd03-48ca4de22e35">
+</p>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.0.
+<hr>
 
-## Development server
+<div align="center">
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white)
+</div>
 
-## Code scaffolding
+<h2 id="description">📙 Descrição</h2> 
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Este projeto é a interface web do sistema Projeduler, desenvolvido em Angular e utilizando a biblioteca PrimeNG. O objetivo do sistema é gerenciar projetos, atividades e lançamentos de horas, permitindo o cadastro de usuários, criação de projetos e atividades, alocação de responsáveis e registro de tempo gasto nas tarefas.
 
-## Build
+<h2 id="installation">🛠️ Instalação</h2>
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+1. Clone o repositório para o seu ambiente local:
 
-## Running unit tests
+```
+git clone https://github.com/lucasrznd/projeduler-frontend
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+2. Acesse a pasta do projeto:
 
-## Running end-to-end tests
+```
+cd projeduler-frontend
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+3. Instale as dependências do projeto:
 
-## Further help
+```
+npm install
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+4. Configure o ambiente no ```src/app/environment/environment.ts```:
+
+```
+export const environment = {
+  production: false,
+  API_URL: 'http://localhost:8080',
+  version: '1.0.0'
+};
+```
+
+5. Execute o servidor de desenvolvimento:
+
+```
+ng serve
+```
+
+6. Acesse a aplicação no navegador:
+
+```
+http://localhost:4200
+```
+
+<h2 id="author">👨🏻‍💻 Autor</h2>
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/lucasrznd"><img src="https://avatars.githubusercontent.com/u/101664450?v=4&v=" width="115px;" alt="Lucas Rezende"/><br /><sub><b>Lucas Rezende</b></sub></a><br/><a title="Código">💻</a></td>
+  </tbody>
+</table>
