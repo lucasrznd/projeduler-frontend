@@ -30,6 +30,7 @@ export class AtividadesTableComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.filtrarPorStatus();
+    this.filtrarPorNome();
   }
 
   onGlobalFilter(table: Table, event: Event) {
@@ -44,6 +45,20 @@ export class AtividadesTableComponent implements AfterViewInit {
       'PAUSADA': 'danger'
     };
     return statusMap[status.toUpperCase()] || 'info';
+  }
+
+  filtrarPorNome(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params['nome']) {
+        const nomeSelecionado = params['nome'];
+
+        if (this.dt) {
+          this.dt.filters['nome'] = [{ value: nomeSelecionado, matchMode: 'contains' }];
+        }
+
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   filtrarPorStatus(): void {
