@@ -26,18 +26,18 @@
             optionValue="id" [showClear]="true" placeholder="Selecione" styleClass="w-full"></p-dropdown>
         </div>
 
-        <div class="field col-12 md:col-2">
+        <div class="field col-12 md:col-2" *appHasRole="['ADMIN']">
           <label>Usuário</label>
-          <p-dropdown formControlName="usuarioId" [options]="usuarios" optionLabel="nome" optionValue="id"
-            [showClear]="true" placeholder="Selecione" styleClass="w-full"></p-dropdown>
+          <p-dropdown formControlName="usuarioId" [options]="usuarios" [filter]="true" optionLabel="nome"
+            optionValue="id" [showClear]="true" placeholder="Selecione" styleClass="w-full"></p-dropdown>
         </div>
 
         <div class="field col-12 md:col-2">
           <label>Status</label>
           <p-dropdown formControlName="status" [options]="[
-                      {label: 'Em andamento', value: 'EM_ANDAMENTO'},
-                      {label: 'Concluído', value: 'CONCLUIDO'},
-                      {label: 'Pendente', value: 'PENDENTE'}
+                      {label: 'Em andamento', value: 'EM ANDAMENTO'},
+                      {label: 'Concluída', value: 'CONCLUIDO'},
+                      {label: 'Aberta', value: 'ABERTA'}
                      ]" optionLabel="label" optionValue="value" [showClear]="true" placeholder="Selecione"
             styleClass="w-full"></p-dropdown>
         </div>
@@ -45,8 +45,8 @@
         <div class="col-12 flex justify-content-end">
           <button pButton label="Limpar" icon="pi pi-filter-slash" class="p-button-outlined mr-2"
             (click)="limparFiltros()"></button>
-          <button pButton label="Exportar Excel" icon="pi pi-file-excel" class="p-button-success mr-2"></button>
-          <button pButton label="Exportar PDF" icon="pi pi-file-pdf" class="p-button-danger"></button>
+          <!-- <button pButton label="Exportar Excel" icon="pi pi-file-excel" class="p-button-success mr-2"></button>
+          <button pButton label="Exportar PDF" icon="pi pi-file-pdf" class="p-button-danger"></button> -->
         </div>
       </form>
 
