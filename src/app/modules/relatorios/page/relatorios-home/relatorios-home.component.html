@@ -1,0 +1,119 @@
+<app-toolbar-navigation></app-toolbar-navigation>
+
+<div>
+  <div class="col-12">
+    <p-card styleClass="shadow-3">
+      <h5>Dashboard de Relatórios</h5>
+      <p-divider></p-divider>
+
+      <!-- Filtros -->
+      <form [formGroup]="filtroForm" class="formgrid grid">
+        <div class="field col-12 md:col-3">
+          <label>Data Início</label>
+          <p-calendar formControlName="dataInicio" [showIcon]="true" dateFormat="dd/mm/yy" [readonlyInput]="true"
+            styleClass="w-full"></p-calendar>
+        </div>
+
+        <div class="field col-12 md:col-3">
+          <label>Data Fim</label>
+          <p-calendar formControlName="dataFim" [showIcon]="true" dateFormat="dd/mm/yy" [readonlyInput]="true"
+            styleClass="w-full"></p-calendar>
+        </div>
+
+        <div class="field col-12 md:col-2">
+          <label>Projeto</label>
+          <p-dropdown formControlName="projetoId" [options]="projetos" [filter]="true" optionLabel="nome"
+            optionValue="id" [showClear]="true" placeholder="Selecione" styleClass="w-full"></p-dropdown>
+        </div>
+
+        <div class="field col-12 md:col-2">
+          <label>Usuário</label>
+          <p-dropdown formControlName="usuarioId" [options]="usuarios" optionLabel="nome" optionValue="id"
+            [showClear]="true" placeholder="Selecione" styleClass="w-full"></p-dropdown>
+        </div>
+
+        <div class="field col-12 md:col-2">
+          <label>Status</label>
+          <p-dropdown formControlName="status" [options]="[
+                      {label: 'Em andamento', value: 'EM_ANDAMENTO'},
+                      {label: 'Concluído', value: 'CONCLUIDO'},
+                      {label: 'Pendente', value: 'PENDENTE'}
+                     ]" optionLabel="label" optionValue="value" [showClear]="true" placeholder="Selecione"
+            styleClass="w-full"></p-dropdown>
+        </div>
+
+        <div class="col-12 flex justify-content-end">
+          <button pButton label="Limpar" icon="pi pi-filter-slash" class="p-button-outlined mr-2"
+            (click)="limparFiltros()"></button>
+          <button pButton label="Exportar Excel" icon="pi pi-file-excel" class="p-button-success mr-2"></button>
+          <button pButton label="Exportar PDF" icon="pi pi-file-pdf" class="p-button-danger"></button>
+        </div>
+      </form>
+
+      <p-divider></p-divider>
+
+      <p-blockUI [blocked]="loading">
+        <p-progressSpinner></p-progressSpinner>
+      </p-blockUI>
+
+      <!-- Gráficos -->
+      <div class="grid">
+        <!-- Horas por Projeto -->
+        <div class="col-12 md:col-6 lg:col-6">
+          <div class="card">
+            <h5>Horas por Projeto</h5>
+            <p-chart type="bar" [data]="horasPorProjetoData" [options]="chartOptions" height="300px"
+              *ngIf="horasPorProjetoData"></p-chart>
+            <div class="flex justify-content-center align-items-center" style="height: 300px;"
+              *ngIf="!horasPorProjetoData">
+              <p-progressSpinner *ngIf="loading"></p-progressSpinner>
+              <div *ngIf="!loading">Nenhum dado disponível</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Horas por Mês -->
+        <div class="col-12 md:col-6 lg:col-6">
+          <div class="card">
+            <h5>Horas por Mês</h5>
+            <p-chart type="line" [data]="horasPorMesData" [options]="chartOptions" height="300px"
+              *ngIf="horasPorMesData"></p-chart>
+            <div class="flex justify-content-center align-items-center" style="height: 300px;" *ngIf="!horasPorMesData">
+              <p-progressSpinner *ngIf="loading"></p-progressSpinner>
+              <div *ngIf="!loading">Nenhum dado disponível</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Atividades por Status -->
+        <div class="col-12 md:col-6 lg:col-6">
+          <div class="card">
+            <h5>Atividades por Status</h5>
+            <p-chart type="pie" [data]="atividadesPorStatusData" [options]="chartOptions" height="300px"
+              *ngIf="atividadesPorStatusData"></p-chart>
+            <div class="flex justify-content-center align-items-center" style="height: 300px;"
+              *ngIf="!atividadesPorStatusData">
+              <p-progressSpinner *ngIf="loading"></p-progressSpinner>
+              <div *ngIf="!loading">Nenhum dado disponível</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top Usuários -->
+        <div class="col-12 md:col-6 lg:col-6">
+          <div class="card">
+            <h5>Top Usuários por Horas</h5>
+            <p-chart type="bar" [data]="topUsuariosData" [options]="chartOptions" height="300px"
+              *ngIf="topUsuariosData"></p-chart>
+            <div class="flex justify-content-center align-items-center" style="height: 300px;" *ngIf="!topUsuariosData">
+              <p-progressSpinner *ngIf="loading"></p-progressSpinner>
+              <div *ngIf="!loading">Nenhum dado disponível</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>
+
+<app-footer></app-footer>

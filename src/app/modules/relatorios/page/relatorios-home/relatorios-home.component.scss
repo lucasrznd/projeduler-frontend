@@ -1,0 +1,60 @@
+:host ::ng-deep {
+  // Estilos para cartões
+  .card {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
+                0 1px 1px 0 rgba(0, 0, 0, 0.14),
+                0 1px 3px 0 rgba(0, 0, 0, 0.12);
+
+    h5 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      color: #495057;
+    }
+  }
+
+  // Estilos para calendários
+  .p-calendar {
+    width: 100%;
+
+    .p-inputtext {
+      padding: 0.5rem 0.75rem;
+    }
+  }
+
+  // Estilos para dropdown
+  .p-dropdown {
+    width: 100%;
+  }
+
+  // Estilo para bloqueio de tela
+  .p-blockui {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.6);
+
+    .p-progressspinner {
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  // Ajustes para dispositivos móveis
+  @media screen and (max-width: 768px) {
+    .field {
+      margin-bottom: 1rem;
+    }
+  }
+
+  // Estilos para o gráfico
+  .p-chart {
+    canvas {
+      max-height: 300px;
+    }
+  }
+}

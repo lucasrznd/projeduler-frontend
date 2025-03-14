@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from './auth/guards/auth-guard.service';
-import { LoginComponent } from './modules/login/login.component';
 import { RoleGuard } from './auth/guards/role-guard.service';
+import { LoginComponent } from './modules/login/login.component';
 
 const routes: Routes = [
   {
@@ -42,6 +42,12 @@ const routes: Routes = [
   {
     path: 'lancamento-horas',
     loadChildren: () => import('./modules/lancamento-horas/lancamento-horas.module').then(m => m.LancamentoHorasModule),
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['ADMIN', 'USER'] }
+  },
+  {
+    path: 'relatorios',
+    loadChildren: () => import('./modules/relatorios/relatorios.module').then(m => m.RelatoriosModule),
     canActivate: [AuthGuard, RoleGuard],
     data: { roles: ['ADMIN', 'USER'] }
   }
